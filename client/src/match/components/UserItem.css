@@ -1,0 +1,21 @@
+.title__card {
+  text-align: center;
+}
+.card_center{
+  margin: 0 auto; /* Added */
+  float: none; /* Added */
+  margin-bottom: 10px; /* Added */
+  background-color: transparent;
+  width: 170px;
+  height: 60px;
+}
+
+.like_dislike{
+  position: relative;
+  display: inline-block;
+  width: 60px;
+}
+
+.card__container{
+  margin-top: 10px;
+}

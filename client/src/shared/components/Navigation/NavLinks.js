@@ -10,13 +10,13 @@ import './NavLinks.css';
 const NavLinks = props => {
   return <ul className="nav-links">
       <li>
-          <NavLink to="/" exact><img src={matchIcon} alt="match" /></NavLink>
+          <NavLink to="/match" exact><img src={matchIcon} alt="match" /></NavLink>
       </li>
       <li>
-          <NavLink to="/u1/places"><img src={chatIcon} alt="chat" /></NavLink>
+          <NavLink to="/join"><img src={chatIcon} alt="chat" /></NavLink>
       </li>
       <li>
-          <NavLink to="/places/new"><img src={notificationIcon} alt="notification" /></NavLink>
+          <NavLink to="/notification"><img src={notificationIcon} alt="notification" /></NavLink>
       </li>
       <li>
           <NavLink to="/auth">Authenticate</NavLink>

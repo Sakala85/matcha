@@ -9,6 +9,8 @@ import './App.css';
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Chat from './chat/components/Chat/Chat';
 import Join from './chat/components/Join/Join';
+import Welcome from './Welcome/Welcome';
+import Match from './match/pages/Match'
 
 const App = () => {
   return (
@@ -16,8 +18,17 @@ const App = () => {
       <MainNavigation />
       <main>
         <Switch>
-        <Route path="/" exact component={Join} />
-      <Route path="/chat" component={Chat} />
+        <Route path="/" exact>
+            <Welcome />
+          </Route>
+          <Route path="/match" exact>
+            <Match />
+          </Route>
+          <Route path="/chat" component={Chat} />
+
+          <Route path="/Join" exact>
+            <Join />
+          </Route>
           <Redirect to="/" />
         </Switch>
       </main>
