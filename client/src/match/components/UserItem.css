@@ -19,3 +19,11 @@
 .card__container{
   margin-top: 10px;
 }
+
+.image__profile{
+  width: 500px;
+  height: 480px;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+}

@@ -13,7 +13,7 @@ const UserItem = props => {
         <Col>1 of 3</Col>
         
         <Col>
-          <Image src={props.image} roundedCircle width="400px" height="500px" />
+          <Image src={props.image} roundedCircle className="image__profile" />
           <h1 className="title__card">{props.name}</h1>
           <Container className="card_center">
             <Row>

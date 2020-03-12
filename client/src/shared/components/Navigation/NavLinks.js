@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import matchIcon from '../../icons/match.png';
 import chatIcon from '../../icons/chat.png';
 import notificationIcon from '../../icons/notification.png';
-
+import userIcon from '../../icons/user.png';
 import './NavLinks.css';
 
 const NavLinks = props => {
@@ -19,7 +19,7 @@ const NavLinks = props => {
           <NavLink to="/notification"><img src={notificationIcon} alt="notification" /></NavLink>
       </li>
       <li>
-          <NavLink to="/auth">Authenticate</NavLink>
+          <NavLink to="/auth"><img src={userIcon} alt="notification" /></NavLink>
       </li>
   </ul>
 };

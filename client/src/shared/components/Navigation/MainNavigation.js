@@ -5,6 +5,7 @@ import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
 import SideDrawer from "./SideDrawer";
 import BackDrop from "../UIElements/Backdrop";
+import matchaLogo from '../../icons/logoMatcha.png';
 
 import "./MainNavigation.css";
 
@@ -33,7 +34,7 @@ const MainNavigation = props => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">Matcha</Link>
+          <Link to="/"><img src={matchaLogo} alt="matcha logo" /></Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

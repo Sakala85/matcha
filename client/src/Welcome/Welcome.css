@@ -1,4 +1,13 @@
 .button__index{
     background-color: rebeccapurple!important;
     border: rebeccapurple!important;
+    margin-left: 10px;
+}
+
+
+.matcha__welcome{
+    position: relative;
+    width: 600px;
+    display: block;
+    margin: 0 auto;
 }
