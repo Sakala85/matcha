@@ -8,7 +8,7 @@ import "./UserItem.css";
 const UserItem = props => {
   console.log(props.image);
   return (
-    <Card className="bg-dark text-white card__container">
+    <Card className="bg-dark text-white card__container_list">
       <Row>
         <Col>1 of 3</Col>
         

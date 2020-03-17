@@ -29,6 +29,15 @@ const Notification = () => {
             link: "/chat?name=moi&room=Obama",
             date: "12/03/20",
             key: "3"
+        },
+        {
+            id:"4",
+            type: "Chat",
+            userName: "Obama",
+            image: require("../../img/profile_picture/obama.jpg"),
+            link: "/chat?name=moi&room=Obama",
+            date: "12/03/20",
+            key: "4"
         }
     ]
     return <NotificationList items={NOTIF} />;

@@ -4,10 +4,93 @@
     margin-left: 10px;
 }
 
-
 .matcha__welcome{
     position: relative;
     width: 600px;
     display: block;
     margin: 0 auto;
 }
+
+.card__style{
+    background-image: url("./WelcomeImg/matchWelcome.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    position: relative;
+    height: 80rem;
+}
+
+.login__position{
+position: absolute;
+bottom: 3rem;
+width: 100%;
+
+}
+
+.card__container{
+    background-color: rgba(255,192,203,0.7);
+    border-radius: 50%;
+    width: 700px;
+    height: 700px;
+    border: 1px solid;
+    text-align: center;
+
+}
+
+.title__welcome{
+    margin-top: 700px;
+}
+
+.title__text{
+    font-family: Brush Script MT, Brush Script Std, cursive ;
+    margin-left: 130px;
+    color: pink;
+    text-align: left;
+    font-size: 10em;
+
+}
+
+.example_f {
+    border-radius: 4px;
+    background: linear-gradient(to right, pink, purple) !important;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin: 5px;
+  }
+  .example_f span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.4s;
+  }
+  .example_f span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  .example_f:hover span {
+    padding-right: 25px;
+  }
+  .example_f:hover span:after {
+    opacity: 1;
+    right: 0;
+  }
+  .button_cont{
+      margin-top: 50px;
+  }
+  .inscritpion__text{
+    font-family: Brush Script MT, Brush Script Std, cursive ;
+    font-size: 4em;
+    color: purple;
+    margin-top: 1.3em;
+  }

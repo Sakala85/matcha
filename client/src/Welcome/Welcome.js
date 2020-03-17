@@ -1,28 +1,28 @@
 import React from "react";
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
 import "./Welcome.css";
 import "bootstrap/dist/css/bootstrap.css";
-import matchaWelcome from "./WelcomeImg/matchaWelcome.png";
 const Welcome = () => {
   return (
-        <Container>
-      <Row>
-        <Col className="back__img"><img src={matchaWelcome} alt="Welcome Here" className="matcha__welcome" /></Col>
-      </Row>
-    <Card className="text-center card__style">
-      <Card.Body>
-        <Card.Title>Create account or LogIn for Match !</Card.Title>
-        <Button className="button__index" variant="success" size="lg">
-          Sign In
-        </Button>
-        <Button variant="dark" size="lg">
-          LogIn
-        </Button>
-      </Card.Body>
-      <Card.Footer className="text-muted">Enjoy</Card.Footer>
-    </Card>
-    </Container>
+    <div className="card__style">
+      <br/>
+      <br/>
+      <br/>
+        <h1 className="title__text">Find<br/>Love</h1>
+      <div className="login__position">
+      <div className="card__container">
+            <h1 className="inscritpion__text">Free Inscription</h1>
+            <form>
+              <input type="text"/>
+              <br/>
+              <input type="text"/>
+            <div className="button_cont" align="center">
+              <a className="example_f" href="add-website-here" target="_blank" rel="nofollow"><span />Sign Up</a>
+            </div>
+            </form>
+            </div>
 
+      </div>
+    </div>
   );
 };
 
