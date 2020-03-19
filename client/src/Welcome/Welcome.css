@@ -1,16 +1,3 @@
-.button__index{
-    background-color: rebeccapurple!important;
-    border: rebeccapurple!important;
-    margin-left: 10px;
-}
-
-.matcha__welcome{
-    position: relative;
-    width: 600px;
-    display: block;
-    margin: 0 auto;
-}
-
 .card__style{
     background-image: url("./WelcomeImg/matchWelcome.jpg");
     background-repeat: no-repeat;
@@ -34,12 +21,8 @@ width: 100%;
     height: 700px;
     border: 1px solid;
     text-align: center;
-
 }
 
-.title__welcome{
-    margin-top: 700px;
-}
 
 .title__text{
     font-family: Brush Script MT, Brush Script Std, cursive ;
@@ -50,47 +33,19 @@ width: 100%;
 
 }
 
-.example_f {
-    border-radius: 4px;
-    background: linear-gradient(to right, pink, purple) !important;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 22px;
-    padding: 20px;
-    width: 200px;
-    transition: all 0.4s;
-    cursor: pointer;
-    margin: 5px;
-  }
-  .example_f span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.4s;
-  }
-  .example_f span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-  }
-  .example_f:hover span {
-    padding-right: 25px;
-  }
-  .example_f:hover span:after {
-    opacity: 1;
-    right: 0;
-  }
-  .button_cont{
-      margin-top: 50px;
-  }
   .inscritpion__text{
     font-family: Brush Script MT, Brush Script Std, cursive ;
     font-size: 4em;
     color: purple;
     margin-top: 1.3em;
+  }
+  .inscritpion__text2{
+    font-family: Brush Script MT, Brush Script Std, cursive ;
+    font-size: 4em;
+    color: purple;
+  }
+
+  .form__div{
+    width: 500px;
+    margin: 0 auto;
   }

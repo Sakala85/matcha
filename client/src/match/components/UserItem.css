@@ -1,23 +1,21 @@
-.title__card {
-  text-align: center;
-}
-.card_center{
-  margin: 0 auto; /* Added */
-  float: none; /* Added */
-  margin-bottom: 10px; /* Added */
-  background-color: transparent;
-  width: 170px;
-  height: 60px;
-}
-
 .like_dislike{
   position: relative;
-  display: inline-block;
   width: 60px;
+  background: #F6CFCA;
+  border: none;
+  margin: 0 auto;
+}
+.like_dislike:hover{
+  background: #F6CFCA;
 }
 
-.card__container_list{
-  margin-top: 10px;
+.modal__style{
+  background: #F6CFCA;
+  text-align: center;
+}
+
+.modal__footer{
+  text-align: center;
 }
 
 .image__profile{
@@ -26,4 +24,8 @@
   margin: 0 auto;
   display: block;
   position: relative;
+}
+.map-container {
+  height: 15rem;
+  width: 100%;
 }

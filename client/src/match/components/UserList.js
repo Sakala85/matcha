@@ -25,7 +25,14 @@ const UserList = props => {
             id={user.id}
             image={user.image}
             name={user.name}
-            placeCount={user.places}
+            bio={user.bio}
+            interest={user.interest}
+            gender={user.gender}
+            age={user.age}
+            score={user.score}
+            online={user.online}
+            coordinates={user.coordinates}
+
           />
         );
       })}

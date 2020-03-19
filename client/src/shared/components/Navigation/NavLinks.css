@@ -23,7 +23,7 @@
   .nav-links a:hover,
   .nav-links a:active,
   .nav-links a.active {
-    background: plum;
+    background: #e5005a;
   }
   
   .nav-links button {

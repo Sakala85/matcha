@@ -1,47 +1,94 @@
-import React from "react";
-// import { Link } from "react-router-dom";
-import { Card, Col, Container, Image, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import Map from '../../shared/components/UIElements/Map';
+import {
+  Col,
+  Image,
+  Row,
+  Button,
+  Modal
+} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
-
 import "./UserItem.css";
 
 const UserItem = props => {
-  console.log(props.image);
+  const [showDetail, setShowDetail] = useState(false);
+
+  const openDetailHandler = () => setShowDetail(true);
+  const closeDetailHandler = () => setShowDetail(false);
+
   return (
-    <Card className="bg-dark text-white card__container_list">
-      <Row>
-        <Col>1 of 3</Col>
-        
-        <Col>
+    <React.Fragment>
+      <Modal
+        size="xl"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        show={showDetail}
+        onHide={closeDetailHandler}
+      >
+        <Modal.Header className="modal__style" closeButton>
+          <Modal.Title>{props.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="modal__style">
           <Image src={props.image} roundedCircle className="image__profile" />
           <h1 className="title__card">{props.name}</h1>
-          <Container className="card_center">
-            <Row>
-              <Col xs={6}>
-                <Card.Link href="#" className="like_dislike">
-                  <Image
-                    src={require("../../img/iconProfile/heart.png")}
-                    width="50px"
-                    height="50px"
-                  />
-                </Card.Link>
-              </Col>
-              <Col xs={6}>
-                <Card.Link href="#" className="like_dislike">
-                  <Image
-                    src={require("../../img/iconProfile/remove.png")}
-                    width="50px"
-                    height="50px"
-                  />
-                </Card.Link>
-              </Col>
-            </Row>
-          </Container>
-        </Col>
+          <Row>
+            <Col>
+            <h2>Age : {props.age}</h2>
+            </Col>
+            <Col>
+            <h2>Score : {props.score}</h2>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+            <ul>
+            <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2>
+              </ul>
+            </Col>
+            <Col>
+            <h2>Bio : {props.bio}</h2>
+            </Col>
+            <Col>
+              <h2>{props.online}</h2>
+            </Col>
+          </Row>
+          <Row>
+            
+            <Col>
+              <h2>{props.genre}</h2>
+            </Col>
+          </Row>
+          <Row>
+          <div className="map-container">
+          <Map center={props.coordinates} zoom={16} />
+        </div>
+          </Row>
+        </Modal.Body>
 
-        <Col>3 of 3</Col>
-      </Row>
-    </Card>
+
+        <Modal.Footer className="modal__style modal__footer">
+
+            <Button onClick={closeDetailHandler} className="like_dislike">
+              <Image
+                src={require("../../img/iconProfile/heart.png")}
+                width="50px"
+                height="50px"
+              />
+            </Button>
+            <Button onClick={closeDetailHandler} className="like_dislike">
+              <Image
+                src={require("../../img/iconProfile/remove.png")}
+                width="50px"
+                height="50px"
+              />
+            </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Button onClick={openDetailHandler} variant="light">
+        <Image src={props.image} roundedCircle className="image__profile" />
+      </Button>
+    </React.Fragment>
   );
 };
 

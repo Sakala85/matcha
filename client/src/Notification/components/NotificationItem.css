@@ -3,3 +3,13 @@
     height: 80px;
     float: left;
 }
+
+.card__container_notif{
+    background-color: #F6CFCA!important;
+    text-align: center;
+    color: black!important;
+
+}
+.title__card{
+    margin-top: 0.9em;
+}
