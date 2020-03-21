@@ -62,7 +62,7 @@ const FormUser = props => {
           Submit2
         </Button>
       </Form>
-      <br/>
+      <br />
       <Form>
         <Form.Group controlId="oldpassword">
           <Form.Label>Old Password</Form.Label>
