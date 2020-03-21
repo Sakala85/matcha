@@ -20,20 +20,16 @@ db.connect(err => {
   }
 });
 
-const insertUser = (req, res, next) => {
-  const { pseudo, email, password } = req.body;
+const insertUser = (pseudo, email, password, callBack) => {
   let sql = `SELECT * FROM user WHERE mail = "${email}" OR pseudo = "${pseudo}"`;
-  db.query(sql, (err, result) => {
+  db.query(sql, (err, result, data) => {
     if (err) throw err;
-    if (result.length < 1) {
-      sql = `INSERT INTO user (pseudo, mail , password) VALUES ('${pseudo}', '${email}', '${password}')`;
-      db.query(sql, (err, result) => {
-        if (err) throw err;
-      });
-    } else {
-      return '';
+    if (result.length > 0) {
+      return callBack("Je fais quoi", null);
     }
-    return (true);
+    sql = `INSERT INTO user (pseudo, mail , password) VALUES ('${pseudo}', '${email}', '${password}')`;
+    db.query(sql, () => {});
+    return callBack(null, null);
   });
 };
 

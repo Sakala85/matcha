@@ -7,6 +7,7 @@ const chatRoutes = require("./routes/chat-routes");
 const configRoutes = require("./config/configDatabase");
 const HttpError = require("./models/http-error");
 const app = express();
+const db = require("./connexionBD");
 
 app.use(bodyParser.json());
 

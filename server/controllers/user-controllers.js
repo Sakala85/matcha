@@ -1,5 +1,5 @@
 const HttpError = require("../models/http-error");
-const { insertUser } = require("../models/user");
+const userModel = require("../models/user");
 
 let USER = [
   {
@@ -107,14 +107,15 @@ const getLikedByUid = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  if (insertUser(req, res, next) == true) {
-    res.status(201).json({ message: "User created" });
-  } else {
-    throw new HttpError(
-      "Pseudo or Email already Taken ! Verify if you already have an account ?",
-      444
-    );
-  }
+  const { pseudo, email, password } = req.body;
+
+  userModel.insertUser(pseudo, email, password, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User created" });
+    } else {
+      return res.status(500).json({ message: err });
+    }
+  });
 };
 
 const login = (req, res, next) => {
