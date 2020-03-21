@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const express = require("express");
 
 const router = express.Router();
-const Table = require('./createTable')
+// const Table = require('./createTable')
 
 //Create Connection
 const db = mysql.createConnection({
@@ -27,7 +27,7 @@ router.get('/createDB', (req, res) => {
   res.send('Database created !');
     });
 });
-router.get('/createTable', Table.createTable);
+// router.get('/createTable', Table.createTable);
 
 module.exports = router;
 
