@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Map from '../../shared/components/UIElements/Map';
+// import Map from '../../shared/components/UIElements/Map';
 import {
   Col,
   Image,
@@ -60,7 +60,7 @@ const UserItem = props => {
           </Row>
           <Row>
           <div className="map-container">
-          <Map center={props.coordinates} zoom={16} />
+          {/* <Map center={props.coordinates} zoom={16} /> */}
         </div>
           </Row>
         </Modal.Body>

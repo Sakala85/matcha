@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { Button } from "react-bootstrap";
-import ErrorModal from '../../shared/components/UIElements/ErrorModal';
+import { Modal, Container, Row, Col } from "react-bootstrap";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import Input from "../../shared/components/FormElements/Input";
 import {
   // VALIDATOR_EMAIL,
@@ -12,12 +12,15 @@ import { AuthContext } from "../../shared/context/auth-context";
 import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
-const Auth = () => {
+const Auth = props => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [isLoading, setisLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(false);
   const [errorState, setErrorState] = useState();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -45,7 +48,15 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          pseudo: {
+          username: {
+            value: "",
+            isValid: false
+          },
+          name: {
+            value: "",
+            isValid: false
+          },
+          surname: {
             value: "",
             isValid: false
           }
@@ -58,27 +69,23 @@ const Auth = () => {
 
   const authSubmitHandler = async event => {
     event.preventDefault();
-
+    setisLoading(true);
     if (isLoginMode) {
-    } else {
       try {
-        setisLoading(true);
-        const response = await fetch("http://localhost:5000/api/user/signup", {
+        const response = await fetch("http://localhost:5000/api/user/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            pseudo: formState.inputs.pseudo.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
           })
         });
         const responseData = await response.json();
-        if(!response.ok) {
+        if (!response.ok) {
           throw new Error(responseData.message);
         }
-        console.log(responseData);
         setisLoading(false);
         auth.login();
       } catch (err) {
@@ -86,65 +93,133 @@ const Auth = () => {
         setError(err.message || "Something went wrong please try again");
         setErrorState(true);
       }
+    } else {
+      try {
+        const response = await fetch("http://localhost:5000/api/user/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            username: formState.inputs.username.value,
+            name: formState.inputs.name.value,
+            surname: formState.inputs.surname.value,
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value
+          })
+        });
+        const responseData = await response.json();
+        if (!response.ok) {
+          throw new Error(responseData.message);
+        }
+        setisLoading(false);
+        auth.login();
+      } catch (err) {
+        setError(err.message || "Something went wrong please try again");
+        setErrorState(true);
+      }
     }
-    setisLoading(false);
   };
 
   const errorHandler = () => {
     setErrorState(false);
-  }
+  };
 
   return (
-    <React.Fragment>
-      <ErrorModal show={errorState} error={error} onHide={errorHandler} />
-    <div className="form__Auth">
-      <form onSubmit={authSubmitHandler}>
-        {!isLoginMode && (
-          <div className="InputForm__LogIn">
-            {isLoading && <LoadingSpinner asOverlay/>}
-            <Input
-              element="input"
-              id="pseudo"
-              type="text"
-              label="Your Pseudo"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a pseudo."
-              onInput={inputHandler}
-            />
-          </div>
-        )}
-        <div className="InputForm__LogIn">
-          <Input
-            element="input"
-            id="email"
-            type="text"
-            label="E-Mail"
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a valid email address."
-            onInput={inputHandler}
-          />
-        </div>
-        <div className="InputForm__LogIn">
-          <Input
-            element="input"
-            id="password"
-            type="password"
-            label="Password"
-            validators={[VALIDATOR_MINLENGTH(5)]}
-            errorText="Please enter a valid password, at least 5 characters."
-            onInput={inputHandler}
-          />
-        </div>
-        <Button type="submit" disabled={!formState.isValid} variant="dark">
-          {isLoginMode ? "LOGIN" : "SIGNUP"}
-        </Button>
-      </form>
-      <br />
-      <Button onClick={switchModeHandler} variant="dark">
-        SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-      </Button>
-    </div>
-    </React.Fragment>
+    <Container className="containerBack" fluid>
+      <Row>
+        <Col>
+          <button className="button__logIn" onClick={handleShow}>
+            LogIn or SignUp
+          </button>
+          <Modal show={show} onHide={handleClose}>
+            <ErrorModal show={errorState} error={error} onHide={errorHandler} />
+            <Modal.Header closeButton>
+              <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <form onSubmit={authSubmitHandler}>
+                {isLoading && <LoadingSpinner asOverlay />}
+                {!isLoginMode && (
+                  <div className="InputForm__LogIn">
+                    <Input
+                      element="input"
+                      id="username"
+                      type="text"
+                      label="Your Username"
+                      validators={[VALIDATOR_REQUIRE()]}
+                      errorText="Please enter a userName."
+                      onInput={inputHandler}
+                    />
+                  </div>
+                )}
+                {!isLoginMode && (
+                  <div className="InputForm__LogIn">
+                    <Input
+                      element="input"
+                      id="name"
+                      type="text"
+                      label="Your Name"
+                      validators={[VALIDATOR_REQUIRE()]}
+                      errorText="Please enter a Name."
+                      onInput={inputHandler}
+                    />
+                  </div>
+                )}
+                {!isLoginMode && (
+                  <div className="InputForm__LogIn">
+                    <Input
+                      element="input"
+                      id="surname"
+                      type="text"
+                      label="Your Surname"
+                      validators={[VALIDATOR_REQUIRE()]}
+                      errorText="Please enter a surname."
+                      onInput={inputHandler}
+                    />
+                  </div>
+                )}
+                <div className="InputForm__LogIn">
+                  <Input
+                    element="input"
+                    id="email"
+                    type="text"
+                    label="E-Mail"
+                    validators={[VALIDATOR_REQUIRE()]}
+                    errorText="Please enter a valid email address."
+                    onInput={inputHandler}
+                  />
+                </div>
+                <div className="InputForm__LogIn">
+                  <Input
+                    element="input"
+                    id="password"
+                    type="password"
+                    label="Password"
+                    validators={[VALIDATOR_MINLENGTH(5)]}
+                    errorText="Please enter a valid password, at least 5 characters."
+                    onInput={inputHandler}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={!formState.isValid}
+                  className="button__logIn__signUp"
+                >
+                  {isLoginMode ? "LOGIN" : "SIGNUP"}
+                </button>
+              </form>
+            </Modal.Body>
+            <button
+              onClick={switchModeHandler}
+              className="button__logIn__signUp__switch"
+            >
+              SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
+            </button>
+          </Modal>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

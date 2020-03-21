@@ -75,16 +75,16 @@ let LIKED = [
   }
 ];
 
-const getUserById = (req, res, next) => {
-  const userId = req.params.uid;
-  const user = USER.find(u => {
-    return u.id === userId;
-  });
+const checkUser = (req, res, next) => {
+  const { email, password } = req.body;
 
-  if (!user) {
-    throw new HttpError("Could not find your profile !", 404);
-  }
-  res.json({ user });
+  userModel.isUser(email, password, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Found" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
 };
 
 const getMatchByUid = (req, res, next) => {
@@ -107,9 +107,9 @@ const getLikedByUid = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { pseudo, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  userModel.insertUser(pseudo, email, password, (err, data) => {
+  userModel.insertUser(username, email, password, (err, data) => {
     if (!err) {
       return res.status(201).json({ message: "User created" });
     } else {
@@ -153,7 +153,7 @@ const deleteUser = (req, res, next) => {
 
 exports.login = login;
 exports.createUser = createUser;
-exports.getUserById = getUserById;
+exports.checkUser = checkUser;
 exports.getMatchByUid = getMatchByUid;
 exports.getLikedByUid = getLikedByUid;
 exports.updateUser = updateUser;

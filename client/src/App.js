@@ -9,7 +9,6 @@ import "./App.css";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Chat from "./chat/components/Chat/Chat";
 import Join from "./chat/components/Join/Join";
-import Welcome from "./Welcome/Welcome";
 import Match from "./match/pages/Match";
 import Notification from "./Notification/pages/Notification";
 import Auth from "./user/Auth/Auth";
@@ -44,19 +43,16 @@ const App = () => {
         <Route path="/Notification" exact>
           <Notification />
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/match" />
       </Switch>
     );
   } else {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Welcome />
-        </Route>
-        <Route path="/Auth" exact>
           <Auth />
         </Route>
-        <Redirect to="/auth" />
+        <Redirect to="/" />
       </Switch>
     );
   }
@@ -65,7 +61,7 @@ const App = () => {
       value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
     >
       <Router>
-        <MainNavigation />
+        {isLoggedIn && <MainNavigation />}
         <main>
           {routes}
           <NotificationDisplay />

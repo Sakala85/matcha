@@ -1,26 +1,63 @@
-.authentication__header {
-  color: white;
-  text-align: center;
-}
-
-.authentication {
-  width: 90%;
-  max-width: 25rem;
-  margin: 7rem auto;
-  text-align: center;
-}
-
-.authentication form {
-  margin-bottom: 1rem;
-}
 
 .InputForm__LogIn{
-  margin-top: 1em;
-  margin-bottom: 3em;
+  margin-top: 10px;
+}
+/* BUTTON */
+.button__logIn__signUp{
+  display: block;
+  width: 150px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50px;
+  color: black;
+  background-color: pink;
+  border-color: pink;
+  border: 5px solid rgb(233, 90, 149);
+}
+.button__logIn__signUp:hover {
+  background-color: rgb(233, 90, 149);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+.button__logIn__signUp__switch{
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin: 0 auto;
+  color: black;
+  background-color: pink;
+  border-color: pink;
+  border: 5px solid rgb(233, 90, 149);
+}
+.button__logIn__signUp__switch:hover{
+  background-color: rgb(233, 90, 149);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
-.form__Auth{
-  width: 500px;
+.containerBack {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-image: url(./WelcomeImg/matchWelcome2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.button__logIn {
+  display: block;
+  width: 20em;
+  height: 5em;
   margin: 0 auto;
-  text-align: center;
+  margin-top: 25em;
+  border-radius: 50px;
+  color: black;
+  background-color: pink;
+  border-color: pink;
+  border: 5px solid rgb(233, 90, 149);
+}
+.button__logIn:hover {
+  background-color: rgb(233, 90, 149);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
