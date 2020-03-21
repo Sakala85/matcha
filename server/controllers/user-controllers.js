@@ -1,5 +1,5 @@
 const HttpError = require("../models/http-error");
-const userModel = require("../models/user");
+const userModel = require("../models/user-model");
 
 let USER = [
   {
@@ -113,7 +113,7 @@ const createUser = (req, res, next) => {
     if (!err) {
       return res.status(201).json({ message: "User created" });
     } else {
-      return res.status(500).json({ message: err });
+      return res.status(400).json({ message: err });
     }
   });
 };
