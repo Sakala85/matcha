@@ -3,7 +3,7 @@ import { Modal, Container, Row, Col } from "react-bootstrap";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import Input from "../../shared/components/FormElements/Input";
 import {
-  // VALIDATOR_EMAIL,
+  VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE
 } from "../../shared/util/validators";
@@ -11,16 +11,16 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 
 const Auth = props => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, setisLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorState, setErrorState] = useState();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -52,11 +52,11 @@ const Auth = props => {
             value: "",
             isValid: false
           },
-          name: {
+          firstname: {
             value: "",
             isValid: false
           },
-          surname: {
+          lastname: {
             value: "",
             isValid: false
           }
@@ -69,60 +69,44 @@ const Auth = props => {
 
   const authSubmitHandler = async event => {
     event.preventDefault();
-    setisLoading(true);
     if (isLoginMode) {
       try {
-        const response = await fetch("http://localhost:5000/api/user/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          "http://localhost:5000/api/user/login",
+          "POST",
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
-          })
-        });
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setisLoading(false);
+          }),
+          {
+            "Content-Type": "application/json"
+          }
+        );
         auth.login();
-      } catch (err) {
-        console.log(err);
-        setError(err.message || "Something went wrong please try again");
-        setErrorState(true);
-      }
+      } catch (err) {}
     } else {
       try {
-        const response = await fetch("http://localhost:5000/api/user/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
+        await sendRequest(
+          "http://localhost:5000/api/user/signup",
+          "POST",
+          JSON.stringify({
             username: formState.inputs.username.value,
-            name: formState.inputs.name.value,
-            surname: formState.inputs.surname.value,
+            firstname: formState.inputs.firstname.value,
+            lastname: formState.inputs.lastname.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value
-          })
-        });
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setisLoading(false);
+          }),
+          {
+            "Content-Type": "application/json"
+          }
+        );
         auth.login();
-      } catch (err) {
-        setError(err.message || "Something went wrong please try again");
-        setErrorState(true);
-      }
+      } catch (err) {}
     }
   };
 
   const errorHandler = () => {
-    setErrorState(false);
+    clearError();
   };
 
   return (
@@ -133,7 +117,7 @@ const Auth = props => {
             LogIn or SignUp
           </button>
           <Modal show={show} onHide={handleClose}>
-            <ErrorModal show={errorState} error={error} onHide={errorHandler} />
+            <ErrorModal show={error} onHide={errorHandler} />
             <Modal.Header closeButton>
               <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title>
             </Modal.Header>
@@ -157,7 +141,7 @@ const Auth = props => {
                   <div className="InputForm__LogIn">
                     <Input
                       element="input"
-                      id="name"
+                      id="firstname"
                       type="text"
                       label="Your Name"
                       validators={[VALIDATOR_REQUIRE()]}
@@ -170,11 +154,11 @@ const Auth = props => {
                   <div className="InputForm__LogIn">
                     <Input
                       element="input"
-                      id="surname"
+                      id="lastname"
                       type="text"
-                      label="Your Surname"
+                      label="Your Lastname"
                       validators={[VALIDATOR_REQUIRE()]}
-                      errorText="Please enter a surname."
+                      errorText="Please enter a lastname."
                       onInput={inputHandler}
                     />
                   </div>
@@ -185,7 +169,7 @@ const Auth = props => {
                     id="email"
                     type="text"
                     label="E-Mail"
-                    validators={[VALIDATOR_REQUIRE()]}
+                    validators={[VALIDATOR_EMAIL()]}
                     errorText="Please enter a valid email address."
                     onInput={inputHandler}
                   />

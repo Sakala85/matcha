@@ -26,23 +26,24 @@ const UserItem = props => {
         onHide={closeDetailHandler}
       >
         <Modal.Header className="modal__style" closeButton>
-          <Modal.Title>{props.name}</Modal.Title>
+          <Modal.Title>{props.pseudo}</Modal.Title>
         </Modal.Header>
         <Modal.Body className="modal__style">
-          <Image src={props.image} roundedCircle className="image__profile" />
-          <h1 className="title__card">{props.name}</h1>
+          <Image src={props.picture} roundedCircle className="image__profile" />
+          <h1 className="title__card">{props.pseudo}</h1>
           <Row>
             <Col>
             <h2>Age : {props.age}</h2>
             </Col>
             <Col>
-            <h2>Score : {props.score}</h2>
+            <h2>Score : {props.popularity}</h2>
             </Col>
           </Row>
           <Row>
             <Col>
             <ul>
-            <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2>
+              <h2>Interest</h2>
+            {/* <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2> */}
               </ul>
             </Col>
             <Col>
@@ -55,7 +56,7 @@ const UserItem = props => {
           <Row>
             
             <Col>
-              <h2>{props.genre}</h2>
+              <h2>{props.gender}</h2>
             </Col>
           </Row>
           <Row>
@@ -86,7 +87,7 @@ const UserItem = props => {
       </Modal>
 
       <Button onClick={openDetailHandler} variant="light">
-        <Image src={props.image} roundedCircle className="image__profile" />
+        <Image src={props.picture} roundedCircle className="image__profile"/>
       </Button>
     </React.Fragment>
   );

@@ -1,12 +1,20 @@
-const insertUser = (username, email, password, callBack) => {
+const insertUser = (
+  username,
+  firstname,
+  lastname,
+  email,
+  password,
+  token,
+  callBack
+) => {
   let sql = `SELECT * FROM user WHERE mail = "${email}" OR username = "${username}"`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     console.log(result);
-    if (result > 0) {
+    if (result.length > 0) {
       return callBack("Username or Email already taken", null);
     }
-    sql = `INSERT INTO user (username, mail , password) VALUES ('${username}', '${email}', '${password}')`;
+    sql = `INSERT INTO user (username, mail, password, firstname, lastname, token) VALUES ('${username}', '${email}', '${password}', '${firstname}', '${lastname}', '${token}')`;
     db.query(sql, () => {});
     return callBack(null, null);
   });
@@ -23,5 +31,17 @@ const isUser = (email, password, callBack) => {
   });
 };
 
+const getMatch = (matchId, callBack) => {
+  let sql = `SELECT * FROM user`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return callBack(null, result, data);
+    }
+    return callBack("Email or Password Incorrect", null);
+  });
+};
+
 exports.isUser = isUser;
 exports.insertUser = insertUser;
+exports.getMatch = getMatch;

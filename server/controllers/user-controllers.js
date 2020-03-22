@@ -1,115 +1,12 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
-
-let USER = [
-  {
-    key: "1",
-    name: "Obama",
-    bio: "Coucou moi c'est Obama President des Etats Unis :)",
-    interest: ["politic", "music", "movies", "food"],
-    gender: "Man",
-    orientation: "Woman",
-    age: "44",
-    email: "obama@president.president",
-    score: "33",
-    online: "Online",
-    id: "U1",
-    coordinate: {
-      lat: 40.7484405,
-      lng: -73.9878584
-    }
-  },
-  {
-    key: "1",
-    name: "JUJU",
-    bio: "Coucou moi c'est Obama President des Etats Unis :)",
-    interest: ["politic", "music", "movies", "food"],
-    gender: "Man",
-    orientation: "Woman",
-    age: "44",
-    email: "obama@president.president",
-    score: "33",
-    online: "Online",
-    id: "U2",
-    coordinate: {
-      lat: 40.7484405,
-      lng: -73.9878584
-    }
-  }
-];
-
-let LIKED = [
-  {
-    key: "1",
-    name: "Obama",
-    bio: "Coucou moi c'est Obama President des Etats Unis :)",
-    interest: ["politic", "music", "movies", "food"],
-    gender: "Man",
-    orientation: "Woman",
-    age: "44",
-    email: "obama@president.president",
-    score: "33",
-    online: "Online",
-    id: "U1",
-    coordinates: {
-      lat: 40.7484405,
-      lng: -73.9878584
-    }
-  },
-  {
-    key: "2",
-    name: "Julie",
-    bio: "Coucou moi c'est Obama President des Etats Unis :)",
-    interest: ["politic", "music", "movies", "food"],
-    gender: "Man",
-    orientation: "Woman",
-    age: "44",
-    email: "obama@president.president",
-    score: "33",
-    online: "Online",
-    id: "U2",
-    coordinates: {
-      lat: 40.7484405,
-      lng: -73.9878584
-    }
-  }
-];
-
-const checkUser = (req, res, next) => {
-  const { email, password } = req.body;
-
-  userModel.isUser(email, password, (err, data) => {
-    if (!err) {
-      return res.status(201).json({ message: "User Found" });
-    } else {
-      return res.status(400).json({ message: err });
-    }
-  });
-};
-
-const getMatchByUid = (req, res, next) => {
-  MATCH = "";
-  user = "";
-  if (!MATCH) {
-    throw new HttpError("No matcheable people found !", 404);
-  }
-  if (!user) {
-    throw new HttpError("Could not find your profile !", 404);
-  }
-  res.json({ match });
-};
-
-const getLikedByUid = (req, res, next) => {
-  if (!LIKED) {
-    throw new HttpError("No match Yet keep liking", 404);
-  }
-  res.json({ LIKED });
-};
+var uuid = require('node-uuid');
 
 const createUser = (req, res, next) => {
-  const { username, email, password } = req.body;
-
-  userModel.insertUser(username, email, password, (err, data) => {
+  const { username, firstname, lastname, email, password } = req.body;
+  const token = uuid.v1();
+  console.log(token);
+  userModel.insertUser(username, firstname, lastname, email, password, token, (err, data) => {
     if (!err) {
       return res.status(201).json({ message: "User created" });
     } else {
@@ -121,15 +18,42 @@ const createUser = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  const identifiedUser = USER.find(u => u.email === email);
-  if (!identifiedUser || identifiedUser.password != password) {
-    throw new HttpError(
-      "Could not identify user, credentials seem to be wrong",
-      401
-    );
-  }
-  res.json({ message: "LoggedIn" });
+  userModel.isUser(email, password, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Found" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
 };
+
+const getUserById = (req, res, next) => {
+  userId = req.uid;
+  userModel.getUser(userId, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Found" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
+const getMatchById = (req, res, next) => {
+  userModel.getMatch(1, (err, result) => {
+    if (!err) {
+      console.log({result});
+      return res.status(201).json({ user: {result} });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
+
+
+
+
+
 
 const updateUser = (req, res, next) => {
   const { bio } = req.body;
@@ -151,10 +75,29 @@ const deleteUser = (req, res, next) => {
   res.status(200).json({ message: "Place Deleted" });
 };
 
+const getMatchByUid = (req, res, next) => {
+  MATCH = "";
+  user = "";
+  if (!MATCH) {
+    throw new HttpError("No matcheable people found !", 404);
+  }
+  if (!user) {
+    throw new HttpError("Could not find your profile !", 404);
+  }
+  res.json({ match });
+};
+
+const getLikedByUid = (req, res, next) => {
+  if (!LIKED) {
+    throw new HttpError("No match Yet keep liking", 404);
+  }
+  res.json({ LIKED });
+};
+
 exports.login = login;
 exports.createUser = createUser;
-exports.checkUser = checkUser;
-exports.getMatchByUid = getMatchByUid;
+exports.getUserById = getUserById;
+exports.getMatchById = getMatchById;
 exports.getLikedByUid = getLikedByUid;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;

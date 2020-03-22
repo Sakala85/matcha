@@ -124,7 +124,8 @@ CREATE TABLE `user` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `valid_profil` tinyint(1) DEFAULT '0',
   `valid_mail` tinyint(1) DEFAULT '0',
-  `genre` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `online` tinyint(1) DEFAULT '1',
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `orientation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `bio` text COLLATE utf8mb4_unicode_ci,
   `popularity` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -132,11 +133,11 @@ CREATE TABLE `user` (
   `age` int(11) DEFAULT NULL,
   `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture1` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture2` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture3` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture4` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture5` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `picture1` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture2` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture3` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture4` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture5` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

@@ -1,42 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const Match = () => {
-  const USER = [
-    {
-      key: "1",
-      name: "Obama",
-      image: require("../../img/profile_picture/obama.jpg"),
-      bio: "Coucou moi c'est Obama President des Etats Unis :)",
-      interest: ["politic", "music", "movies", "food"],
-      gender: "man",
-      age: "44",
-      score: "33",
-      online: "Online",
-      id: "U1",
-      coordinates:{
-          lat: 40.7484405,
-          lng: -73.9878584
-      }
-    },
-    {
-      key: "2",
-      name: "Julie",
-      image: require("../../img/profile_picture/julie.jpg"),
-      bio: "Coucou moi c'est Julie de Tinder",
-      interest: ["politic", "music", "movies", "meeting"],
-      gender: "girl",
-      age: "27",
-      score: "330",
-      online: "Online",      
-      id: "U2",
-      coordinates:{
-        lat: 48.896607,
-        lng: 2.3163123
-    }
-    }
-  ];
+  const [loadedUsers, setLoadedUsers] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
-  return <UserList items={USER} />;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const responseData = await sendRequest(
+          // Il faudra mettre le ID User
+          /********************************************************* */
+          "http://localhost:5000/api/user/1/match"
+        );
+        setLoadedUsers(responseData.user.result);
+      } catch (err) {}
+    };
+    fetchUsers();
+  }, [sendRequest]);
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && loadedUsers && <UserList items={loadedUsers} />}
+    </React.Fragment>
+  );
 };
 export default Match;

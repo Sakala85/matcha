@@ -23,16 +23,16 @@ const UserList = props => {
           <UserItem
             key={user.id}
             id={user.id}
-            image={user.image}
-            name={user.name}
+            picture={user.picture1}
+            pseudo={user.pseudo}
             bio={user.bio}
-            interest={user.interest}
             gender={user.gender}
+            // A ecrire en Anglais (gender) (pas test encore)
             age={user.age}
-            score={user.score}
+            popularity={user.popularity}
             online={user.online}
-            coordinates={user.coordinates}
-
+            // Ajouter les autres photos
+            // A Changer par une var Online (pas test)
           />
         );
       })}
