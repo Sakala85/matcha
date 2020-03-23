@@ -10,7 +10,6 @@ const insertUser = (
   let sql = `SELECT * FROM user WHERE mail = "${email}" OR username = "${username}"`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
-    console.log(result);
     if (result.length > 0) {
       return callBack("Username or Email already taken", null);
     }
