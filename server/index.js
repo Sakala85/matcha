@@ -6,16 +6,6 @@ const cors = require('cors');
 const mongoose = require("mongoose"); 
 const bodyParser = require('body-parser');
 
-// //Connexion à la base de donnée
-// mongoose
-//   .connect("mongodb://localhost/db")
-//   .then(() => {
-//     console.log("Connected to mongoDB");
-//   })
-//   .catch((e) => {
-//     console.log("Error while DB connecting");
-//     console.log(e);
-//   });
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
@@ -27,22 +17,6 @@ const app = express();
 
 const server = http.createServer(app);
 const io = socketio(server);
-
-// //Body Parser
-// const urlencodedParser = bodyParser.urlencoded({
-//   extended: true
-// });
-// app.use(urlencodedParser);
-// app.use(bodyParser.json());
-
-// //Définition des CORS
-// app.use(function (req, res, next) {
-//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
 
 app.use(cors());
 app.use(router);

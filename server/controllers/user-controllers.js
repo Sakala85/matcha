@@ -1,11 +1,18 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
-var uuid = require('node-uuid');
+const uuid = require('node-uuid');
+const userValidator = require ("../utils/user-validator")
 
 const createUser = (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token = uuid.v1();
+
   console.log(token);
+  const err = userValidator.userValidateAll(email, password, username);
+  if(err){
+    return res.status(400).json({ message: err });
+  }
+
   userModel.insertUser(username, firstname, lastname, email, password, token, (err, data) => {
     if (!err) {
       return res.status(201).json({ message: "User created" });
@@ -48,10 +55,6 @@ const getMatchById = (req, res, next) => {
     }
   });
 };
-
-
-
-
 
 
 
