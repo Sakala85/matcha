@@ -19,7 +19,7 @@ const Auth = props => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -117,7 +117,7 @@ const Auth = props => {
             LogIn or SignUp
           </button>
           <Modal show={show} onHide={handleClose}>
-            <ErrorModal show={error} onHide={errorHandler} />
+            <ErrorModal show={error} error={errorMessage} onHide={errorHandler} />
             <Modal.Header closeButton>
               <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title>
             </Modal.Header>

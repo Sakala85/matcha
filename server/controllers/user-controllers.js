@@ -1,18 +1,26 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
-var uuid = require('node-uuid');
+var uuid = require("node-uuid");
 
 const createUser = (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token = uuid.v1();
   console.log(token);
-  userModel.insertUser(username, firstname, lastname, email, password, token, (err, data) => {
-    if (!err) {
-      return res.status(201).json({ message: "User created" });
-    } else {
-      return res.status(400).json({ message: err });
+  userModel.insertUser(
+    username,
+    firstname,
+    lastname,
+    email,
+    password,
+    token,
+    (err, data) => {
+      if (!err) {
+        return res.status(201).json({ message: "User created" });
+      } else {
+        return res.status(400).json({ message: err });
+      }
     }
-  });
+  );
 };
 
 const login = (req, res, next) => {
@@ -28,10 +36,10 @@ const login = (req, res, next) => {
 };
 
 const getUserById = (req, res, next) => {
-  userId = req.uid;
-  userModel.getUser(userId, (err, data) => {
+  userId = req.params.uid;
+  userModel.getUser(userId, (err, result) => {
     if (!err) {
-      return res.status(201).json({ message: "User Found" });
+      return res.status(201).json({ user: result });
     } else {
       return res.status(400).json({ message: err });
     }
@@ -41,19 +49,12 @@ const getUserById = (req, res, next) => {
 const getMatchById = (req, res, next) => {
   userModel.getMatch(1, (err, result) => {
     if (!err) {
-      console.log({result});
-      return res.status(201).json({ user: {result} });
+      return res.status(201).json({ user: { result } });
     } else {
       return res.status(400).json({ message: err });
     }
   });
 };
-
-
-
-
-
-
 
 const updateUser = (req, res, next) => {
   const { bio } = req.body;

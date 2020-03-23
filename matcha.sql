@@ -144,8 +144,8 @@ CREATE TABLE `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `mail`, `password`, `firstname`, `lastname`, `token`, `valid_profil`, `valid_mail`, `genre`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
-(2, 'ak47', 'khoucha@yopmail.com', 'okokok', '', '', '', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id`, `username`, `mail`, `password`, `firstname`, `lastname`, `token`, `valid_profil`, `valid_mail`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
+(2, 'ak47', 'khoucha@yopmail.com', 'okokok', 'ed', 'ddd', 'TOKEN', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

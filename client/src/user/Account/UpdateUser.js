@@ -1,66 +1,52 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import FormUser from "./FormUser";
-// import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-// import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { Card } from "react-bootstrap";
+
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+// import { AuthContext } from '../../shared/context/auth-context';
 
 const UpdateUser = () => {
-  const USER = {
-    key: "1",
-    name: "Obama",
-    image: require("../../img/profile_picture/obama.jpg"),
-    bio: "Coucou moi c'est Obama President des Etats Unis :)",
-    interest: ["politic", "music", "movies", "food"],
-    gender: "Man",
-    orientation: "Woman",
-    age: "44", 
-    email: "obama@president.president",
-    score: "33",
-    online: "Online",
-    id: "U1",
-    coordinates:{
-        lat: 40.7484405,
-        lng: -73.9878584
-    }
-  };
-  // const [isLoading, setisLoading] = useState(false);
-  // const [error, setError] = useState(false);
-  // const [loadedUser, setLoadedUser] = useState(false);
+  // const auth = useContext(AuthContext);
+  const [loadedUser, setLoadedUser] = useState(false);
+  const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
 
-  // useEffect(() => {
-  //   const sendRequest = async () => {
-  //     setisLoading(true);
-  //     try {
-  //       const response = await fetch(`http://localhost:5000/api/users/35`);
-  //       const responseData = await response.json();
-  //       if (!response.ok) {
-  //         throw new Error(responseData.message);
-  //       }
-  //       setLoadedUser(responseData.users);
-  //       setisLoading(false);
-  //     } catch (err) {
-  //       setisLoading(false);
-  //       setError(err.message);
-  //     }
-  //   };
-  //   sendRequest();
-  // }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const responseData = await sendRequest(`http://localhost:5000/api/user/16`);
+        // ! UID (16) === UID AuthUser
+        setLoadedUser(responseData.user);
+      } catch (err) {
+      }
+    };
+    fetchUser();
+  }, [sendRequest]);
 
-  // const errorHandler = () => {
-  //   setError(null);
-  // };
+  if (!loadedUser && !error) {
+    return (
+      <div className="center">
+        <Card>
+          <h2>Could not find your profile!</h2>
+        </Card>
+      </div>
+    );
+  }
   return (
-    // <React.Fragment>
-    //   <ErrorModal error={error} onClear={errorHandler} />
-    //   {isLoading && (
-    //     <div className="center">
-    //       <LoadingSpinner />
-    //     </div>
-    //   )}
-    //   {!isLoading && loadedUser && 
-      <FormUser items={USER} />
-    //   };
-    // </React.Fragment>
+    <React.Fragment>
+      <ErrorModal show={error} error={errorMessage} onClear={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {console.log({loadedUser})}
+      {
+      <FormUser items={loadedUser} />
+      };
+    </React.Fragment>
   );
 };
 

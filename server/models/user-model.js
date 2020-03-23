@@ -22,12 +22,23 @@ const insertUser = (
 
 const isUser = (email, password, callBack) => {
   let sql = `SELECT * FROM user WHERE mail = "${email}" AND password = "${password}"`;
-  db.query(sql, (err, result, data) => {
+  db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
       return callBack(null, null);
     }
     return callBack("Email or Password Incorect", null);
+  });
+};
+
+const getUser = (userId, callBack) => {
+  let sql = `SELECT * FROM user WHERE id = "${userId}"`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      return callBack(null, result, data);
+    }
+    return callBack("User not found", null);
   });
 };
 
@@ -42,6 +53,9 @@ const getMatch = (matchId, callBack) => {
   });
 };
 
+
+
 exports.isUser = isUser;
 exports.insertUser = insertUser;
 exports.getMatch = getMatch;
+exports.getUser = getUser;

@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 
 import "./FormUser.css";
 const FormUser = props => {
+  console.log(props.items.firstname)
   return (
     <div className="form__div__account">
       <h1>Update your profile</h1>

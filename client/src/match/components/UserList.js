@@ -18,13 +18,14 @@ const UserList = props => {
   return (
 
       <Col md={{ span: 10, offset: 1 }}>
+        <ul>
       {props.items.map(user => {
         return (
           <UserItem
             key={user.id}
             id={user.id}
             picture={user.picture1}
-            pseudo={user.pseudo}
+            username={user.username}
             bio={user.bio}
             gender={user.gender}
             // A ecrire en Anglais (gender) (pas test encore)
@@ -36,6 +37,7 @@ const UserList = props => {
           />
         );
       })}
+      </ul>
       </Col>
   );
 };
