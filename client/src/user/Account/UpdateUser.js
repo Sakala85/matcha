@@ -34,7 +34,7 @@ const UpdateUser = () => {
       </div>
     );
   }
-  return (
+      return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onClear={clearError} />
       {isLoading && (
@@ -42,9 +42,14 @@ const UpdateUser = () => {
           <LoadingSpinner />
         </div>
       )}
-      {console.log({loadedUser})}
       {
-      <FormUser items={loadedUser} />
+        <ul>
+        {loadedUser.map(item => (
+          <li key={item.id}>
+      <FormUser items={item} />
+          </li>
+        ))}
+      </ul>
       };
     </React.Fragment>
   );
