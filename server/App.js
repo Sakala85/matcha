@@ -12,19 +12,20 @@ global.db = require("./connexionDB");
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); //On met des header pour eviter les CROS
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-with, Content-Type, Accept, Authorization"
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-  res.setHeader("Acces-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+
   next();
 });
 
 
 app.use("/api/user", userRoutes);
 app.use("/api/user/:uid/notification", notifRoutes);
-app.use("/api/user/:uid/liked/chat", chatRoutes);
+app.use("/api/user/:uid/chat", chatRoutes);
 app.use("/api/config", configRoutes);
 
 app.use((req, res, next) => {

@@ -1,9 +1,11 @@
 import React from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 import "./FormUser.css";
-import UpdateProfile from "./UpdateFunction/UpdateProfile";
+import UpdateProfile from "./UpdateProfile";
+import UpdatePassword from "./UpdatePassword";
+import UpdateInterest from "./UpdateInterest";
 
 
 const FormUser = props => {
@@ -12,29 +14,7 @@ const FormUser = props => {
       {/* PREMIERE DIV POUR INTERETS */}
       <Col className="form__div__account">
         <h1>Update your interest</h1>
-        <Form>
-          <Form.Group controlId="interest">
-            <Form.Label>Interest</Form.Label>
-            <br />
-            Your Interest :{props.items.interest}
-            <br />
-            <Form.Check id="politic" label="#politic" inline />
-            <Form.Check id="danse" label="#danse" inline />
-            <Form.Check id="music" label="#music" inline />
-            <Form.Check id="sport" label="#sport" inline />
-            <Form.Check id="theatre" label="#theatre" inline />
-            <Form.Check id="movies" label="#movies" inline />
-            <Form.Check id="anime" label="#anime" inline />
-            <Form.Check id="coding" label="#coding" inline />
-          </Form.Group>
-          <Form.Group controlId="Interest">
-            <Form.Label>New Interest</Form.Label>
-            <Form.Control type="text" placeholder="Enter interest" />
-          </Form.Group>
-          <Button type="submit" variant="dark">
-            Submit
-          </Button>
-        </Form>
+        <UpdateInterest />
       </Col>
 
       {/* DIV POUR PROFIL */}
@@ -46,23 +26,7 @@ const FormUser = props => {
       {/* DIV POUR PASSWORD */}
       <Col className="form__div__account">
         <h1>Update your password</h1>
-        <Form>
-          <Form.Group controlId="oldpassword">
-            <Form.Label>Old Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group controlId="newpassword">
-            <Form.Label>New Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group controlId="newpasswordVerif">
-            <Form.Label>Repeat New Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Button type="submit" variant="dark">
-            Submit
-          </Button>
-        </Form>
+        <UpdatePassword />
       </Col>
     </Row>
   );

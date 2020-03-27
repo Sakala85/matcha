@@ -61,14 +61,27 @@ const getMatchById = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  const { bio } = req.body;
+  const { firstname, lastname, email, bio, gender, orientation } = req.body;
   const userId = req.params.uid;
+  userModel.updateUser(firstname, lastname, email, bio, gender, orientation, userId, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Updated" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
 
-  const updatedUser = { ...USER.find(u => u.id === userId) };
-  const userIndex = USER.findIndex(u => u.id === userId);
-  updatedUser.bio = bio;
-
-  res.status(200).json({ User });
+const updateUserPassword = (req, res, next) => {
+  const { oldPassword, newPassword, repeatPassword } = req.body;
+  const userId = req.params.uid;
+  userModel.updateUserPassword(oldPassword, newPassword, repeatPassword, userId, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Updated" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
 };
 
 const deleteUser = (req, res, next) => {
@@ -105,4 +118,5 @@ exports.getUserById = getUserById;
 exports.getMatchById = getMatchById;
 exports.getLikedByUid = getLikedByUid;
 exports.updateUser = updateUser;
+exports.updateUserPassword = updateUserPassword;
 exports.deleteUser = deleteUser;

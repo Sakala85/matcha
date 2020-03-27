@@ -13,6 +13,8 @@ router.post('/signup', userController.createUser);
 router.post('/login', userController.login);
 
 router.patch('/:uid', userController.updateUser);
+router.patch('/pwd/:uid', userController.updateUserPassword);
+// router.patch('/:uid', userController.updateUser);
 
 router.delete('/:uid', userController.deleteUser);
 

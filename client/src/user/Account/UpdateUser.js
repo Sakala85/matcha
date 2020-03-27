@@ -16,7 +16,7 @@ const UpdateUser = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:5000/api/user/16`);
+        const responseData = await sendRequest(`http://localhost:5000/api/user/20`);
         // ! UID (16) === UID AuthUser
         setLoadedUser(responseData.user);
       } catch (err) {
