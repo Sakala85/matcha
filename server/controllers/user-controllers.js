@@ -3,11 +3,14 @@ const userModel = require("../models/user-model");
 const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
 const fs = require("fs");
+const bcrypt = require ("bcryptjs")
+
+
 
 const createUser = (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token = uuid.v1();
-  const err = userValidator.userValidateAll(email, password, username);
+  const err = userValidator.userValidateAll(email, password, username, firstname, lastname);
   if (err) {
     return res.status(400).json({ message: err });
   }

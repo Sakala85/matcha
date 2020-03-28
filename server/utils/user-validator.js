@@ -11,12 +11,13 @@ const emailValidate = (email) => {
     return ""
 };
 
+
 const passwordValidate = (password) => {
     console.log("passwordvalidator")
     const illegalChars =  /\W/;
     if (!password) {
         return "Error empty password bitch!";
-     }
+    }
     if(password.length < 5){
         return "The password is too short, minimum 5 chars";
     }
@@ -42,25 +43,48 @@ const usernameValidate = (username) => {
       return "The username can only contains '-', '_', alpha-num.";
     }
     return ""
-
 };
+
+const firstnameValidate = (firstname) => {
+    // const illegalChars = /\W/;
+    if(!firstname) {
+        return "Error empty firstname!";
+    }
+    return ""
+};
+
+const lastnameValidate = (lastname) => {
+    //const illegalChars = /\W/;
+    if (!lastname) {
+        return "Error empty lastname!";
+    }
+    return "";
+};
+
 
 const userValidateAll = (email, password, username) => {
     const errEmail = emailValidate(email)
     const errPassword = passwordValidate(password)
     const errUsername = usernameValidate(username)
+    const errFirstname = firstnameValidate(firstname)
+    const errLastname = lastnameValidate(lastname);
+
     if(errEmail){
         return errEmail
     }
-    
     if(errPassword){
         return errPassword;
     }
     if(errUsername){
         return errUsername
+    }  
+    if (errFirstname) {
+        return errFirstname;
+    }
+    if (errLastname) {
+      return errLastname;
     }
     return ""
-
-}
+};
 
 exports.userValidateAll = userValidateAll
