@@ -10,6 +10,7 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const UpdateProfile = props => {
   const {
@@ -22,6 +23,7 @@ const UpdateProfile = props => {
 
   const [formState, inputHandler, setFormData] = useForm(
     {
+
       firstname: {
         value: props.items.firstname,
         isValid: false
@@ -51,7 +53,6 @@ const UpdateProfile = props => {
   );
 
   const UpdateSubmitHandler = async event => {
-
     event.preventDefault();
     try {
       await sendRequest(
@@ -79,9 +80,7 @@ const UpdateProfile = props => {
       </div>
     );
   }
-  const handleChange = () => {
-    
-  }
+  const handleChange = () => {};
 
   return (
     <React.Fragment>
@@ -139,25 +138,26 @@ const UpdateProfile = props => {
               initialValid={true}
             />
           </div>
-          <label>Gender</label>
-          <select
+          <Input
             id="gender"
-            defaultValue={formState.inputs.gender.value}
-            onChange={handleChange}
-          >
-            <option value="Man">Man</option>
-            <option value="Woman">Woman</option>
-          </select>
-          <label>Orientation</label>
-          <select
+            validators={[VALIDATOR_REQUIRE()]}
+            element="gender"
+            label="Gender"
+            errorText="Please enter a valid Gender."
+            initialValid={true}
+            onInput={inputHandler}
+            initialValue={formState.inputs.gender.value}
+          />
+          <Input
             id="orientation"
-            defaultValue={formState.inputs.orientation.value}
-            onChange={handleChange}
-          >
-            <option value="Man">Man</option>
-            <option value="Woman">Woman</option>
-            <option value="Both">Both</option>
-          </select>
+            element="orientation"
+            validators={[VALIDATOR_REQUIRE()]}
+            label="Orientation"
+            errorText="Please enter an Orientation."
+            initialValid={true}
+            onInput={inputHandler}
+            initialValue={formState.inputs.orientation.value}
+          />
           {console.log(formState)}
           <button
             type="submit"

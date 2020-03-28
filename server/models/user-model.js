@@ -63,6 +63,13 @@ const updateUserPassword = (oldPassword, newPassword, repeatPassword, userId, ca
   return callBack(null, null);
 });
 }
+const updateUserPicture = (picture, path, userId, callBack) => {
+  let sql = `UPDATE user
+  SET ${picture} = '${path}'
+  WHERE id = '${userId}'`;
+  db.query(sql, () => {});
+  return callBack(null, null);
+}
 
 
 const getUser = (userId, callBack) => {
@@ -95,3 +102,4 @@ exports.getMatch = getMatch;
 exports.getUser = getUser;
 exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
+exports.updateUserPicture = updateUserPicture;

@@ -1,17 +1,17 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect } from "react";
 
-import { validate } from '../../util/validators';
-import './Input.css';
+import { validate } from "../../util/validators";
+import "./Input.css";
 
 const inputReducer = (state, action) => {
   switch (action.type) {
-    case 'CHANGE':
+    case "CHANGE":
       return {
         ...state,
         value: action.val,
         isValid: validate(action.val, action.validators)
       };
-    case 'TOUCH': {
+    case "TOUCH": {
       return {
         ...state,
         isTouched: true
@@ -24,7 +24,7 @@ const inputReducer = (state, action) => {
 
 const Input = props => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue || '',
+    value: props.initialValue || "",
     isTouched: false,
     isValid: props.initialValid || false
   });
@@ -38,7 +38,7 @@ const Input = props => {
 
   const changeHandler = event => {
     dispatch({
-      type: 'CHANGE',
+      type: "CHANGE",
       val: event.target.value,
       validators: props.validators
     });
@@ -46,12 +46,12 @@ const Input = props => {
 
   const touchHandler = () => {
     dispatch({
-      type: 'TOUCH'
+      type: "TOUCH"
     });
   };
 
   const element =
-    props.element === 'input' ? (
+    props.element === "input" ? (
       <input
         id={props.id}
         type={props.type}
@@ -60,7 +60,7 @@ const Input = props => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-    ) : (
+    ) : props.element === "textarea" ? (
       <textarea
         id={props.id}
         rows={props.rows || 3}
@@ -68,13 +68,34 @@ const Input = props => {
         onBlur={touchHandler}
         value={inputState.value}
       />
+    ) : props.element === "gender" ? (
+      <select
+        id={props.id}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
+      >
+        <option value="Man">Man</option>
+        <option value="Woman">Woman</option>
+      </select>
+    ) : (
+      <select
+        id={props.id}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
+      >
+        <option value="Man">Man</option>
+        <option value="Woman">Woman</option>
+        <option value="Both">Both</option>
+      </select>
     );
 
   return (
     <div
       className={`form-control ${!inputState.isValid &&
         inputState.isTouched &&
-        'form-control--invalid'}`}
+        "form-control--invalid"}`}
     >
       <label htmlFor={props.id}>{props.label}</label>
       {element}

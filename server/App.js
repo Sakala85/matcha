@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const userRoutes = require("./routes/user-routes");
+const interestRoutes = require("./routes/interest-routes");
 const notifRoutes = require("./routes/notification-routes");
 const chatRoutes = require("./routes/chat-routes");
 const configRoutes = require("./config/configDatabase");
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 
 app.use("/api/user", userRoutes);
 app.use("/api/user/:uid/notification", notifRoutes);
+app.use("/api/user/interest", interestRoutes);
 app.use("/api/user/:uid/chat", chatRoutes);
 app.use("/api/config", configRoutes);
 

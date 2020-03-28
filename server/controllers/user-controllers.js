@@ -2,6 +2,7 @@ const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
 const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
+const fs = require('fs');
 
 const createUser = (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
@@ -84,6 +85,26 @@ const updateUserPassword = (req, res, next) => {
   });
 };
 
+const updateUserPicture = (req, res, next) => {
+  const { picture } = req.body;
+  const path = "localhost:5000/" + req.file.path;
+  console.log(path);
+  // if (req.file) {
+  //   fs.unlink(req.file.path, (err) => {
+  //     console.log(err);
+  //   })
+  // }
+  const userId = req.params.uid;
+
+  userModel.updateUserPicture(picture, path, userId, (err, data) => {
+    if (!err) {
+      return res.status(201).json({ message: "User Updated" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
 const deleteUser = (req, res, next) => {
   const userId = req.params.uid;
   if (!USER.find(u => u.id !== userId)) {
@@ -119,4 +140,5 @@ exports.getMatchById = getMatchById;
 exports.getLikedByUid = getLikedByUid;
 exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
+exports.updateUserPicture = updateUserPicture;
 exports.deleteUser = deleteUser;

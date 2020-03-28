@@ -25,7 +25,7 @@ const UpdateUser = () => {
     fetchUser();
   }, [sendRequest]);
 
-  if (!loadedUser && !error) {
+  if (!loadedUser) {
     return (
       <div className="center">
         <Card>

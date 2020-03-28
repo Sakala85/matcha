@@ -55,16 +55,7 @@ CREATE TABLE `interest` (
 
 CREATE TABLE `interest_list` (
   `id` int(11) NOT NULL,
-  `sport` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `blogging` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `volunteering` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `traveling` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `art` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `music` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `reading` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `video gaming` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cooking` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `dance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `interest` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -263,7 +254,7 @@ ALTER TABLE `interest`
 -- AUTO_INCREMENT pour la table `interest_list`
 --
 ALTER TABLE `interest_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `message`
@@ -320,9 +311,9 @@ ALTER TABLE `interest`
 
 --
 -- Contraintes pour la table `interest_list`
---
-ALTER TABLE `interest_list`
-  ADD CONSTRAINT `interest_list_ibfk_1` FOREIGN KEY (`id`) REFERENCES `interest` (`id_interest_list`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ??????????????????????????Pourquoi??????????????????????????
+-- ALTER TABLE `interest_list`
+--   ADD CONSTRAINT `interest_list_ibfk_1` FOREIGN KEY (`id`) REFERENCES `interest` (`id_interest_list`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `message`
