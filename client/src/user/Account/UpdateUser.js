@@ -36,7 +36,7 @@ const UpdateUser = () => {
   }
       return (
     <React.Fragment>
-      <ErrorModal show={error} error={errorMessage} onClear={clearError} />
+      <ErrorModal show={error} error={errorMessage} onHide={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner />

@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-import Button from './Button';
 import './ImageUpload.css';
 
 const ImageUpload = props => {

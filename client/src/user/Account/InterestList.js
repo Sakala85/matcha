@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import InterestItem from "./InterestItem";
 
-const InterestList = props => {
+const InterestList = () => {
   const [loadedInterest, setLoadedInterest] = useState();
   const {
     isLoading,

@@ -10,7 +10,6 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const UpdateProfile = props => {
   const {
@@ -21,9 +20,8 @@ const UpdateProfile = props => {
     errorMessage
   } = useHttpClient();
 
-  const [formState, inputHandler, setFormData] = useForm(
+  const [formState, inputHandler] = useForm(
     {
-
       firstname: {
         value: props.items.firstname,
         isValid: false
@@ -80,7 +78,6 @@ const UpdateProfile = props => {
       </div>
     );
   }
-  const handleChange = () => {};
 
   return (
     <React.Fragment>
@@ -158,7 +155,6 @@ const UpdateProfile = props => {
             onInput={inputHandler}
             initialValue={formState.inputs.orientation.value}
           />
-          {console.log(formState)}
           <button
             type="submit"
             disabled={!formState.isValid}

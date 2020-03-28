@@ -2,7 +2,7 @@ const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
 const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
-const fs = require('fs');
+const fs = require("fs");
 
 const createUser = (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
@@ -64,31 +64,45 @@ const getMatchById = (req, res, next) => {
 const updateUser = (req, res, next) => {
   const { firstname, lastname, email, bio, gender, orientation } = req.body;
   const userId = req.params.uid;
-  userModel.updateUser(firstname, lastname, email, bio, gender, orientation, userId, (err, data) => {
-    if (!err) {
-      return res.status(201).json({ message: "User Updated" });
-    } else {
-      return res.status(400).json({ message: err });
+  userModel.updateUser(
+    firstname,
+    lastname,
+    email,
+    bio,
+    gender,
+    orientation,
+    userId,
+    (err, data) => {
+      if (!err) {
+        return res.status(201).json({ message: "User Updated" });
+      } else {
+        return res.status(400).json({ message: err });
+      }
     }
-  });
+  );
 };
 
 const updateUserPassword = (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
   const userId = req.params.uid;
-  userModel.updateUserPassword(oldPassword, newPassword, repeatPassword, userId, (err, data) => {
-    if (!err) {
-      return res.status(201).json({ message: "User Updated" });
-    } else {
-      return res.status(400).json({ message: err });
+  userModel.updateUserPassword(
+    oldPassword,
+    newPassword,
+    repeatPassword,
+    userId,
+    (err, data) => {
+      if (!err) {
+        return res.status(201).json({ message: "User Updated" });
+      } else {
+        return res.status(400).json({ message: err });
+      }
     }
-  });
+  );
 };
 
 const updateUserPicture = (req, res, next) => {
   const { picture } = req.body;
-  const path = "localhost:5000/" + req.file.path;
-  console.log(path);
+  let fileUrl = "http://localhost:5000/" + req.file.path.replace(/\\/g, "/");
   // if (req.file) {
   //   fs.unlink(req.file.path, (err) => {
   //     console.log(err);
@@ -96,7 +110,7 @@ const updateUserPicture = (req, res, next) => {
   // }
   const userId = req.params.uid;
 
-  userModel.updateUserPicture(picture, path, userId, (err, data) => {
+  userModel.updateUserPicture(picture, fileUrl, userId, (err, data) => {
     if (!err) {
       return res.status(201).json({ message: "User Updated" });
     } else {
