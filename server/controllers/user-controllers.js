@@ -3,12 +3,18 @@ const userModel = require("../models/user-model");
 const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
 const fs = require("fs");
+<<<<<<< HEAD
 const bcrypt = require("bcryptjs");
+=======
+const bcrypt = require ("bcryptjs")
+
+
+>>>>>>> 2d5bc8f33e08627ed0ddb2197d390aa331b4eec3
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token = uuid.v1();
-  const err = userValidator.userValidateAll(email, password, username);
+  const err = userValidator.userValidateAll(email, password, username, firstname, lastname);
   if (err) {
     return res.status(400).json({ message: err });
   }
