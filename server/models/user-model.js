@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const insertUser = (
   username,
   firstname,
@@ -19,8 +21,19 @@ const insertUser = (
   });
 };
 
-const isUser = (email, password, callBack) => {
-  let sql = `SELECT * FROM user WHERE mail = "${email}" AND password = "${password}"`;
+function getPassword(email, callBack) {
+  let sql = `SELECT password FROM user WHERE mail = "${email}"`;
+  db.query(sql, (err, result, data) => {
+    if (!result[0]) {
+      return callBack("No User Found", null);
+    } else {
+      return callBack(null, result[0]);
+    }
+  });
+}
+
+const isUser = (email, callBack) => {
+  let sql = `SELECT * FROM user WHERE mail = "${email}"`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
@@ -30,7 +43,16 @@ const isUser = (email, password, callBack) => {
   });
 };
 
-const updateUser = (firstname, lastname, email, bio, gender, orientation, userId, callBack) => {
+const updateUser = (
+  firstname,
+  lastname,
+  email,
+  bio,
+  gender,
+  orientation,
+  userId,
+  callBack
+) => {
   let sql = `SELECT * FROM user WHERE mail = "${email}" AND id <> '${userId}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
@@ -38,39 +60,47 @@ const updateUser = (firstname, lastname, email, bio, gender, orientation, userId
       return callBack("Mail already taken", null);
     }
     // On update si le mail n'est pas pris
-  let sql = `UPDATE user
+    let sql = `UPDATE user
   SET firstname = '${firstname}', lastname = '${lastname}', mail = '${email}', bio = '${bio}', gender = '${gender}', orientation = '${orientation}'
   WHERE id = '${userId}'`;
-  db.query(sql, () => {});
-  return callBack(null, null);
-});
-}
+    db.query(sql, () => {});
+    return callBack(null, null);
+  });
+};
 
-const updateUserPassword = (oldPassword, newPassword, repeatPassword, userId, callBack) => {
-  let sql = `SELECT * FROM user WHERE id = "${userId}" AND password = "${oldPassword}"`;
+const updateUserPassword = (
+  oldPassword,
+  newPassword,
+  repeatPassword,
+  userId,
+  callBack
+) => {
+  let sql = `SELECT * FROM user WHERE id = "${userId}"`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length < 1) {
-      return callBack("Wrong password please try again", null);
-    }
-    else if (newPassword !== repeatPassword) {
+      return callBack("User not Found", null);
+    } else if (newPassword !== repeatPassword) {
       return callBack("These password are different please try again", null);
+    } else if (bcrypt.compareSync(oldPassword, result[0].password) === false){
+      return callBack("Wrong Password please try again", null);
     }
-  let sql = `UPDATE user
-  SET password = '${newPassword}'
+    hachedpassword = bcrypt.hashSync(newPassword, 8);
+
+    let sql = `UPDATE user
+  SET password = '${hachedpassword}'
   WHERE id = '${userId}'`;
-  db.query(sql, () => {});
-  return callBack(null, null);
-});
-}
+    db.query(sql, () => {});
+    return callBack(null, null);
+  });
+};
 const updateUserPicture = (picture, path, userId, callBack) => {
   let sql = `UPDATE user
   SET ${picture} = '${path}'
   WHERE id = '${userId}'`;
   db.query(sql, () => {});
   return callBack(null, null);
-}
-
+};
 
 const getUser = (userId, callBack) => {
   let sql = `SELECT * FROM user WHERE id = "${userId}"`;
@@ -94,8 +124,6 @@ const getMatch = (matchId, callBack) => {
   });
 };
 
-
-
 exports.isUser = isUser;
 exports.insertUser = insertUser;
 exports.getMatch = getMatch;
@@ -103,3 +131,4 @@ exports.getUser = getUser;
 exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
 exports.updateUserPicture = updateUserPicture;
+exports.getPassword = getPassword;

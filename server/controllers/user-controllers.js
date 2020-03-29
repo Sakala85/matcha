@@ -3,20 +3,28 @@ const userModel = require("../models/user-model");
 const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
 const fs = require("fs");
+const bcrypt = require("bcryptjs");
 
-const createUser = (req, res, next) => {
+const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token = uuid.v1();
   const err = userValidator.userValidateAll(email, password, username);
   if (err) {
     return res.status(400).json({ message: err });
   }
+  let hachedpassword;
+  try {
+    hachedpassword = bcrypt.hashSync(password, 8);
+  } catch (err) {
+    const error = new HttpError("Could not create User, please try again", 500);
+    return next(error);
+  }
   userModel.insertUser(
     username,
     firstname,
     lastname,
     email,
-    password,
+    hachedpassword,
     token,
     (err, data) => {
       if (err) {
@@ -31,11 +39,15 @@ const createUser = (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  userModel.isUser(email, password, (err, data) => {
-    if (!err) {
-      return res.status(201).json({ message: "User Found" });
+  userModel.getPassword(email, (err, result) => {
+    let isValid = bcrypt.compareSync(password, result.password);
+    console.log(isValid);
+    if (isValid === false) {
+      return res
+        .status(400)
+        .json({ message: "Invalid credentials, could not log you in." });
     } else {
-      return res.status(400).json({ message: err });
+      return res.status(201).json({ message: "logged in" });
     }
   });
 };
