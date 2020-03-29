@@ -6,7 +6,6 @@ const insertUser = (
   lastname,
   email,
   password,
-  token,
   callBack
 ) => {
   let sql = `SELECT * FROM user WHERE mail = "${email}" OR username = "${username}"`;
@@ -15,9 +14,11 @@ const insertUser = (
     if (result.length > 0) {
       return callBack("Username or Email already taken", null);
     }
-    sql = `INSERT INTO user (username, mail, password, firstname, lastname, token) VALUES ('${username}', '${email}', '${password}', '${firstname}', '${lastname}', '${token}')`;
-    db.query(sql, () => {});
-    return callBack(null, null);
+    sql = `INSERT INTO user (username, mail, password, firstname, lastname) VALUES ('${username}', '${email}', '${password}', '${firstname}', '${lastname}')`;
+    db.query(sql, (err, result) => {
+      if (err) throw err;
+      return callBack(null, {id: result.insertId, email: email});
+    })
   });
 };
 

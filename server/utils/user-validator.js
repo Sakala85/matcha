@@ -62,7 +62,7 @@ const lastnameValidate = (lastname) => {
 };
 
 
-const userValidateAll = (email, password, username) => {
+const userValidateAll = (email, password, username, firstname, lastname) => {
     const errEmail = emailValidate(email)
     const errPassword = passwordValidate(password)
     const errUsername = usernameValidate(username)
