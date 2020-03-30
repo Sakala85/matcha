@@ -1,14 +1,19 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
-const uuid = require("node-uuid");
 const userValidator = require("../utils/user-validator");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
-  const token = uuid.v1();
-  const err = userValidator.userValidateAll(email, password, username, firstname, lastname);
+  const err = userValidator.userValidateAll(
+    email,
+    password,
+    username,
+    firstname,
+    lastname
+  );
   if (err) {
     return res.status(400).json({ message: err });
   }
@@ -25,12 +30,30 @@ const createUser = async (req, res, next) => {
     lastname,
     email,
     hachedpassword,
-    token,
     (err, data) => {
       if (err) {
         return res.status(400).json({ message: err });
       } else {
-        return res.status(201).json({ message: "User created" });
+        let token;
+        try {
+          token = jwt.sign(
+            { userId: data.id, email: data.email },
+            "motdepassesupersecret"
+          );
+        } catch (err) {
+          const error = new HttpError(
+            "Could not create User, please try again",
+            500
+          );
+          return next(error);
+        }
+
+        return res.status(201).json({
+          userId: data.id,
+          email: data.email,
+          token: token,
+          message: "User created"
+        });
       }
     }
   );
@@ -39,14 +62,31 @@ const createUser = async (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  userModel.getPassword(email, (err, result) => {
-    let isValid = bcrypt.compareSync(password, result.password);
+  userModel.getPassword(email, (err, user) => {
+    console.log(user)
+    let isValid = bcrypt.compareSync(password, user.password);
+
     if (isValid === false) {
       return res
         .status(400)
         .json({ message: "Invalid credentials, could not log you in." });
     } else {
-      return res.status(201).json({ message: "logged in" });
+      let token;
+      try {
+        token = jwt.sign(
+          { userId: user.id, email: user.email },
+          "motdepassesupersecret"
+        );
+      } catch (err) {
+        throw new HttpError("Logging in failed, please try again later.", 400);
+      }
+
+      return res.json({
+        userId: user.id,
+        email: user.email,
+        token: token,
+        message: "logged in"
+      });
     }
   });
 };

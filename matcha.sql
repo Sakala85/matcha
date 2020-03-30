@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le :  sam. 21 mars 2020 à 19:51
+-- Généré le :  lun. 30 mars 2020 à 12:47
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.13
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `blocked` (
   `id` int(11) NOT NULL,
-  `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_user1` int(11) NOT NULL,
   `id_user2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -55,7 +55,7 @@ CREATE TABLE `interest` (
 
 CREATE TABLE `interest_list` (
   `id` int(11) NOT NULL,
-  `interest` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `interest` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -68,7 +68,7 @@ CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
   `id_user2` int(11) NOT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -82,7 +82,7 @@ CREATE TABLE `notification` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
   `id_user2` int(11) NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -94,7 +94,7 @@ CREATE TABLE `notification` (
 
 CREATE TABLE `report` (
   `id` int(11) NOT NULL,
-  `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `reason` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_user1` int(11) NOT NULL,
   `id_user2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -108,35 +108,36 @@ CREATE TABLE `report` (
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `mail` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `firstname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `lastname` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `valid_profil` tinyint(1) DEFAULT '0',
   `valid_mail` tinyint(1) DEFAULT '0',
   `online` tinyint(1) DEFAULT '1',
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'Man',
-  `orientation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'Man',
-  `bio` text COLLATE utf8mb4_unicode_ci,
-  `popularity` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
+  `orientation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
+  `bio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `popularity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_visit` datetime DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
-  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picture1` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
-  `picture2` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
-  `picture3` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
-  `picture4` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
-  `picture5` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'
+  `latitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture1` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture2` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture3` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture4` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png',
+  `picture5` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `mail`, `password`, `firstname`, `lastname`, `token`, `valid_profil`, `valid_mail`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
-(2, 'ak47', 'khoucha@yopmail.com', 'okokok', 'ed', 'ddd', 'TOKEN', 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `token`, `valid_profil`, `valid_mail`, `online`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
+(2, 'ak47', 'khoucha@yopmail.com', 'okokok', 'ed', 'ddd', 'TOKEN', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(16, 'loli', 'loli@loli.com', '$2a$08$8np4aLWrPukhOCDO8uCN1.it9eee9xFKKERvYt3AmcJB/JGykUYMq', 'loli', 'loli', NULL, 0, 0, 1, 'Man', 'Man', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png');
 
 -- --------------------------------------------------------
 
@@ -278,7 +279,7 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `user_like`
@@ -308,12 +309,6 @@ ALTER TABLE `blocked`
 --
 ALTER TABLE `interest`
   ADD CONSTRAINT `interest_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Contraintes pour la table `interest_list`
--- ??????????????????????????Pourquoi??????????????????????????
--- ALTER TABLE `interest_list`
---   ADD CONSTRAINT `interest_list_ibfk_1` FOREIGN KEY (`id`) REFERENCES `interest` (`id_interest_list`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `message`
