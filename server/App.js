@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
 
 app.use("/api/user", userRoutes);
-app.use("/api/user/:uid/notification", notifRoutes);
+app.use("/api/user/notification", notifRoutes);
 app.use("/api/user/interest", interestRoutes);
 app.use("/api/user/:uid/chat", chatRoutes);
 app.use("/api/config", configRoutes);

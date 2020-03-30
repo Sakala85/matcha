@@ -41,7 +41,6 @@ const login = (req, res, next) => {
 
   userModel.getPassword(email, (err, result) => {
     let isValid = bcrypt.compareSync(password, result.password);
-    console.log(isValid);
     if (isValid === false) {
       return res
         .status(400)
