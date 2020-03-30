@@ -1,5 +1,4 @@
 const emailValidate = (email) => {
-    console.log("EmailValidator")
     //emailRegex verifie si email correspond a abc@rst.xyz
     const emailRegex = RegExp("[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", "g");
     if(!email) {
@@ -13,7 +12,6 @@ const emailValidate = (email) => {
 
 
 const passwordValidate = (password) => {
-    console.log("passwordvalidator")
     const illegalChars =  /\W/;
     if (!password) {
         return "Error empty password bitch!";
@@ -28,7 +26,6 @@ const passwordValidate = (password) => {
 };
 
 const usernameValidate = (username) => {
-    console.log("usernamevalidator")
     const illegalChars = /\W/;
     if(!username) {
         return "Error empty username bitch!";

@@ -31,7 +31,7 @@ const UpdateProfile = props => {
         isValid: false
       },
       email: {
-        value: props.items.mail,
+        value: props.items.email,
         isValid: false
       },
       bio: {

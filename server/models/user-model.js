@@ -8,13 +8,13 @@ const insertUser = (
   password,
   callBack
 ) => {
-  let sql = `SELECT * FROM user WHERE mail = "${email}" OR username = "${username}"`;
+  let sql = `SELECT * FROM user WHERE email = "${email}" OR username = "${username}"`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {
       return callBack("Username or Email already taken", null);
     }
-    sql = `INSERT INTO user (username, mail, password, firstname, lastname) VALUES ('${username}', '${email}', '${password}', '${firstname}', '${lastname}')`;
+    sql = `INSERT INTO user (username, email, password, firstname, lastname) VALUES ('${username}', '${email}', '${password}', '${firstname}', '${lastname}')`;
     db.query(sql, (err, result) => {
       if (err) throw err;
       return callBack(null, {id: result.insertId, email: email});
@@ -23,7 +23,7 @@ const insertUser = (
 };
 
 function getPassword(email, callBack) {
-  let sql = `SELECT password FROM user WHERE mail = "${email}"`;
+  let sql = `SELECT id, email, password FROM user WHERE email = "${email}"`;
   db.query(sql, (err, result, data) => {
     if (!result[0]) {
       return callBack("No User Found", null);
@@ -34,7 +34,7 @@ function getPassword(email, callBack) {
 }
 
 const isUser = (email, callBack) => {
-  let sql = `SELECT * FROM user WHERE mail = "${email}"`;
+  let sql = `SELECT * FROM user WHERE email = "${email}"`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
@@ -54,7 +54,7 @@ const updateUser = (
   userId,
   callBack
 ) => {
-  let sql = `SELECT * FROM user WHERE mail = "${email}" AND id <> '${userId}'`;
+  let sql = `SELECT * FROM user WHERE email = "${email}" AND id <> '${userId}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
@@ -62,7 +62,7 @@ const updateUser = (
     }
     // On update si le mail n'est pas pris
     let sql = `UPDATE user
-  SET firstname = '${firstname}', lastname = '${lastname}', mail = '${email}', bio = '${bio}', gender = '${gender}', orientation = '${orientation}'
+  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = '${bio}', gender = '${gender}', orientation = '${orientation}'
   WHERE id = '${userId}'`;
     db.query(sql, () => {});
     return callBack(null, null);

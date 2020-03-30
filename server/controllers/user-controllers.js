@@ -48,14 +48,12 @@ const createUser = async (req, res, next) => {
           return next(error);
         }
 
-        return res
-          .status(201)
-          .json({
-            userId: data.id,
-            email: data.email,
-            token: token,
-            message: "User created"
-          });
+        return res.status(201).json({
+          userId: data.id,
+          email: data.email,
+          token: token,
+          message: "User created"
+        });
       }
     }
   );
@@ -64,15 +62,31 @@ const createUser = async (req, res, next) => {
 const login = (req, res, next) => {
   const { email, password } = req.body;
 
-  userModel.getPassword(email, (err, result) => {
-    let isValid = bcrypt.compareSync(password, result.password);
-    console.log(isValid);
+  userModel.getPassword(email, (err, user) => {
+    console.log(user)
+    let isValid = bcrypt.compareSync(password, user.password);
+
     if (isValid === false) {
       return res
         .status(400)
         .json({ message: "Invalid credentials, could not log you in." });
     } else {
-      return res.status(201).json({ message: "logged in" });
+      let token;
+      try {
+        token = jwt.sign(
+          { userId: user.id, email: user.email },
+          "motdepassesupersecret"
+        );
+      } catch (err) {
+        throw new HttpError("Logging in failed, please try again later.", 400);
+      }
+
+      return res.json({
+        userId: user.id,
+        email: user.email,
+        token: token,
+        message: "logged in"
+      });
     }
   });
 };
