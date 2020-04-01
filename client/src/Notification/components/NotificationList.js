@@ -18,16 +18,15 @@ const NotificationList = props => {
   return (
 
       <Col md={{ span: 10, offset: 1 }}>
-      {props.items.map(user => {
+      {props.items.map(item => {
         return (
           <NotificationItem
-            id={user.id}
-            type={user.type}
-            image={user.image}
-            key={user.key}
-            name={user.userName}
-            date={user.date}
-            link={user.link}
+            type={item.type}
+            image={item.picture1}
+            key={item.id}
+            name={item.username}
+            date={item.date}
+            link=""
           />
         );
       })}

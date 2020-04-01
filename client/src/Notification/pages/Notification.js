@@ -16,7 +16,8 @@ const Notification = () => {
           /********************************************************* */
           "http://localhost:5000/api/user/notification/20"
         );
-        setLoadedNotif(responseData.user.result);
+        console.log(responseData.notification);
+        setLoadedNotif(responseData.notification);
       } catch (err) {}
     };
     fetchNotif();
@@ -29,7 +30,7 @@ const Notification = () => {
           <LoadingSpinner />
         </div>
       )}
-      {console.log(loadedNotif)}
+      {!isLoading && !loadedNotif && <h1>You don't have any notification</h1>}
       {!isLoading && loadedNotif && <NotificationList items={loadedNotif} />}
     </React.Fragment>
   );
