@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const chatController = require('../controllers/chat-controllers')
+const checkAuth = require("../middleware/check-auth");
 
 const MESSAGE = [
   {
@@ -47,6 +48,9 @@ const MESSAGE = [
   }
 ];
 
+router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour acceder aux routes suivantes.
 router.get("/:room", chatController.getChatByRoom);
+
+
 
 module.exports = router;

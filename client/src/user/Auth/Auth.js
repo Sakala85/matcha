@@ -71,7 +71,7 @@ const Auth = props => {
     event.preventDefault();
     if (isLoginMode) {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           "http://localhost:5000/api/user/login",
           "POST",
           JSON.stringify({
@@ -82,11 +82,11 @@ const Auth = props => {
             "Content-Type": "application/json"
           }
         );
-        auth.login();
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {}
     } else {
       try {
-        await sendRequest(
+        const responseData = await sendRequest(
           "http://localhost:5000/api/user/signup",
           "POST",
           JSON.stringify({
@@ -100,7 +100,7 @@ const Auth = props => {
             "Content-Type": "application/json"
           }
         );
-        auth.login();
+        auth.login(responseData.userId, responseData.token);
       } catch (err) {}
     }
   };

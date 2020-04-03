@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
+const checkAuth = require("../middleware/check-auth");
+
 const interestController = require('../controllers/interest-controllers')
+
+router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour acceder aux routes suivantes.
 
 router.get('/:uid', interestController.getInterestById);
 

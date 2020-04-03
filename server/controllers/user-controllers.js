@@ -2,11 +2,13 @@ const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
 const userValidator = require("../utils/user-validator");
 const fs = require("fs");
+const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
+  const token_email = uuid.v1();
   const err = userValidator.userValidateAll(
     email,
     password,
@@ -30,15 +32,20 @@ const createUser = async (req, res, next) => {
     lastname,
     email,
     hachedpassword,
+    token_email,
     (err, data) => {
       if (err) {
         return res.status(400).json({ message: err });
       } else {
         let token;
         try {
+          //Le token est accepte par le server comme l'identite de l'utilisateur, c'est un mecanisme de securite en plus. 
+          //On va ainsi proteger certaines routes avec un acces prive, qui seront accessible seulement si la requete a un token valide 
+          //On impose un temps d'expiration car si jamais le token est subtilise par un hacker cela ne sera que pour un temps limite.
           token = jwt.sign(
             { userId: data.id, email: data.email },
-            "motdepassesupersecret"
+            "motdepassesupersecret",
+            { expiresIn: '1h'}
           );
         } catch (err) {
           const error = new HttpError(
@@ -75,7 +82,8 @@ const login = (req, res, next) => {
       try {
         token = jwt.sign(
           { userId: user.id, email: user.email },
-          "motdepassesupersecret"
+          "motdepassesupersecret",
+          { expiresIn: '1h'}
         );
       } catch (err) {
         throw new HttpError("Logging in failed, please try again later.", 400);
