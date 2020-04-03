@@ -1,46 +1,39 @@
-import React from "react";
-import NotificationList from '../components/NotificationList';
+import React, { useEffect, useState } from "react";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import NotificationList from "../components/NotificationList";
 
 const Notification = () => {
-    const NOTIF = [
-        {
-            id:"1",
-            type: "Like",
-            userName: "Julie",
-            image: require("../../img/profile_picture/julie.jpg"),
-            date: "12/03/20",
-            link: "/match",
-            key: "1"
-        },
-        {
-            id:"2",
-            type: "Chat",
-            userName: "Julie",
-            image: require("../../img/profile_picture/julie.jpg"),
-            link: "/chat?name=moi&room=Julie",
-            date: "12/03/20",
-            key: "2"
-        },
-        {
-            id:"3",
-            type: "Chat",
-            userName: "Obama",
-            image: require("../../img/profile_picture/obama.jpg"),
-            link: "/chat?name=moi&room=Obama",
-            date: "12/03/20",
-            key: "3"
-        },
-        {
-            id:"4",
-            type: "Chat",
-            userName: "Obama",
-            image: require("../../img/profile_picture/obama.jpg"),
-            link: "/chat?name=moi&room=Obama",
-            date: "12/03/20",
-            key: "4"
-        }
-    ]
-    return <NotificationList items={NOTIF} />;
+  const [loadedNotif, setLoadedNotif] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
+  useEffect(() => {
+    const fetchNotif = async () => {
+      try {
+        const responseData = await sendRequest(
+          // Il faudra mettre le ID User
+          /********************************************************* */
+          "http://localhost:5000/api/user/notification/20"
+        );
+        console.log(responseData.notification);
+        setLoadedNotif(responseData.notification);
+      } catch (err) {}
+    };
+    fetchNotif();
+  }, [sendRequest]);
+  return (
+    <React.Fragment>
+      <ErrorModal error={error} onHide={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+      {!isLoading && !loadedNotif && <h1>You don't have any notification</h1>}
+      {!isLoading && loadedNotif && <NotificationList items={loadedNotif} />}
+    </React.Fragment>
+  );
 };
 
 export default Notification;

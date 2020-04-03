@@ -23,7 +23,7 @@ const Match = () => {
   }, [sendRequest]);
   return (
     <React.Fragment>
-      <ErrorModal error={error} onClear={clearError} />
+      <ErrorModal error={error} onHide={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner />

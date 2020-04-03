@@ -10,5 +10,7 @@ router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour ac
 
 router.get('/', notifController.getNotification);
 router.post('/', notifController.createNotif);
+router.get('/:uid', notifController.getNotificationById);
+// router.post('/:uid', notifController.createNotif);
 
 module.exports = router;
