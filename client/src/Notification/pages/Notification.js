@@ -16,7 +16,6 @@ const Notification = () => {
           /********************************************************* */
           "http://localhost:5000/api/user/notification/20"
         );
-        console.log(responseData.notification);
         setLoadedNotif(responseData.notification);
       } catch (err) {}
     };

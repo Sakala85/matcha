@@ -17,7 +17,7 @@ const NotificationItem = props => {
       return <h3 className="title__card">Send you a NEW Message</h3>;
     }
   };
-  console.log(props.image);
+
   return (
     <Link to={props.link}>
       <Card className="bg-dark text-white card__container_notif">

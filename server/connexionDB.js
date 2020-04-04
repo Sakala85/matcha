@@ -13,7 +13,6 @@ db.connect((err) => {
     if(err) {
         throw err;
     }
-    console.log("database Started");
 });
 
 module.exports = db;

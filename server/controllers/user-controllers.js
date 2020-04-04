@@ -70,7 +70,6 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   userModel.getPassword(email, (err, user) => {
-    console.log(user)
     let isValid = bcrypt.compareSync(password, user.password);
 
     if (isValid === false) {
@@ -111,7 +110,8 @@ const getUserById = (req, res, next) => {
 };
 
 const getMatchById = (req, res, next) => {
-  userModel.getMatch(1, (err, result) => {
+  console.log(req.params.uid)
+  userModel.getMatch(req.params.uid, (err, result) => {
     if (!err) {
       return res.status(201).json({ user: { result } });
     } else {
