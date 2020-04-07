@@ -5,6 +5,7 @@ const fs = require("fs");
 const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../utils/sendMails");
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
@@ -47,6 +48,7 @@ const createUser = async (req, res, next) => {
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
+          sendMail.sendEmailInscription("melchiorbengtsson@gmail.com");
         } catch (err) {
           const error = new HttpError(
             "Could not create User, please try again",
