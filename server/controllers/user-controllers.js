@@ -48,7 +48,7 @@ const createUser = async (req, res, next) => {
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
-          sendMail.sendEmailInscription(email);
+          sendMail.sendEmailInscription(email, token_email);
         } catch (err) {
           const error = new HttpError(
             "Could not create User, please try again",
@@ -211,6 +211,22 @@ const getLikedByUid = (req, res, next) => {
   res.json({ LIKED });
 };
 
+const updateValidEmail = (req, res, next) => {
+  const { tokenEmail} = req.params;
+  console.log(tokenEmail)
+  userModel.updateValidEmail(
+    tokenEmail,
+    (err, data) => {
+      if (!err) {
+        return res.status(200).json({ message: "User Confirmed" });
+        } else {
+        return res.status(400).json({ message: err });
+      }
+    }
+  );
+
+};
+
 exports.login = login;
 exports.createUser = createUser;
 exports.getUserById = getUserById;
@@ -220,3 +236,4 @@ exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
 exports.updateUserPicture = updateUserPicture;
 exports.deleteUser = deleteUser;
+exports.updateValidEmail = updateValidEmail;

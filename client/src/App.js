@@ -14,6 +14,7 @@ import Notification from "./Notification/pages/Notification";
 import Auth from "./user/Auth/Auth";
 import UpdateUser from "./user/Account/UpdateUser";
 import NotificationDisplay from "./Notification/pages/NotificationDisplay";
+import ConfirmEmail from "./user/ConfirmEmail/ConfirmEmail";
 import { AuthContext } from "./shared/context/auth-context";
 
 const App = () => {
@@ -55,6 +56,9 @@ const App = () => {
       <Switch>
         <Route path="/" exact>
           <Auth />
+        </Route>
+        <Route path="/valid/:tokenEmail" exact>
+          <ConfirmEmail/>
         </Route>
         <Redirect to="/" />
       </Switch>

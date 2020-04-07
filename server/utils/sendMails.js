@@ -11,15 +11,16 @@ var smtpConfig = {
   },
 };
 
-const sendEmailInscription = (email) => {
-  var text =
-    "Pour valider votre compte, merci de cliquer ici : http://localhost:5000/valid/change_pass/";
+const sendEmailInscription = (email, tokenEmail) => {
+  
+  const url = `http://localhost:3000/valid/${tokenEmail}`;
+  
   var transporter = nodemailer.createTransport(smtpConfig);
   const mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
-    subject: "Inscritpion Matcha",
-    html: "<p>" + text + "</p>",
+    subject: "Confirm email",
+    html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

@@ -3,6 +3,8 @@ const router = express.Router();
 const fileUpload = require("../middleware/file-upload");
 const userController = require("../controllers/user-controllers");
 
+router.get("/valid/:tokenEmail", userController.updateValidEmail);
+
 router.get("/match/:uid", userController.getMatchById);
 
 router.get("/:uid/liked", userController.getLikedByUid);

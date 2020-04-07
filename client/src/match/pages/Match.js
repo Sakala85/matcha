@@ -14,7 +14,8 @@ const Match = () => {
       try {
         if (auth.userId !== false) {
         const responseData = await sendRequest(
-          // Il faudra mettre le ID User
+          // Il faudra mettre ca en restful
+          // `http://localhost:5000/api/users/${auth.userId}/matchs/`,
           /********************************************************* */
           `http://localhost:5000/api/user/match/${auth.userId}`,
           "GET",
