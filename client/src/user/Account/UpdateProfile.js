@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -10,6 +10,7 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const UpdateProfile = props => {
   const {
@@ -19,6 +20,7 @@ const UpdateProfile = props => {
     clearError,
     errorMessage
   } = useHttpClient();
+  const auth = useContext(AuthContext);
 
   const [formState, inputHandler] = useForm(
     {
@@ -54,7 +56,7 @@ const UpdateProfile = props => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/20`,
+        `http://localhost:5000/api/user/${auth.userId}`,
         "PATCH",
         JSON.stringify({
           firstname: formState.inputs.firstname.value,
@@ -65,7 +67,8 @@ const UpdateProfile = props => {
           orientation: formState.inputs.orientation.value
         }),
         {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token
         }
       );
     } catch (err) {}

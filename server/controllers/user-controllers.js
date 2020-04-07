@@ -39,13 +39,13 @@ const createUser = async (req, res, next) => {
       } else {
         let token;
         try {
-          //Le token est accepte par le server comme l'identite de l'utilisateur, c'est un mecanisme de securite en plus. 
-          //On va ainsi proteger certaines routes avec un acces prive, qui seront accessible seulement si la requete a un token valide 
+          //Le token est accepte par le server comme l'identite de l'utilisateur, c'est un mecanisme de securite en plus.
+          //On va ainsi proteger certaines routes avec un acces prive, qui seront accessible seulement si la requete a un token valide
           //On impose un temps d'expiration car si jamais le token est subtilise par un hacker cela ne sera que pour un temps limite.
           token = jwt.sign(
             { userId: data.id, email: data.email },
             "motdepassesupersecret",
-            { expiresIn: '1h'}
+            { expiresIn: "1h" }
           );
         } catch (err) {
           const error = new HttpError(
@@ -59,7 +59,7 @@ const createUser = async (req, res, next) => {
           userId: data.id,
           email: data.email,
           token: token,
-          message: "User created"
+          message: "User created",
         });
       }
     }
@@ -68,32 +68,36 @@ const createUser = async (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-
   userModel.getPassword(email, (err, user) => {
-    let isValid = bcrypt.compareSync(password, user.password);
-
-    if (isValid === false) {
-      return res
-        .status(400)
-        .json({ message: "Invalid credentials, could not log you in." });
+    if (!user) {
+      res.status(400).json({ message: "No user FOUND." });
     } else {
-      let token;
-      try {
-        token = jwt.sign(
-          { userId: user.id, email: user.email },
-          "motdepassesupersecret",
-          { expiresIn: '1h'}
-        );
-      } catch (err) {
-        throw new HttpError("Logging in failed, please try again later.", 400);
-      }
+      let isValid = bcrypt.compareSync(password, user.password);
 
-      return res.json({
-        userId: user.id,
-        email: user.email,
-        token: token,
-        message: "logged in"
-      });
+      if (isValid === false) {
+        return res.status(401).json({ message: "Invalid Password." });
+      } else {
+        let token;
+        try {
+          token = jwt.sign(
+            { userId: user.id, email: user.email },
+            "motdepassesupersecret",
+            { expiresIn: "1h" }
+          );
+        } catch (err) {
+          throw new HttpError(
+            "Logging in failed, please try again later.",
+            400
+          );
+        }
+
+        return res.json({
+          userId: user.id,
+          email: user.email,
+          token: token,
+          message: "logged in",
+        });
+      }
     }
   });
 };
@@ -110,7 +114,6 @@ const getUserById = (req, res, next) => {
 };
 
 const getMatchById = (req, res, next) => {
-  console.log(req.params.uid)
   userModel.getMatch(req.params.uid, (err, result) => {
     if (!err) {
       return res.status(201).json({ user: { result } });
@@ -180,10 +183,10 @@ const updateUserPicture = (req, res, next) => {
 
 const deleteUser = (req, res, next) => {
   const userId = req.params.uid;
-  if (!USER.find(u => u.id !== userId)) {
+  if (!USER.find((u) => u.id !== userId)) {
     throw new HttpError("Could not delete your profile", 404);
   }
-  USER = USER.filter(u => u.id !== userId);
+  USER = USER.filter((u) => u.id !== userId);
   res.status(200).json({ message: "Place Deleted" });
 };
 

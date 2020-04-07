@@ -9,12 +9,10 @@ const Match = () => {
   const [loadedUsers, setLoadedUsers] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
-
   useEffect(() => {
-    const fetchUsers = async () => { 
-      const userId = auth.userId;
-      console.log(userId)
+    const fetchUsers = async () => {
       try {
+        if (auth.userId !== false) {
         const responseData = await sendRequest(
           // Il faudra mettre le ID User
           /********************************************************* */
@@ -22,13 +20,15 @@ const Match = () => {
           "GET",
           null,
           {
-            Authorization: "Bearer " + auth.token
-          });
+            Authorization: "Bearer " + auth.token,
+          }
+        );
         setLoadedUsers(responseData.user.result);
+        }
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest]);
+  }, [sendRequest, auth.token, auth.userId]);
   return (
     <React.Fragment>
       <ErrorModal error={error} onHide={clearError} />

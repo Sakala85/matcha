@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import FormUser from "./FormUser";
 import { Card } from "react-bootstrap";
@@ -6,24 +6,36 @@ import { Card } from "react-bootstrap";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-// import { AuthContext } from '../../shared/context/auth-context';
+import { AuthContext } from "../../shared/context/auth-context";
 
 const UpdateUser = () => {
-  // const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const [loadedUser, setLoadedUser] = useState(false);
-  const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    clearError,
+    errorMessage,
+  } = useHttpClient();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:5000/api/user/20`);
+        const responseData = await sendRequest(
+          `http://localhost:5000/api/user/${auth.userId}`,
+          "GET",
+          null,
+          {
+            Authorization: "Bearer " + auth.token,
+          }
+        );
         // ! UID (16) === UID AuthUser
         setLoadedUser(responseData.user);
-      } catch (err) {
-      }
+      } catch (err) {}
     };
     fetchUser();
-  }, [sendRequest]);
+  }, [sendRequest, auth.token, auth.userId]);
 
   if (!loadedUser) {
     return (
@@ -34,7 +46,7 @@ const UpdateUser = () => {
       </div>
     );
   }
-      return (
+  return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
       {isLoading && (
@@ -44,13 +56,14 @@ const UpdateUser = () => {
       )}
       {
         <ul>
-        {loadedUser.map(item => (
-          <li key={item.id}>
-      <FormUser items={item} />
-          </li>
-        ))}
-      </ul>
-      };
+          {loadedUser.map((item) => (
+            <li key={item.id}>
+              <FormUser items={item} />
+            </li>
+          ))}
+        </ul>
+      }
+      ;
     </React.Fragment>
   );
 };

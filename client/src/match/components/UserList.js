@@ -25,14 +25,16 @@ const UserList = props => {
             key={user.id}
             id={user.id}
             picture={user.picture1}
+            picture2={user.picture2}
+            picture3={user.picture3}
+            picture4={user.picture4}
+            picture5={user.picture5}
             username={user.username}
             bio={user.bio}
             gender={user.gender}
-            // A ecrire en Anglais (gender) (pas test encore)
             age={user.age}
             popularity={user.popularity}
             online={user.online}
-            // Ajouter les autres photos
             // A Changer par une var Online (pas test)
           />
         );

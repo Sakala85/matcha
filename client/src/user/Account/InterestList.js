@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import InterestItem from "./InterestItem";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const InterestList = () => {
   const [loadedInterest, setLoadedInterest] = useState();
@@ -11,31 +12,39 @@ const InterestList = () => {
     error,
     sendRequest,
     clearError,
-    errorMessage
+    errorMessage,
   } = useHttpClient();
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const fetchInterest = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/user/interest/20`
+          `http://localhost:5000/api/user/interest/${auth.userId}`,
+          "GET",
+          null,
+          {
+            authorization: "Bearer " + auth.token,
+          }
         );
-        // ! UID (16) === UID AuthUser
         setLoadedInterest(responseData.interest);
       } catch (err) {}
     };
     fetchInterest();
-  }, [sendRequest]);
+  }, [sendRequest, auth.token, auth.userId]);
 
-  const interestDeleteHandler = deletedInterestId => {
-    setLoadedInterest(prevInterest =>
-      prevInterest.filter(interest => interest.id !== deletedInterestId)
+  const interestDeleteHandler = (deletedInterestId) => {
+    setLoadedInterest((prevInterest) =>
+      prevInterest.filter((interest) => interest.id !== deletedInterestId)
     );
   };
   if (!loadedInterest) {
     return (
       <div className="center">
-        <h2>You don't have Interest Yet you must add at least one for start matching !</h2>
+        <h2>
+          You don't have Interest Yet you must add at least one for start
+          matching !
+        </h2>
       </div>
     );
   }
@@ -49,8 +58,13 @@ const InterestList = () => {
       )}
       {
         <ul>
-          {loadedInterest.map(item => (
-            <InterestItem key={item.id} id={item.id} interest={item.interest} onDelete={interestDeleteHandler}/>
+          {loadedInterest.map((item) => (
+            <InterestItem
+              key={item.id}
+              id={item.id}
+              interest={item.interest}
+              onDelete={interestDeleteHandler}
+            />
           ))}
         </ul>
       }

@@ -64,11 +64,8 @@ const Auth = () => {
             password: formState.inputs.password.value
           })
         });
-        console.log(formState.inputs.password.value);
         const responseData = response.json();
-        console.log(responseData);
       } catch (err) {
-        console.log(err);
       }
     }
     auth.login();

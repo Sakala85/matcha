@@ -5,7 +5,7 @@ import Input from "../../shared/components/FormElements/Input";
 import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_REQUIRE
+  VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -13,24 +13,30 @@ import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
-const Auth = props => {
+const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    clearError,
+    errorMessage,
+  } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
         value: "",
-        isValid: false
+        isValid: false,
       },
       password: {
         value: "",
-        isValid: false
-      }
+        isValid: false,
+      },
     },
     false
   );
@@ -40,7 +46,7 @@ const Auth = props => {
       setFormData(
         {
           ...formState.inputs,
-          name: undefined
+          name: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -50,24 +56,24 @@ const Auth = props => {
           ...formState.inputs,
           username: {
             value: "",
-            isValid: false
+            isValid: false,
           },
           firstname: {
             value: "",
-            isValid: false
+            isValid: false,
           },
           lastname: {
             value: "",
-            isValid: false
-          }
+            isValid: false,
+          },
         },
         false
       );
     }
-    setIsLoginMode(prevMode => !prevMode);
+    setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const authSubmitHandler = async event => {
+  const authSubmitHandler = async (event) => {
     event.preventDefault();
     if (isLoginMode) {
       try {
@@ -76,10 +82,10 @@ const Auth = props => {
           "POST",
           JSON.stringify({
             email: formState.inputs.email.value,
-            password: formState.inputs.password.value
+            password: formState.inputs.password.value,
           }),
           {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           }
         );
         auth.login(responseData.userId, responseData.token);
@@ -94,10 +100,10 @@ const Auth = props => {
             firstname: formState.inputs.firstname.value,
             lastname: formState.inputs.lastname.value,
             email: formState.inputs.email.value,
-            password: formState.inputs.password.value
+            password: formState.inputs.password.value,
           }),
           {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           }
         );
         auth.login(responseData.userId, responseData.token);
@@ -117,7 +123,11 @@ const Auth = props => {
             LogIn or SignUp
           </button>
           <Modal show={show} onHide={handleClose}>
-            <ErrorModal show={error} error={errorMessage} onHide={errorHandler} />
+            <ErrorModal
+              show={error}
+              error={errorMessage}
+              onHide={errorHandler}
+            />
             <Modal.Header closeButton>
               <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title>
             </Modal.Header>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -8,10 +8,12 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { AuthContext } from "../../shared/context/auth-context";
 
 const UpdatePassword = () => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
   const [changedPassword, setChangedPassword] = useState(false);
+  const auth = useContext(AuthContext);
 
   const [formState, inputHandler] = useForm(
     {
@@ -35,7 +37,7 @@ const UpdatePassword = () => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/pwd/20`,
+        `http://localhost:5000/api/user/pwd/${auth.userId}`,
         "PATCH",
         JSON.stringify({
             oldPassword: formState.inputs.oldPassword.value,
@@ -43,7 +45,8 @@ const UpdatePassword = () => {
             repeatPassword: formState.inputs.repeatPassword.value
         }),
         {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token
         }
       );
       if (!error){setChangedPassword(true)}
