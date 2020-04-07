@@ -48,7 +48,7 @@ const createUser = async (req, res, next) => {
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
-          sendMail.sendEmailInscription("melchiorbengtsson@gmail.com");
+          sendMail.sendEmailInscription(email);
         } catch (err) {
           const error = new HttpError(
             "Could not create User, please try again",
