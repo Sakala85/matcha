@@ -20,7 +20,7 @@ const sendEmailInscription = (email, tokenEmail) => {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
     subject: "Confirm email",
-    html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+    html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -30,17 +30,17 @@ const sendEmailInscription = (email, tokenEmail) => {
   });
 };
 
-function sendEmailResetPass(email) {
-  var text =
-    "Pour reinitialiser votre mot de passe, clquez sur ce lien : http://localhost:5000/reset/change_pass/";
+const sendEmailResetPass = (email, tokenPassword) => {
+
+  const url = `http://localhost:3000/resetpassword/${tokenPassword}`;
+    "Pour reinitialiser votre mot de passe, clquez sur ce lien : ";
 
   transporter = nodemailer.createTransport(smtpConfig);
   mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
     subject: "Réinitialisation du mot de passe",
-    text: text,
-    html: "<p>" + text + "</p>",
+    html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

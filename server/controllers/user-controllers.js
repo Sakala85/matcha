@@ -213,17 +213,53 @@ const getLikedByUid = (req, res, next) => {
 
 const updateValidEmail = (req, res, next) => {
   const { tokenEmail} = req.params;
-  console.log(tokenEmail)
+
   userModel.updateValidEmail(
     tokenEmail,
-    (err, data) => {
+    (err, result) => {
       if (!err) {
-        return res.status(200).json({ message: "User Confirmed" });
+        return res.status(200).json({user: result[0]});
         } else {
         return res.status(400).json({ message: err });
       }
     }
   );
+}
+
+
+const updateTokenPassword = (req, res, next) => {
+  const { email } = req.body;
+  const token_password = uuid.v1();
+  userModel.updateTokenPassword(email, token_password, (err, result) => {
+    if (!err) {
+      sendMail.sendEmailResetPass(email, token_password);
+      return res.status(200).json({ message: 'User received email' });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+  
+};
+
+
+  const reinitializePassword = (req, res, next) => {
+    const { newPassword, repeatPassword } = req.body;
+    const { tokenPassword } = req.params;
+
+    console.log(req.body);
+    console.log(tokenPassword);
+    userModel.reinitializePassword(
+      tokenPassword,
+      newPassword,
+      repeatPassword,
+      (err, data) => {
+        if (!err) {
+          return res.status(201).json({ message: "User Updated" });
+        } else {
+          return res.status(400).json({ message: err });
+        }
+      }
+    );
 
 };
 
@@ -237,3 +273,5 @@ exports.updateUserPassword = updateUserPassword;
 exports.updateUserPicture = updateUserPicture;
 exports.deleteUser = deleteUser;
 exports.updateValidEmail = updateValidEmail;
+exports.updateTokenPassword = updateTokenPassword;
+exports.reinitializePassword = reinitializePassword;

@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-// import UserList from "../components/UserList";
+import React, { useEffect, useState} from "react";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useParams } from "react-router-dom";
-// import { AuthContext } from "../../shared/context/auth-context";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import "./ConfirmEmail.css";
 
 const ConfirmEmail = () => {
-  const [loadedUsers, setLoadedUsers] = useState();
-  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const [loadedUser, setLoadedUser] = useState();
+  const { sendRequest } = useHttpClient();
   const tokenEmail = useParams().tokenEmail;
 
   useEffect(() => {
@@ -20,23 +18,28 @@ const ConfirmEmail = () => {
             "GET",
             null
           );
-          setLoadedUsers(responseData.user.result);
+          setLoadedUser(responseData.user);
       } catch (err) {
-
       }
     
     };
-    confirmEmail();
+    confirmEmail();    
   }, [sendRequest]);
+  
   return (
     <React.Fragment>
-      <ErrorModal error={error} onHide={clearError} />
-      {isLoading && (
-        <div className="center">
-          <LoadingSpinner />
-        </div>
-      )}
-      {!isLoading}
+      <Container>
+        <Row>
+          <Col>
+            <h2>
+              {loadedUser
+                ? `Congrats ${loadedUser.firstname} your email are confirmed, you can now connect`
+                : "The token has expired"}
+            </h2>
+            <Button href="/login">Login</Button>
+          </Col>
+        </Row>
+      </Container>
     </React.Fragment>
   );
 };

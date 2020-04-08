@@ -5,6 +5,9 @@ const userController = require("../controllers/user-controllers");
 
 router.get("/valid/:tokenEmail", userController.updateValidEmail);
 
+router.patch("/forgetpassword", userController.updateTokenPassword);
+router.patch("/resetpassword/:tokenPassword", userController.reinitializePassword);
+
 router.get("/match/:uid", userController.getMatchById);
 
 router.get("/:uid/liked", userController.getLikedByUid);
