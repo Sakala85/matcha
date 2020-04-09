@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le :  lun. 30 mars 2020 à 12:47
+-- Généré le :  jeu. 09 avr. 2020 à 15:50
 -- Version du serveur :  8.0.18
 -- Version de PHP :  7.3.13
 
@@ -137,9 +137,9 @@ CREATE TABLE `user` (
   `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `token_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `token_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token_password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `valid_profil` tinyint(1) DEFAULT '0',
-  `valid_mail` tinyint(1) DEFAULT '0',
+  `valid_email` tinyint(1) DEFAULT '0',
   `online` tinyint(1) DEFAULT '1',
   `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
   `orientation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
@@ -159,6 +159,9 @@ CREATE TABLE `user` (
 --
 -- Déchargement des données de la table `user`
 --
+
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `token_email`, `token_password`, `valid_profil`, `valid_email`, `online`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
+(40, 'akhoucha', 'khoucha.amira@yahoo.com', '$2a$08$jcZviTvTxKCcqsXKmX.FH.r.k/3j4ftRbiYJ1W0rqPjNfhcDaQgiC', 'Amira', 'Khoucha', '8c3fad10-79bb-11ea-9676-494f2cb6e9de', NULL, 0, 0, 1, 'Man', 'Man', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png');
 
 -- --------------------------------------------------------
 
@@ -288,7 +291,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT pour la table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `report`
@@ -300,13 +303,13 @@ ALTER TABLE `report`
 -- AUTO_INCREMENT pour la table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT pour la table `user_like`
 --
 ALTER TABLE `user_like`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `visit`
