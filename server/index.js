@@ -3,16 +3,12 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const cors = require('cors');
-const mongoose = require("mongoose"); 
-const bodyParser = require('body-parser');
-
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 const router = require('./router');
 
-
-// //On définit notre objet express nommé app
+//On définit notre objet express nommé app
 const app = express();
 
 const server = http.createServer(app);
