@@ -137,6 +137,7 @@ CREATE TABLE `user` (
   `firstname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `token_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `token_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `valid_profil` tinyint(1) DEFAULT '0',
   `valid_mail` tinyint(1) DEFAULT '0',
   `online` tinyint(1) DEFAULT '1',

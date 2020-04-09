@@ -24,7 +24,7 @@ const ConfirmEmail = () => {
     
     };
     confirmEmail();    
-  }, [sendRequest]);
+  }, [sendRequest, tokenEmail]);
   
   return (
     <React.Fragment>

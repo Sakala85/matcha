@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { VALIDATOR_MINLENGTH, VALIDATOR_EMAIL } from "../../shared/util/validators";
+import { VALIDATOR_EMAIL } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
@@ -22,7 +22,7 @@ const ForgetPassword = () => {
       email: {
         value: "",
         isValid: false,
-      }
+      },
     },
     false
   );
@@ -37,7 +37,7 @@ const ForgetPassword = () => {
           email: formState.inputs.email.value,
         }),
         {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         }
       );
       if (!error) {
@@ -70,7 +70,7 @@ const ForgetPassword = () => {
               onInput={inputHandler}
             />
           </div>
-        
+
           <button
             type="submit"
             disabled={!formState.isValid}

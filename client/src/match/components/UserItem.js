@@ -17,11 +17,30 @@ const UserItem = (props) => {
     sendNotification(auth.userId, props.id, "Visit", auth.token);
   };
   const closeDetailHandler = () => setShowDetail(false);
+  
+
+  const dislikeProfile = async () => {
+    setShowDetail(false); //SEND A VISIT NOTIF
+    try {
+      await sendRequest(
+        `http://localhost:5000/api/user/match/dislike/${auth.userId}`,
+        "POST",
+        JSON.stringify({
+          disliked: props.id,
+        }),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+    } catch (err) {}
+  };
+
 
   const likeProfile = async () => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
-      await sendRequest(
+      const response = await sendRequest(
         `http://localhost:5000/api/user/match/like/${auth.userId}`,
         "POST",
         JSON.stringify({
@@ -32,6 +51,7 @@ const UserItem = (props) => {
           Authorization: "Bearer " + auth.token,
         }
       );
+      console.log(response);
       sendNotification(auth.userId, props.id, "Like", auth.token);
     } catch (err) {}
   };
@@ -140,7 +160,7 @@ const UserItem = (props) => {
                 height="50px"
               />
             </Button>
-            <Button onClick={closeDetailHandler} className="like_dislike">
+            <Button onClick={dislikeProfile} className="like_dislike">
               <Image
                 src={require("../../img/iconProfile/remove.png")}
                 width="50px"
