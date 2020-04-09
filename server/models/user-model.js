@@ -128,6 +128,61 @@ const getMatch = (matchId, callBack) => {
   });
 };
 
+const updateValidEmail = (
+  tokenEmail,
+  callBack
+) => {
+  let sql = `SELECT * FROM user WHERE token_email = '${tokenEmail}' AND valid_email = '0'`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      let sql = `UPDATE user SET valid_email = '1', token_email = NULL WHERE id = '${result[0].id}'`;
+      db.query(sql, () => {});
+      return callBack(null, result, data);
+    } else {
+      return callBack("incorrect token", null);
+    }
+  });
+};
+
+const updateTokenPassword = (email, tokenPassword, callBack) => {
+  let sql = `SELECT * FROM user WHERE email = '${email}'`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    if (result.length > 0) {
+      let sql = `UPDATE user SET token_password = '${tokenPassword}' WHERE id = '${result[0].id}'`;
+      db.query(sql, () => {});
+      return callBack(null, result, data);
+    } else {
+      return callBack("incorrect token", null);
+    }
+  });
+};
+
+const reinitializePassword = (
+  tokenPassword,
+  newPassword,
+  repeatPassword,
+  callBack
+) => {
+
+  let sql = `SELECT * FROM user WHERE token_password= "${tokenPassword}"`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    if (result.length < 1) {
+      return callBack("User not Found", null);
+    }
+    if (newPassword !== repeatPassword) {
+      return callBack("These password are different please try again", null);
+    } 
+    hachedpassword = bcrypt.hashSync(newPassword, 8);
+
+    let sql = `UPDATE user SET password = '${hachedpassword}', token_password = NULL  WHERE id = '${result[0].id}'`;
+    db.query(sql, () => {});
+    return callBack(null, null);
+  });
+};
+
 exports.isUser = isUser;
 exports.insertUser = insertUser;
 exports.getMatch = getMatch;
@@ -136,3 +191,6 @@ exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
 exports.updateUserPicture = updateUserPicture;
 exports.getPassword = getPassword;
+exports.updateValidEmail = updateValidEmail;
+exports.reinitializePassword = reinitializePassword;
+exports.updateTokenPassword = updateTokenPassword;

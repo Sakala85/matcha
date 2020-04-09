@@ -12,6 +12,7 @@ import { AuthContext } from "../../shared/context/auth-context";
 import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { Link } from "react-router-dom";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -210,6 +211,7 @@ const Auth = () => {
             >
               SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
             </button>
+            <Link to="/forgetpassword">Mot de passe oublié?</Link>
           </Modal>
         </Col>
       </Row>

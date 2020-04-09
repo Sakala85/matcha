@@ -1,0 +1,18 @@
+/* BUTTON */
+.btn-primary {
+  display: block;
+  width: 150px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 50px;
+  color: black;
+  background-color: pink;
+  border-color: pink;
+  border: 5px solid rgb(233, 90, 149);
+}
+.btn-primary:hover {
+  background-color: rgb(233, 90, 149);
+  border: 5px solid rgb(233, 90, 149);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}

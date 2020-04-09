@@ -11,15 +11,22 @@ var smtpConfig = {
   },
 };
 
+<<<<<<< HEAD
 const sendEmailInscription = (email, token_email) => {
   var text =
     "Pour valider votre compte, merci de cliquer ici : http://localhost:3000/valid";
+=======
+const sendEmailInscription = (email, tokenEmail) => {
+  
+  const url = `http://localhost:3000/valid/${tokenEmail}`;
+  
+>>>>>>> 22718c39d23528d502f0fdfd6a53fcedde115a72
   var transporter = nodemailer.createTransport(smtpConfig);
   const mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
-    subject: "Inscritpion Matcha",
-    html: "<p>" + text + "</p>",
+    subject: "Confirm email",
+    html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
@@ -29,17 +36,17 @@ const sendEmailInscription = (email, token_email) => {
   });
 };
 
-function sendEmailResetPass(email) {
-  var text =
-    "Pour reinitialiser votre mot de passe, clquez sur ce lien : http://localhost:5000/reset/change_pass/";
+const sendEmailResetPass = (email, tokenPassword) => {
+
+  const url = `http://localhost:3000/resetpassword/${tokenPassword}`;
+    "Pour reinitialiser votre mot de passe, clquez sur ce lien : ";
 
   transporter = nodemailer.createTransport(smtpConfig);
   mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
     subject: "Réinitialisation du mot de passe",
-    text: text,
-    html: "<p>" + text + "</p>",
+    html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
