@@ -38,6 +38,30 @@ CREATE TABLE `blocked` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `blocked`
+--
+
+CREATE TABLE `user_dislike` (
+  `id` int(11) NOT NULL,
+  `id_user1` int(11) NOT NULL,
+  `id_user2` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `blocked`
+--
+
+CREATE TABLE `user_match` (
+  `id` int(11) NOT NULL,
+  `id_user1` int(11) NOT NULL,
+  `id_user2` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `interest`
 --
 
@@ -333,6 +357,20 @@ ALTER TABLE `report`
 ALTER TABLE `user_like`
   ADD CONSTRAINT `user_like_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_like_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `user_like`
+--
+ALTER TABLE `user_dislike`
+  ADD CONSTRAINT `user_dislike_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_dislike_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `user_like`
+--
+ALTER TABLE `user_match`
+  ADD CONSTRAINT `user_match_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_match_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `visit`

@@ -61,9 +61,11 @@ const updateUser = (
     if (result.length > 0) {
       return callBack("Mail already taken", null);
     }
+    const tmp = db.escape(bio);
+    console.log(tmp);
     // On update si le mail n'est pas pris
     let sql = `UPDATE user
-  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = '${bio}', gender = '${gender}', orientation = '${orientation}'
+  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = ${tmp}, gender = '${gender}', orientation = '${orientation}'
   WHERE id = '${userId}'`;
     db.query(sql, () => {});
     return callBack(null, null);

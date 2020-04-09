@@ -11,9 +11,9 @@ var smtpConfig = {
   },
 };
 
-const sendEmailInscription = (email) => {
+const sendEmailInscription = (email, token_email) => {
   var text =
-    "Pour valider votre compte, merci de cliquer ici : http://localhost:5000/valid/change_pass/";
+    "Pour valider votre compte, merci de cliquer ici : http://localhost:3000/valid";
   var transporter = nodemailer.createTransport(smtpConfig);
   const mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',

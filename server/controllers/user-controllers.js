@@ -6,6 +6,8 @@ const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
+const decodeUriComponent = require('decode-uri-component');
+
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
@@ -48,7 +50,7 @@ const createUser = async (req, res, next) => {
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
-          sendMail.sendEmailInscription(email);
+          sendMail.sendEmailInscription(email, token_email);
         } catch (err) {
           const error = new HttpError(
             "Could not create User, please try again",
@@ -107,6 +109,7 @@ const login = (req, res, next) => {
 const getUserById = (req, res, next) => {
   userId = req.params.uid;
   userModel.getUser(userId, (err, result) => {
+    console.log(result[0].bio);
     if (!err) {
       return res.status(201).json({ user: result });
     } else {
@@ -124,6 +127,15 @@ const getMatchById = (req, res, next) => {
     }
   });
 };
+function escapeHtml(text) {
+  return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+}
+
 
 const updateUser = (req, res, next) => {
   const { firstname, lastname, email, bio, gender, orientation } = req.body;
