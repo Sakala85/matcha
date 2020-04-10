@@ -50,6 +50,12 @@ const validatorRequire = (param) => {
     return true;
 };
 
+const validatorIsId = (param) => {
+    if(Number.isInteger(param)){
+    return true;
+    }
+    return false;
+}
 
 const lastnameValidate = (lastname) => {
     //const illegalChars = /\W/;
@@ -59,6 +65,13 @@ const lastnameValidate = (lastname) => {
     return "";
 };
 
+const firstnameValidate = (firstname) => {
+  //const illegalChars = /\W/;
+  if (!firstname) {
+    return "Error empty firstname!";
+  }
+  return "";
+};
 
 const userValidateAll = (email, password, username, firstname, lastname) => {
     const errEmail = emailValidate(email)
@@ -87,3 +100,4 @@ const userValidateAll = (email, password, username, firstname, lastname) => {
 
 exports.userValidateAll = userValidateAll
 exports.validatorRequire = validatorRequire
+exports.validatorIsId = validatorIsId
