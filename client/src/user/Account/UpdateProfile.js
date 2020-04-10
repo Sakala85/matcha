@@ -26,28 +26,32 @@ const UpdateProfile = props => {
     {
       firstname: {
         value: props.items.firstname,
-        isValid: false
+        isValid: false,
       },
       lastname: {
         value: props.items.lastname,
-        isValid: false
+        isValid: false,
       },
       email: {
         value: props.items.email,
-        isValid: false
+        isValid: false,
       },
       bio: {
         value: props.items.bio,
-        isValid: false
+        isValid: false,
+      },
+      age: {
+        value: props.items.age,
+        isValid: false,
       },
       gender: {
         value: props.items.gender,
-        isValid: true
+        isValid: true,
       },
       orientation: {
         value: props.items.orientation,
-        isValid: true
-      }
+        isValid: true,
+      },
     },
     false
   );
@@ -63,6 +67,7 @@ const UpdateProfile = props => {
           lastname: formState.inputs.lastname.value,
           email: formState.inputs.email.value,
           bio: formState.inputs.bio.value,
+          age: formState.inputs.age.value,
           gender: formState.inputs.gender.value,
           orientation: formState.inputs.orientation.value
         }),
@@ -113,6 +118,7 @@ const UpdateProfile = props => {
               initialValid={true}
             />
           </div>
+
           <div className="InputForm__LogIn">
             <Input
               id="email"
@@ -135,6 +141,21 @@ const UpdateProfile = props => {
               errorText="Please enter a valid Bio (min. 5 characters)."
               onInput={inputHandler}
               initialValue={formState.inputs.bio.value}
+              initialValid={true}
+            />
+          </div>
+          <div className="InputForm__LogIn">
+            <Input
+              id="age"
+              element="input"
+              type="number"
+              label="Age"
+              validators={[VALIDATOR_REQUIRE]}
+              min="18"
+              max="100"
+              errorText="Please enter a valid age"
+              onInput={inputHandler}
+              initialValue={formState.inputs.age.value}
               initialValid={true}
             />
           </div>
