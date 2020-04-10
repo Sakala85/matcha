@@ -17,19 +17,23 @@ import NotificationDisplay from "./Notification/pages/NotificationDisplay";
 import ConfirmEmail from "./user/ConfirmEmail/ConfirmEmail";
 import ForgetPassword from "./user/ResetPassword/ForgetPassword"
 import ResetPassword from "./user/ResetPassword/ResetPassword"
+import NotifPush from "./Notification/PushNotif/pushNotif"
 import { AuthContext } from "./shared/context/auth-context";
 
 const App = () => {
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false)
+  const [username, setUserName] = useState(false)
 
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, username) => {
     setToken(token);
     setUserId(uid);
+    setUserName(username);
   }, []);
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
+    setUserName(null);
   }, []);
 
   let routes;
@@ -78,6 +82,7 @@ const App = () => {
         isLoggedIn: !!token, 
         token: token,
         userId: userId,
+        username: username,
         login: login, 
         logout: logout }}
     >
@@ -88,6 +93,8 @@ const App = () => {
           <NotificationDisplay />
         </main>
       </Router>
+      <NotifPush />
+
     </AuthContext.Provider>
   );
 };

@@ -252,6 +252,22 @@ ALTER TABLE `user_like`
   ADD KEY `id_user2` (`id_user2`);
 
 --
+-- Index pour la table `user_match`
+--
+ALTER TABLE `user_match`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user1` (`id_user1`),
+  ADD KEY `id_user2` (`id_user2`);
+
+--
+-- Index pour la table `user_dislike`
+--
+ALTER TABLE `user_dislike`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_user1` (`id_user1`),
+  ADD KEY `id_user2` (`id_user2`);
+
+--
 -- Index pour la table `visit`
 --
 ALTER TABLE `visit`
@@ -312,6 +328,18 @@ ALTER TABLE `user_like`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT pour la table `user_match`
+--
+ALTER TABLE `user_match`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `user_dislike`
+--
+ALTER TABLE `user_dislike`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT pour la table `visit`
 --
 ALTER TABLE `visit`
@@ -363,14 +391,14 @@ ALTER TABLE `user_like`
   ADD CONSTRAINT `user_like_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `user_like`
+-- Contraintes pour la table `user_dislike`
 --
 ALTER TABLE `user_dislike`
   ADD CONSTRAINT `user_dislike_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `user_dislike_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `user_like`
+-- Contraintes pour la table `user_match`
 --
 ALTER TABLE `user_match`
   ADD CONSTRAINT `user_match_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

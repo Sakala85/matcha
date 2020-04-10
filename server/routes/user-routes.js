@@ -10,7 +10,8 @@ router.patch("/resetpassword/:tokenPassword", userController.reinitializePasswor
 
 router.get("/match/:uid", userController.getMatchById);
 
-router.get("/:uid/liked", userController.getLikedByUid);
+router.get("/:uid/matched", userController.getMatchedByUid);
+
 router.get("/:uid", userController.getUserById);
 
 router.post("/signup", userController.createUser);

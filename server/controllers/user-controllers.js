@@ -94,11 +94,11 @@ const login = (req, res, next) => {
             400
           );
         }
-
         return res.json({
           userId: user.id,
           email: user.email,
           token: token,
+          username: user.username,
           message: "logged in",
         });
       }
@@ -109,7 +109,6 @@ const login = (req, res, next) => {
 const getUserById = (req, res, next) => {
   userId = req.params.uid;
   userModel.getUser(userId, (err, result) => {
-    console.log(result[0].bio);
     if (!err) {
       return res.status(201).json({ user: result });
     } else {
@@ -138,6 +137,7 @@ function escapeHtml(text) {
 
 
 const updateUser = (req, res, next) => {
+  // AJOUTER AGE
   const { firstname, lastname, email, bio, gender, orientation } = req.body;
   const userId = req.params.uid;
   userModel.updateUser(
@@ -195,6 +195,20 @@ const updateUserPicture = (req, res, next) => {
   });
 };
 
+const getMatchedByUid = (req, res, next) => {
+  const userId = req.params.uid;
+  userModel.getUserMatch(
+    userId,
+    (err, result) => {
+      if (!err) {
+        return res.status(201).json({ matched: result });
+      } else {
+        return res.status(400).json({ message: err });
+      }
+    }
+  );
+};
+
 const deleteUser = (req, res, next) => {
   const userId = req.params.uid;
   if (!USER.find((u) => u.id !== userId)) {
@@ -216,12 +230,7 @@ const getMatchByUid = (req, res, next) => {
   res.json({ match });
 };
 
-const getLikedByUid = (req, res, next) => {
-  if (!LIKED) {
-    throw new HttpError("No match Yet keep liking", 404);
-  }
-  res.json({ LIKED });
-};
+
 
 const updateValidEmail = (req, res, next) => {
   const { tokenEmail} = req.params;
@@ -258,8 +267,6 @@ const updateTokenPassword = (req, res, next) => {
     const { newPassword, repeatPassword } = req.body;
     const { tokenPassword } = req.params;
 
-    console.log(req.body);
-    console.log(tokenPassword);
     userModel.reinitializePassword(
       tokenPassword,
       newPassword,
@@ -279,7 +286,7 @@ exports.login = login;
 exports.createUser = createUser;
 exports.getUserById = getUserById;
 exports.getMatchById = getMatchById;
-exports.getLikedByUid = getLikedByUid;
+exports.getMatchedByUid = getMatchedByUid;
 exports.updateUser = updateUser;
 exports.updateUserPassword = updateUserPassword;
 exports.updateUserPicture = updateUserPicture;

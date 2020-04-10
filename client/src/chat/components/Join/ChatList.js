@@ -5,7 +5,7 @@ import "./ChatList.css";
 import { Card, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
-const ChatList = props => {
+const ChatList = (props) => {
   if (props.items.length === 0) {
     return (
       <div className="center">
@@ -16,21 +16,20 @@ const ChatList = props => {
     );
   }
   return (
-
-      <Col md={{ span: 10, offset: 1 }}>
-      {props.items.map(user => {
+    <Col md={{ span: 10, offset: 1 }}>
+      {props.items.map((user) => {
         return (
           <ChatItem
             id={user.id}
-            image={user.image}
-            key={user.key}
-            name={user.userName}
-            link={user.link}
+            image={user.picture1}
+            key={user.id}
+            name={user.username}
+            username={props.userName}
           />
         );
       })}
-      </Col>
+    </Col>
   );
 };
 
-export default ChatList
+export default ChatList;

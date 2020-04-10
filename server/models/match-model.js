@@ -1,13 +1,15 @@
 const addLike = (matcher, liked, callBack) => {
   let sql = `SELECT * FROM user_like WHERE id_user1 = "${liked}" AND id_user2 = "${matcher}"`;
   db.query(sql, (err, result) => {
-    if (result) {
+    if (!result[0]) {
       let sql = `INSERT INTO user_like (id_user1, id_user2) VALUES ('${matcher}', '${liked}')`;
       db.query(sql, (err, result) => {});
     return callBack(err, {message: "like"});
     }
     else {
       let sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${matcher}', '${liked}')`;
+      db.query(sql, (err, result) => {});
+      sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${liked}', '${matcher}')`;
       db.query(sql, (err, result) => {});
     return callBack(err, {message: "match"});
     }

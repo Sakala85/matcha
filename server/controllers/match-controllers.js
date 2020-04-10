@@ -5,7 +5,6 @@ const like = (req, res, next) => {
   const matcher = req.userData.userId;
   matchModel.addLike(matcher, liked, (err, result) => {
     if (!err) {
-      console.log(result)
       return res.status(201).json({ result });
     } else {
       return res.status(400).json({ message: err });

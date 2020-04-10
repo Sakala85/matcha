@@ -9,6 +9,7 @@ import sendNotification from "../../shared/util/sendNotification";
 
 const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
+  const [showMatch, setShowMatch] = useState(false);
   const auth = useContext(AuthContext);
   const { sendRequest } = useHttpClient();
 
@@ -17,7 +18,8 @@ const UserItem = (props) => {
     sendNotification(auth.userId, props.id, "Visit", auth.token);
   };
   const closeDetailHandler = () => setShowDetail(false);
-  
+  const closeMatchHandler = () => setShowMatch(false);
+  const openMatchHandler = () => setShowMatch(true);
 
   const dislikeProfile = async () => {
     setShowDetail(false); //SEND A VISIT NOTIF
@@ -36,7 +38,6 @@ const UserItem = (props) => {
     } catch (err) {}
   };
 
-
   const likeProfile = async () => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
@@ -51,7 +52,9 @@ const UserItem = (props) => {
           Authorization: "Bearer " + auth.token,
         }
       );
-      console.log(response);
+      if (response.result.message === "match") {
+        openMatchHandler();
+      }
       sendNotification(auth.userId, props.id, "Like", auth.token);
     } catch (err) {}
   };
@@ -59,6 +62,15 @@ const UserItem = (props) => {
   return (
     <li key={props.id}>
       <React.Fragment>
+        <Modal
+          size="xl"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          show={showMatch}
+          onHide={closeMatchHandler}
+        >
+          <Modal.Body className="modal__style">IT'S A MATCH !</Modal.Body>
+        </Modal>
         <Modal
           size="xl"
           aria-labelledby="contained-modal-title-vcenter"

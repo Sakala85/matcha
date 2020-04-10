@@ -24,7 +24,7 @@ const insertUser = (
 };
 
 function getPassword(email, callBack) {
-  let sql = `SELECT id, email, password FROM user WHERE email = "${email}"`;
+  let sql = `SELECT id, email, password, username FROM user WHERE email = "${email}"`;
   db.query(sql, (err, result, data) => {
     if (!result[0]) {
       return callBack("No User Found", null);
@@ -55,20 +55,22 @@ const updateUser = (
   userId,
   callBack
 ) => {
+  if (!VALIDATOR_TYPE_REQUIRE(firstname)) {
+    return callBack("One type is not valid", null);
+
+  }
   let sql = `SELECT * FROM user WHERE email = "${email}" AND id <> '${userId}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
       return callBack("Mail already taken", null);
     }
-    const tmp = db.escape(bio);
-    console.log(tmp);
     // On update si le mail n'est pas pris
     let sql = `UPDATE user
-  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = ${tmp}, gender = '${gender}', orientation = '${orientation}'
+  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = ${db.escape(bio)}, gender = '${gender}', orientation = '${orientation}'
   WHERE id = '${userId}'`;
     db.query(sql, () => {});
-    return callBack(null, null);
+    return callBack(err, null);
   });
 };
 
@@ -128,6 +130,15 @@ const getMatch = (matchId, callBack) => {
   });
 };
 
+const getUserMatch = (userId, callBack) => {
+  let sql = `SELECT * FROM user_match INNER JOIN user ON user.id = user_match.id_user2 WHERE id_user1 = ${userId}`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    return callBack(null, result);
+  });
+};
+
+
 const updateValidEmail = (
   tokenEmail,
   callBack
@@ -183,6 +194,7 @@ const reinitializePassword = (
   });
 };
 
+exports.getUserMatch = getUserMatch;
 exports.isUser = isUser;
 exports.insertUser = insertUser;
 exports.getMatch = getMatch;
