@@ -6,7 +6,7 @@ const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
-const decodeUriComponent = require('decode-uri-component');
+// const decodeUriComponent = require('decode-uri-component');
 
 
 const createUser = async (req, res, next) => {
@@ -148,6 +148,7 @@ const updateUser = (req, res, next) => {
     gender,
     orientation,
     userId,
+    age,
     (err, data) => {
       if (!err) {
         return res.status(201).json({ message: "User Updated" });

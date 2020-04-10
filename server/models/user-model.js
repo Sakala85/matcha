@@ -52,13 +52,14 @@ const updateUser = (
   bio,
   gender,
   orientation,
+  age,
   userId,
   callBack
 ) => {
-  if (!VALIDATOR_TYPE_REQUIRE(firstname)) {
-    return callBack("One type is not valid", null);
+  // if (!VALIDATOR_TYPE_REQUIRE(firstname)) {
+  //   return callBack("One type is not valid", null);
 
-  }
+  // }
   let sql = `SELECT * FROM user WHERE email = "${email}" AND id <> '${userId}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
@@ -67,7 +68,8 @@ const updateUser = (
     }
     // On update si le mail n'est pas pris
     let sql = `UPDATE user
-  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = ${db.escape(bio)}, gender = '${gender}', orientation = '${orientation}'
+  SET firstname = '${firstname}', lastname = '${lastname}', email = '${email}', bio = ${db.escape(bio )}, 
+  gender = '${gender}', orientation = '${orientation}' , age = '${age}'
   WHERE id = '${userId}'`;
     db.query(sql, () => {});
     return callBack(err, null);
