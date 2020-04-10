@@ -8,6 +8,7 @@ const sendNotification = (id_user1, id_user2, type, token) => {
       alert(error);
     }
     console.log("Notif Send to the back")
+    
   });
   try {
     fetch(`http://localhost:5000/api/user/notification/${id_user1}`, {

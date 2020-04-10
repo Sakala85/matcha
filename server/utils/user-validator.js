@@ -85,6 +85,3 @@ const userValidateAll = (email, password, username, firstname, lastname) => {
 };
 
 exports.userValidateAll = userValidateAll
-exports.VALIDATOR_TYPE_FILE = VALIDATOR_TYPE_FILE
-exports.userValidateAll = userValidateAll
-exports.userValidateAll = userValidateAll

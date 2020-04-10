@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from "react-router-dom";
 import "./App.css";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
@@ -15,15 +15,16 @@ import Auth from "./user/Auth/Auth";
 import UpdateUser from "./user/Account/UpdateUser";
 import NotificationDisplay from "./Notification/pages/NotificationDisplay";
 import ConfirmEmail from "./user/ConfirmEmail/ConfirmEmail";
-import ForgetPassword from "./user/ResetPassword/ForgetPassword"
-import ResetPassword from "./user/ResetPassword/ResetPassword"
-import NotifPush from "./Notification/PushNotif/pushNotif"
+import ForgetPassword from "./user/ResetPassword/ForgetPassword";
+import ResetPassword from "./user/ResetPassword/ResetPassword";
+import NotifPush from "./Notification/PushNotif/pushNotif";
 import { AuthContext } from "./shared/context/auth-context";
 
 const App = () => {
+  const auth = useContext(AuthContext);
   const [token, setToken] = useState(false);
-  const [userId, setUserId] = useState(false)
-  const [username, setUserName] = useState(false)
+  const [userId, setUserId] = useState(false);
+  const [username, setUserName] = useState(false);
 
   const login = useCallback((uid, token, username) => {
     setToken(token);
@@ -78,23 +79,23 @@ const App = () => {
   }
   return (
     <AuthContext.Provider
-      value={{ 
-        isLoggedIn: !!token, 
+      value={{
+        isLoggedIn: !!token,
         token: token,
         userId: userId,
         username: username,
-        login: login, 
-        logout: logout }}
+        login: login,
+        logout: logout,
+      }}
     >
       <Router>
-        <MainNavigation />
-        <main>
-          {routes}
-          <NotificationDisplay />
-        </main>
+        {token !== false && <MainNavigation />}
+        {token !== false && <NotificationDisplay />}
+        {auth.username !== null && console.log(auth.username)}
+        {console.log(username)}
+        {token !== false && <NotifPush username={username}/>}
+        <main>{routes}</main>
       </Router>
-      <NotifPush />
-
     </AuthContext.Provider>
   );
 };
