@@ -42,13 +42,14 @@ const usernameValidate = (username) => {
     return ""
 };
 
-const firstnameValidate = (firstname) => {
+const validatorRequire = (param) => {
     // const illegalChars = /\W/;
-    if(!firstname) {
-        return "Error empty firstname!";
+    if(!param) {
+        return false;
     }
-    return ""
+    return true;
 };
+
 
 const lastnameValidate = (lastname) => {
     //const illegalChars = /\W/;
@@ -85,6 +86,4 @@ const userValidateAll = (email, password, username, firstname, lastname) => {
 };
 
 exports.userValidateAll = userValidateAll
-exports.VALIDATOR_TYPE_FILE = VALIDATOR_TYPE_FILE
-exports.userValidateAll = userValidateAll
-exports.userValidateAll = userValidateAll
+exports.validatorRequire = validatorRequire

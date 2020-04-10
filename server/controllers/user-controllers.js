@@ -137,9 +137,12 @@ function escapeHtml(text) {
 
 
 const updateUser = (req, res, next) => {
-  // AJOUTER AGE
-  const { firstname, lastname, email, bio, gender, orientation } = req.body;
+  const { firstname, lastname, email, bio, gender, orientation, age } = req.body;
   const userId = req.params.uid;
+  if (gender !== "Man" && gender !== "Woman"){
+        return res.status(401).json({ message: "Enter valid gender"});
+
+  }
   userModel.updateUser(
     firstname,
     lastname,
@@ -147,8 +150,10 @@ const updateUser = (req, res, next) => {
     bio,
     gender,
     orientation,
-    userId,
     age,
+    userId,
+
+    
     (err, data) => {
       if (!err) {
         return res.status(201).json({ message: "User Updated" });

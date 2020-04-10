@@ -1,10 +1,15 @@
 const HttpError = require("../models/http-error");
 const interestModel = require("../models/interest-model");
+const VALIDATOR = require("../utils/user-validator")
 // const uuid = require("node-uuid");
 // const userValidator = require("../utils/user-validator");
 
 const createInterest = (req, res, next) => {
   const { interest } = req.body;
+  if (!VALIDATOR.validatorRequire(interest)) {
+      return res.status(400).json({ message: "Enter a valid Input" });
+
+  }
   userId = req.params.uid;
   //   const err = userValidator.userValidateAll(email, password, username);
   //   if (err) {

@@ -1,5 +1,7 @@
 const instertInterest = (interest, userId, callBack) => {
-  let sql = `SELECT * FROM interest_list WHERE interest = "${interest}"`;
+  let interestValid = db.escape(interest)
+  console.log(interestValid)
+  let sql = `SELECT * FROM interest_list WHERE interest = ${interestValid}`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {
@@ -13,9 +15,9 @@ const instertInterest = (interest, userId, callBack) => {
       });
       return callBack(err, null);
     } else {
-      sql = `INSERT INTO interest_list (interest) VALUES ('${interest}')`;
+      sql = `INSERT INTO interest_list (interest) VALUES (${interestValid})`;
       db.query(sql, (err, result, data) => {});
-      sql = `SELECT * FROM interest_list WHERE interest = "${interest}"`;
+      sql = `SELECT * FROM interest_list WHERE interest = ${interestValid}`;
       db.query(sql, (err, result, data) => {
         if (result.length > 0) {
           sql = `INSERT INTO interest (id_user, id_interest_list) VALUES ('${userId}', '${result[0].id}')`;
