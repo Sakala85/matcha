@@ -13,7 +13,6 @@ import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { Link } from "react-router-dom";
-import io from "socket.io-client";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -28,7 +27,6 @@ const Auth = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  const ENDPOINT = "localhost:5000";
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -76,15 +74,6 @@ const Auth = () => {
     setIsLoginMode((prevMode) => !prevMode);
   };
 
-  const connectSocket = (username) => {
-    let socket = io(ENDPOINT);
-    socket.emit("connectNew", { username }, (error) => {
-      if (error) {
-        alert(error);
-      }
-    });
-  };
-
   const authSubmitHandler = async (event) => {
     event.preventDefault();
     if (isLoginMode) {
@@ -100,7 +89,6 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        connectSocket(responseData.username);
         auth.login(
           responseData.userId,
           responseData.token,
@@ -123,7 +111,6 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-        connectSocket(responseData.username);
         auth.login(
           responseData.userId,
           responseData.token,

@@ -39,16 +39,31 @@ app.use(cors());
 app.use(router);
 
 io.on("connect", (socket) => {
-  socket.on("notifReceiver", ({ user1, user2, type }, callback) => {
-    console.log("Notif received");
-    socket.join("ok");
 
-    socket.emit("notifPusher", {
-      user: "admin",
-    });
+  socket.on("connectNew", ({ name }, callback) => {
+    socket.join("notification");
+
+    console.log(name + " Is Connected");
     callback();
   });
 
+  socket.on("notifReceiver", ({ user1, user2, type }, callback) => {
+    const user = getUser(socket.id);
+
+    // socket.broadcast
+    //   .to("notification")
+    //   .emit("notifPusher", { });
+
+    console.log("Notif received");
+    // socket.emit("notifPusher", {
+    //   user: "admin",
+    // });
+    io.to("notification").emit("notifPusher", { });
+
+    
+    callback();
+  });
+  
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
 
@@ -68,14 +83,6 @@ io.on("connect", (socket) => {
       room: user.room,
       users: getUsersInRoom(user.room),
     });
-    callback();
-  });
-  socket.on("connectNew", ({ username }, callback) => {
-    console.log(username + "Is Connected");
-    callback();
-  });
-  socket.on("notif", ({ name, room }, callback) => {
-    console.log(name + "Is Connected" + room);
     callback();
   });
 
