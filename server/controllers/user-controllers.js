@@ -1,6 +1,14 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
-const userValidator = require("../utils/user-validator");
+const {
+  userValidateAll, 
+  updateUserValidate,
+  validate, 
+  VALIDATOR_EMAIL, 
+  VALIDATOR_PASSWORD, 
+  VALIDATOR_REQUIRE, 
+  VALIDATOR_NUMBER,
+} = require("../utils/user-validator");
 const fs = require("fs");
 const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
@@ -12,15 +20,15 @@ const sendMail = require("../utils/sendMails");
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
   const token_email = uuid.v1();
-  const err = userValidator.userValidateAll(
+  const userValidator = userValidateAll(
     email,
     password,
     username,
     firstname,
     lastname
   );
-  if (err) {
-    return res.status(400).json({ message: err });
+  if (!userValidator.valid) {
+    return res.status(400).json({ message: userValidator.message });
   }
   let hachedpassword;
   try {
@@ -69,15 +77,25 @@ const createUser = async (req, res, next) => {
     }
   );
 };
+  //  const validEmail = validate(email, [VALIDATOR_EMAIL])
+  //    if (!validEmail.valid ) {
+  //      return res
+  //        .status(400)
+  //        .json({ message:  });
+  //    }
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
   userModel.getPassword(email, (err, user) => {
+    const validEmail = validate(email, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()])
+    const validPassword = validate(password, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD()])
+     if (!validEmail.valid || !validPassword.valid) {
+       return res.status(400).json({ message: validEmail.message || validPassword.message});
+     }
     if (!user) {
       res.status(400).json({ message: "No user FOUND." });
     } else {
       let isValid = bcrypt.compareSync(password, user.password);
-
       if (isValid === false) {
         return res.status(401).json({ message: "Invalid Password." });
       } else {
@@ -109,6 +127,10 @@ const login = (req, res, next) => {
 const getUserById = (req, res, next) => {
   userId = req.params.uid;
   userModel.getUser(userId, (err, result) => {
+    const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()])
+    if (!validId.valid) {
+        return res.status(400).json({ message: validId.message });
+      }
     if (!err) {
       return res.status(201).json({ user: result });
     } else {
@@ -135,15 +157,25 @@ function escapeHtml(text) {
       .replace(/'/g, "&#039;");
 }
 
-
 const updateUser = (req, res, next) => {
-  const { firstname, lastname, email, bio, gender, orientation, age } = req.body;
+  const { username, firstname, lastname, email, bio, gender, orientation, age} = req.body;
   const userId = req.params.uid;
-  if (gender !== "Man" && gender !== "Woman"){
-        return res.status(401).json({ message: "Enter valid gender"});
-
+  const updateUserValidator = updateUserValidate(
+    username,
+    firstname,
+    lastname,
+    email,
+    bio,
+    gender,
+    orientation, 
+    age,
+    userId
+  );
+  if (!updateUserValidator.valid) {
+    return res.status(400).json({ message: updateUserValidator.message });
   }
   userModel.updateUser(
+    username,
     firstname,
     lastname,
     email,
@@ -152,7 +184,6 @@ const updateUser = (req, res, next) => {
     orientation,
     age,
     userId,
-
     
     (err, data) => {
       if (!err) {
@@ -167,6 +198,16 @@ const updateUser = (req, res, next) => {
 const updateUserPassword = (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
   const userId = req.params.uid;
+  const validPassword = validate(newPassword, [VALIDATOR_PASSWORD])
+  if (!validPassword.valid ){
+    return res.status(400).json({ message: validPassword.message });
+  }
+  if(oldPassword === newPassword){
+    return res.status(400).json({ message: "Your new password must be different from your old password"});
+  }
+  if(newPassword !== repeatPassword){
+    return res.status(400).json({ message: "Please repeat the same password"});
+  }
   userModel.updateUserPassword(
     oldPassword,
     newPassword,
@@ -203,6 +244,10 @@ const updateUserPicture = (req, res, next) => {
 
 const getMatchedByUid = (req, res, next) => {
   const userId = req.params.uid;
+  const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  if (!validId.valid) {
+    return res.status(400).json({ message: validId.message });
+  }
   userModel.getUserMatch(
     userId,
     (err, result) => {
@@ -272,7 +317,10 @@ const updateTokenPassword = (req, res, next) => {
   const reinitializePassword = (req, res, next) => {
     const { newPassword, repeatPassword } = req.body;
     const { tokenPassword } = req.params;
-
+    const validPassword = validate(newPassword, [VALIDATOR_PASSWORD]);
+    if (!validPassword.valid) {
+      return res.status(400).json({ message: validPassword.message });
+  }
     userModel.reinitializePassword(
       tokenPassword,
       newPassword,

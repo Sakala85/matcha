@@ -142,7 +142,7 @@ CREATE TABLE `user` (
   `valid_email` tinyint(1) DEFAULT '0',
   `online` tinyint(1) DEFAULT '1',
   `gender` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
-  `orientation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Man',
+  `orientation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Both',
   `bio` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `popularity` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_visit` datetime DEFAULT NULL,

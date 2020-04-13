@@ -1,15 +1,15 @@
 const addLike = (matcher, liked, callBack) => {
-  let sql = `SELECT * FROM user_like WHERE id_user1 = "${liked}" AND id_user2 = "${matcher}"`;
+  let sql = `SELECT * FROM user_like WHERE id_user1 = ${db.escape(liked)} AND id_user2 = ${db.escape(matcher)}`;
   db.query(sql, (err, result) => {
     if (!result[0]) {
-      let sql = `INSERT INTO user_like (id_user1, id_user2) VALUES ('${matcher}', '${liked}')`;
+      let sql = `INSERT INTO user_like (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(liked)})`;
       db.query(sql, (err, result) => {});
     return callBack(err, {message: "like"});
     }
     else {
-      let sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${matcher}', '${liked}')`;
+      let sql = `INSERT INTO user_match (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(liked)})`;
       db.query(sql, (err, result) => {});
-      sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${liked}', '${matcher}')`;
+      sql = `INSERT INTO user_match (id_user1, id_user2) VALUES (${db.escape(liked)}, ${db.escape(matcher)})`;
       db.query(sql, (err, result) => {});
     return callBack(err, {message: "match"});
     }
@@ -17,7 +17,7 @@ const addLike = (matcher, liked, callBack) => {
 };
 
 const addDislike = (matcher, disliked, callBack) => {
-  let sql = `INSERT INTO user_dislike (id_user1, id_user2) VALUES ('${matcher}', '${disliked}')`;
+  let sql = `INSERT INTO user_dislike (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(disliked)})`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, null);
@@ -25,9 +25,9 @@ const addDislike = (matcher, disliked, callBack) => {
 };
 
 const deleteMatch = (unmatcher, unmatched, callBack) => {
-let sql = `DELETE FROM user_match WHERE id_user1 = '${unmatcher}' AND id_user2 = '${unmatched}' `
+let sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(unmatcher)} AND id_user2 = ${db.escape(unmatched)}`
   db.query(sql, (err, result) => {});
-sql = `DELETE FROM user_match WHERE id_user1 = '${unmatched}' AND id_user2 = '${unmatcher}' `;
+sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(unmatched)} AND id_user2 = ${db.escape(unmatcher)}`;
   db.query(sql, (err, result) => {});
   console.log(unmatcher + "okok" + unmatched)
 return callBack (null, null);
