@@ -126,15 +126,6 @@ const getMatchById = (req, res, next) => {
     }
   });
 };
-function escapeHtml(text) {
-  return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-}
-
 
 const updateUser = (req, res, next) => {
   const { firstname, lastname, email, bio, gender, orientation, age } = req.body;
@@ -223,19 +214,6 @@ const deleteUser = (req, res, next) => {
   USER = USER.filter((u) => u.id !== userId);
   res.status(200).json({ message: "Place Deleted" });
 };
-
-const getMatchByUid = (req, res, next) => {
-  MATCH = "";
-  user = "";
-  if (!MATCH) {
-    throw new HttpError("No matcheable people found !", 404);
-  }
-  if (!user) {
-    throw new HttpError("Could not find your profile !", 404);
-  }
-  res.json({ match });
-};
-
 
 
 const updateValidEmail = (req, res, next) => {

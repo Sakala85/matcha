@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./ChatItem.css";
 
 const ChatItem = props => {
-  const link = `/chat?name=${props.username}&room=${props.name}`;
+  const link = `/chat?roomName=${props.name}&room=${props.room_id}&name=${props.username}`;
   return (
     <Link to={link}>
       <Card className="bg-dark text-white card__container_notif">

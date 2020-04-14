@@ -20,6 +20,20 @@ const addUser = ({ id, name, room }) => {
   return { user };
 }
 
+const addUserBack = ({ id, username, userId }) => {
+  const existingUser = users.find((user) => user.username === username);
+
+  const user = { id, username, userId };
+  if (!existingUser) {
+    users.push(user);
+  }
+  return { user };
+}
+const getUserBack = (id) => {
+  const user = users.find((user) => user.userId === id);
+  return (user)
+}
+
 const removeUser = (id) => {
   const index = users.findIndex((user) => user.id === id);
 
@@ -30,4 +44,4 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom, connectUser };
+module.exports = { addUser, removeUser, getUser, getUsersInRoom, connectUser, addUserBack,getUserBack };

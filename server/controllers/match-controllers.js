@@ -1,9 +1,13 @@
 const matchModel = require("../models/match-model");
+const uuid = require("node-uuid");
+
 
 const like = (req, res, next) => {
   const {liked} = req.body;
   const matcher = req.userData.userId;
-  matchModel.addLike(matcher, liked, (err, result) => {
+  const room_id = uuid.v1();
+
+  matchModel.addLike(matcher, liked, room_id, (err, result) => {
     if (!err) {
       return res.status(201).json({ result });
     } else {

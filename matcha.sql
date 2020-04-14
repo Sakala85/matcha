@@ -56,7 +56,8 @@ CREATE TABLE `user_dislike` (
 CREATE TABLE `user_match` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
-  `id_user2` int(11) NOT NULL
+  `id_user2` int(11) NOT NULL,
+  `room_id` VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

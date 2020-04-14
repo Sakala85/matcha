@@ -59,6 +59,13 @@ const lastnameValidate = (lastname) => {
     return "";
 };
 
+const firstnameValidate = (lastname) => {
+    //const illegalChars = /\W/;
+    if (!lastname) {
+        return "Error empty lastname!";
+    }
+    return "";
+};
 
 const userValidateAll = (email, password, username, firstname, lastname) => {
     const errEmail = emailValidate(email)

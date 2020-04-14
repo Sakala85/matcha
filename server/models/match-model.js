@@ -1,4 +1,4 @@
-const addLike = (matcher, liked, callBack) => {
+const addLike = (matcher, liked, room_id, callBack) => {
   let sql = `SELECT * FROM user_like WHERE id_user1 = "${liked}" AND id_user2 = "${matcher}"`;
   db.query(sql, (err, result) => {
     if (!result[0]) {
@@ -7,9 +7,9 @@ const addLike = (matcher, liked, callBack) => {
     return callBack(err, {message: "like"});
     }
     else {
-      let sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${matcher}', '${liked}')`;
+      let sql = `INSERT INTO user_match (id_user1, id_user2, room_id) VALUES ('${matcher}', '${liked}', '${room_id}')`;
       db.query(sql, (err, result) => {});
-      sql = `INSERT INTO user_match (id_user1, id_user2) VALUES ('${liked}', '${matcher}')`;
+      sql = `INSERT INTO user_match (id_user1, id_user2, room_id) VALUES ('${liked}', '${matcher}', '${room_id}')`;
       db.query(sql, (err, result) => {});
     return callBack(err, {message: "match"});
     }

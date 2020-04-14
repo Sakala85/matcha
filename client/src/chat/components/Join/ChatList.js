@@ -25,6 +25,7 @@ const ChatList = (props) => {
             key={user.id}
             name={user.username}
             username={props.userName}
+            room_id={user.room_id}
           />
         );
       })}

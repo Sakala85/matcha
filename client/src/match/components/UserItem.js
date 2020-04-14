@@ -15,7 +15,7 @@ const UserItem = (props) => {
 
   const openDetailHandler = async () => {
     setShowDetail(true);
-    sendNotification(auth.userId, props.id, "Visit", auth.token);
+    sendNotification(auth.userId, props.id, "Visit", auth.token, auth.username);
   };
   const closeDetailHandler = () => setShowDetail(false);
   const closeMatchHandler = () => setShowMatch(false);
@@ -55,7 +55,7 @@ const UserItem = (props) => {
       if (response.result.message === "match") {
         openMatchHandler();
       }
-      sendNotification(auth.userId, props.id, "Like", auth.token);
+      sendNotification(auth.userId, props.id, "Like", auth.token, auth.username);
     } catch (err) {}
   };
 

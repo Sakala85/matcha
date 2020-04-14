@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,7 +13,6 @@ import Match from "./match/pages/Match";
 import Notification from "./Notification/pages/Notification";
 import Auth from "./user/Auth/Auth";
 import UpdateUser from "./user/Account/UpdateUser";
-import NotificationDisplay from "./Notification/pages/NotificationDisplay";
 import ConfirmEmail from "./user/ConfirmEmail/ConfirmEmail";
 import ForgetPassword from "./user/ResetPassword/ForgetPassword";
 import ResetPassword from "./user/ResetPassword/ResetPassword";
@@ -21,7 +20,6 @@ import NotifPush from "./Notification/PushNotif/pushNotif";
 import { AuthContext } from "./shared/context/auth-context";
 
 const App = () => {
-  const auth = useContext(AuthContext);
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
   const [username, setUserName] = useState(false);
@@ -77,6 +75,7 @@ const App = () => {
       </Switch>
     );
   }
+  console.log(token)
   return (
     <AuthContext.Provider
       value={{
@@ -90,9 +89,6 @@ const App = () => {
     >
       <Router>
         {token !== false && <MainNavigation />}
-        {token !== false && <NotificationDisplay />}
-        {auth.username !== null && console.log(auth.username)}
-        {console.log(username)}
         {token !== false && <NotifPush username={username}/>}
         <main>{routes}</main>
       </Router>
