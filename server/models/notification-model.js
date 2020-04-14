@@ -1,5 +1,5 @@
 const getNotification = (userId, callBack) => {
-  let sql = `SELECT notification.id, type, date, username, picture1 FROM notification INNER JOIN user ON notification.id_user1 = user.id WHERE notification.id_user2 = "${userId}"`;
+  let sql = `SELECT notification.id, type, date, username, picture1 FROM notification INNER JOIN user ON notification.id_user1 = user.id WHERE notification.id_user2 = ${db.escape(userId)}`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {
@@ -10,7 +10,7 @@ const getNotification = (userId, callBack) => {
 };
 
 const createNotification = (userId, id_user2, type, callBack) => {
-  let sql = `INSERT INTO notification (id_user1, id_user2, type, date) VALUES ('${userId}', '${id_user2}', '${type}', NOW())`;
+  let sql = `INSERT INTO notification (id_user1, id_user2, type, date) VALUES (${db.escape(userId)}, ${db.escape(id_user2)}, ${db.escape(type)}, NOW())`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, null);

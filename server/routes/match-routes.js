@@ -11,4 +11,6 @@ router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour ac
 router.post('/dislike/:uid', matchController.dislike);
 router.post('/like/:uid', matchController.like);
 
+router.delete("/:uid", matchController.unmatch);
+
 module.exports = router;

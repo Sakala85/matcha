@@ -24,6 +24,10 @@ const UpdateProfile = props => {
 
   const [formState, inputHandler] = useForm(
     {
+      username: {
+        value: props.items.username,
+        isValid: false,
+      },
       firstname: {
         value: props.items.firstname,
         isValid: false,
@@ -63,17 +67,18 @@ const UpdateProfile = props => {
         `http://localhost:5000/api/user/${auth.userId}`,
         "PATCH",
         JSON.stringify({
+          username: formState.inputs.username.value,
           firstname: formState.inputs.firstname.value,
           lastname: formState.inputs.lastname.value,
           email: formState.inputs.email.value,
           bio: formState.inputs.bio.value,
           age: formState.inputs.age.value,
           gender: formState.inputs.gender.value,
-          orientation: formState.inputs.orientation.value
+          orientation: formState.inputs.orientation.value,
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token
+          Authorization: "Bearer " + auth.token,
         }
       );
     } catch (err) {}
@@ -92,6 +97,19 @@ const UpdateProfile = props => {
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
       {!isLoading && (
         <form onSubmit={UpdateSubmitHandler}>
+          <div className="InputForm__LogIn">
+            <Input
+              id="username"
+              element="input"
+              type="text"
+              label="Username"
+              validators={[VALIDATOR_REQUIRE()]}
+              errorText="Please enter a valid username."
+              onInput={inputHandler}
+              initialValue={formState.inputs.username.value}
+              initialValid={true}
+            />
+          </div>
           <div className="InputForm__LogIn">
             <Input
               id="firstname"
