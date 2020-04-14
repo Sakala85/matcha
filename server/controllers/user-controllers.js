@@ -1,12 +1,12 @@
 const HttpError = require("../models/http-error");
 const userModel = require("../models/user-model");
 const {
-  userValidateAll, 
+  userValidateAll,
   updateUserValidate,
-  validate, 
-  VALIDATOR_EMAIL, 
-  VALIDATOR_PASSWORD, 
-  VALIDATOR_REQUIRE, 
+  validate,
+  VALIDATOR_EMAIL,
+  VALIDATOR_PASSWORD,
+  VALIDATOR_REQUIRE,
   VALIDATOR_NUMBER,
 } = require("../utils/user-validator");
 const fs = require("fs");
@@ -15,7 +15,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
 // const decodeUriComponent = require('decode-uri-component');
-
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password } = req.body;
@@ -77,21 +76,26 @@ const createUser = async (req, res, next) => {
     }
   );
 };
-  //  const validEmail = validate(email, [VALIDATOR_EMAIL])
-  //    if (!validEmail.valid ) {
-  //      return res
-  //        .status(400)
-  //        .json({ message:  });
-  //    }
+//  const validEmail = validate(email, [VALIDATOR_EMAIL])
+//    if (!validEmail.valid ) {
+//      return res
+//        .status(400)
+//        .json({ message:  });
+//    }
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
+  const validEmail = validate(email, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]);
+  const validPassword = validate(password, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_PASSWORD(),
+  ]);
+  if (!validEmail.valid || !validPassword.valid) {
+    return res
+      .status(400)
+      .json({ message: validEmail.message || validPassword.message });
+  }
   userModel.getPassword(email, (err, user) => {
-    const validEmail = validate(email, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()])
-    const validPassword = validate(password, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD()])
-     if (!validEmail.valid || !validPassword.valid) {
-       return res.status(400).json({ message: validEmail.message || validPassword.message});
-     }
     if (!user) {
       res.status(400).json({ message: "No user FOUND." });
     } else {
@@ -126,11 +130,11 @@ const login = (req, res, next) => {
 
 const getUserById = (req, res, next) => {
   userId = req.params.uid;
+  const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  if (!validId.valid) {
+    return res.status(400).json({ message: validId.message });
+  }
   userModel.getUser(userId, (err, result) => {
-    const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()])
-    if (!validId.valid) {
-        return res.status(400).json({ message: validId.message });
-      }
     if (!err) {
       return res.status(201).json({ user: result });
     } else {
@@ -150,7 +154,16 @@ const getMatchById = (req, res, next) => {
 };
 
 const updateUser = (req, res, next) => {
-  const { username, firstname, lastname, email, bio, gender, orientation, age} = req.body;
+  const {
+    username,
+    firstname,
+    lastname,
+    email,
+    bio,
+    gender,
+    orientation,
+    age,
+  } = req.body;
   const userId = req.params.uid;
   const updateUserValidator = updateUserValidate(
     username,
@@ -159,7 +172,7 @@ const updateUser = (req, res, next) => {
     email,
     bio,
     gender,
-    orientation, 
+    orientation,
     age,
     userId
   );
@@ -176,7 +189,7 @@ const updateUser = (req, res, next) => {
     orientation,
     age,
     userId,
-    
+
     (err, data) => {
       if (!err) {
         return res.status(201).json({ message: "User Updated" });
@@ -190,29 +203,33 @@ const updateUser = (req, res, next) => {
 const updateUserPassword = (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
   const userId = req.params.uid;
-  const validPassword = validate(newPassword, [VALIDATOR_PASSWORD])
-  if (!validPassword.valid ){
+  const validPassword = validate(newPassword, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_PASSWORD(),
+  ]);
+  if (!validPassword.valid) {
     return res.status(400).json({ message: validPassword.message });
-  }
-  if(oldPassword === newPassword){
-    return res.status(400).json({ message: "Your new password must be different from your old password"});
-  }
-  if(newPassword !== repeatPassword){
-    return res.status(400).json({ message: "Please repeat the same password"});
-  }
-  userModel.updateUserPassword(
-    oldPassword,
-    newPassword,
-    repeatPassword,
-    userId,
-    (err, data) => {
-      if (!err) {
-        return res.status(201).json({ message: "User Updated" });
-      } else {
-        return res.status(400).json({ message: err });
+  } else if (oldPassword === newPassword) {
+    return res.status(400).json({
+      message: "Your new password must be different from your old password",
+    });
+  } else if (newPassword !== repeatPassword) {
+    return res.status(400).json({ message: "Please repeat the same password" });
+  } else {
+    userModel.updateUserPassword(
+      oldPassword,
+      newPassword,
+      repeatPassword,
+      userId,
+      (err, data) => {
+        if (!err) {
+          return res.status(201).json({ message: "User Updated" });
+        } else {
+          return res.status(400).json({ message: err });
+        }
       }
-    }
-  );
+    );
+  }
 };
 
 const updateUserPicture = (req, res, next) => {
@@ -240,16 +257,13 @@ const getMatchedByUid = (req, res, next) => {
   if (!validId.valid) {
     return res.status(400).json({ message: validId.message });
   }
-  userModel.getUserMatch(
-    userId,
-    (err, result) => {
-      if (!err) {
-        return res.status(201).json({ matched: result });
-      } else {
-        return res.status(400).json({ message: err });
-      }
+  userModel.getUserMatch(userId, (err, result) => {
+    if (!err) {
+      return res.status(201).json({ matched: result });
+    } else {
+      return res.status(400).json({ message: err });
     }
-  );
+  });
 };
 
 const deleteUser = (req, res, next) => {
@@ -261,22 +275,17 @@ const deleteUser = (req, res, next) => {
   res.status(200).json({ message: "Place Deleted" });
 };
 
-
 const updateValidEmail = (req, res, next) => {
-  const { tokenEmail} = req.params;
+  const { tokenEmail } = req.params;
 
-  userModel.updateValidEmail(
-    tokenEmail,
-    (err, result) => {
-      if (!err) {
-        return res.status(200).json({user: result[0]});
-        } else {
-        return res.status(400).json({ message: err });
-      }
+  userModel.updateValidEmail(tokenEmail, (err, result) => {
+    if (!err) {
+      return res.status(200).json({ user: result[0] });
+    } else {
+      return res.status(400).json({ message: err });
     }
-  );
-}
-
+  });
+};
 
 const updateTokenPassword = (req, res, next) => {
   const { email } = req.body;
@@ -284,35 +293,32 @@ const updateTokenPassword = (req, res, next) => {
   userModel.updateTokenPassword(email, token_password, (err, result) => {
     if (!err) {
       sendMail.sendEmailResetPass(email, token_password);
-      return res.status(200).json({ message: 'User received email' });
+      return res.status(200).json({ message: "User received email" });
     } else {
       return res.status(400).json({ message: err });
     }
   });
-  
 };
 
-
-  const reinitializePassword = (req, res, next) => {
-    const { newPassword, repeatPassword } = req.body;
-    const { tokenPassword } = req.params;
-    const validPassword = validate(newPassword, [VALIDATOR_PASSWORD]);
-    if (!validPassword.valid) {
-      return res.status(400).json({ message: validPassword.message });
+const reinitializePassword = (req, res, next) => {
+  const { newPassword, repeatPassword } = req.body;
+  const { tokenPassword } = req.params;
+  const validPassword = validate(newPassword, [VALIDATOR_PASSWORD]);
+  if (!validPassword.valid) {
+    return res.status(400).json({ message: validPassword.message });
   }
-    userModel.reinitializePassword(
-      tokenPassword,
-      newPassword,
-      repeatPassword,
-      (err, data) => {
-        if (!err) {
-          return res.status(201).json({ message: "User Updated" });
-        } else {
-          return res.status(400).json({ message: err });
-        }
+  userModel.reinitializePassword(
+    tokenPassword,
+    newPassword,
+    repeatPassword,
+    (err, data) => {
+      if (!err) {
+        return res.status(201).json({ message: "User Updated" });
+      } else {
+        return res.status(400).json({ message: err });
       }
-    );
-
+    }
+  );
 };
 
 exports.login = login;

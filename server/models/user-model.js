@@ -83,8 +83,6 @@ const updateUserPassword = (
     if (err) throw err;
     if (result.length < 1) {
       return callBack("User not Found", null);
-    } else if (newPassword !== repeatPassword) {
-      return callBack("These password are different please try again", null);
     } else if (bcrypt.compareSync(oldPassword, result[0].password) === false){
       return callBack("Wrong Password please try again", null);
     }
