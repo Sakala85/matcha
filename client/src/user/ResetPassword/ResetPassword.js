@@ -5,6 +5,8 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import {
   VALIDATOR_MINLENGTH,
+  VALIDATOR_PASSWORD,
+  VALIDATOR_REQUIRE
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -65,15 +67,14 @@ const ReinitializePassword = () => {
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
       {!isLoading && (
         <form onSubmit={UpdateSubmitHandler}>
-
           <div className="InputForm__LogIn">
             <Input
               id="newPassword"
               element="input"
               type="password"
               label="New Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Password. (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
               initialValue={''}
               initialValid={false}
@@ -85,8 +86,8 @@ const ReinitializePassword = () => {
               element="input"
               type="password"
               label="Repeat Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Password. (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(),VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
               initialValue={''}
               initialValid={false}

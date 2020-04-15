@@ -4,6 +4,8 @@ import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_PASSWORD,
   VALIDATOR_MINLENGTH,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
@@ -72,8 +74,8 @@ const UpdatePassword = () => {
               element="input"
               type="password"
               label="Old Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Password. (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
               initialValue={''}
               initialValid={false}
@@ -85,8 +87,8 @@ const UpdatePassword = () => {
               element="input"
               type="password"
               label="New Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Password. (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
               initialValue={''}
               initialValid={false}
@@ -98,8 +100,8 @@ const UpdatePassword = () => {
               element="input"
               type="password"
               label="Repeat Password"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Password. (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
               initialValue={''}
               initialValid={false}

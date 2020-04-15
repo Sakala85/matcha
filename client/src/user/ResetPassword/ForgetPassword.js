@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { VALIDATOR_EMAIL } from "../../shared/util/validators";
+import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE, } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 
@@ -65,8 +65,8 @@ const ForgetPassword = () => {
               element="input"
               type="text"
               label="E-Mail"
-              validators={[VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email address."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+              errorText="Please enter a valid email address (something like abc@rst.xyz)"
               onInput={inputHandler}
             />
           </div>

@@ -5,6 +5,16 @@ const VALIDATOR_TYPE_MIN = 'MIN';
 const VALIDATOR_TYPE_MAX = 'MAX';
 const VALIDATOR_TYPE_EMAIL = 'EMAIL';
 const VALIDATOR_TYPE_FILE = 'FILE';
+const VALIDATOR_TYPE_ALPHA = "ALPHA";
+const VALIDATOR_TYPE_ALPHANUMERIC = "ALPHANUMERIC";
+const VALIDATOR_TYPE_NUMBER = "NUMBER";
+const VALIDATOR_TYPE_PASSWORD = "PASSWORD";
+
+export const VALIDATOR_NUMBER = () => ({ type: VALIDATOR_TYPE_NUMBER });
+export const VALIDATOR_ALPHA = () => ({ type: VALIDATOR_TYPE_ALPHA });
+export const VALIDATOR_ALPHANUMERIC = () => ({ type: VALIDATOR_TYPE_ALPHANUMERIC });
+export const VALIDATOR_PASSWORD = () => ({ type: VALIDATOR_TYPE_PASSWORD });
+
 
 export const VALIDATOR_REQUIRE = () => ({ type: VALIDATOR_TYPE_REQUIRE });
 export const VALIDATOR_FILE = () => ({ type: VALIDATOR_TYPE_FILE });
@@ -41,6 +51,19 @@ export const validate = (value, validators) => {
     if (validator.type === VALIDATOR_TYPE_EMAIL) {
       isValid = isValid && /^\S+@\S+\.\S+$/.test(value);
     }
+     if (validator.type === VALIDATOR_TYPE_ALPHA){
+      isValid = isValid && /^[a-zA-Z.-]*$/.test(value);
+    }
+     if (validator.type === VALIDATOR_TYPE_ALPHANUMERIC){
+      isValid = isValid && /^[a-zA-Z0-9_.-]*$/.test(value);  
+    }
+     if (validator.type === VALIDATOR_TYPE_NUMBER){
+      isValid = isValid && Number.isInteger(Number(value)); 
+    }
+     if (validator.type === VALIDATOR_TYPE_PASSWORD){
+        isValid = isValid && /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])/.test(value);
+    }
+
   }
   return isValid;
 };

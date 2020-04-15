@@ -88,16 +88,14 @@ const updateUserPassword = (
     }
     hachedpassword = bcrypt.hashSync(newPassword, 8);
 
-    let sql = `UPDATE user
-  SET password = ${db.escape(hachedpassword)} WHERE id = ${db.escape(userId)}`;
+    sql = `UPDATE user SET password = ${db.escape(hachedpassword)} WHERE id = ${db.escape(userId)}`;
     db.query(sql, () => {});
     return callBack(null, null);
   });
 };
 
 const updateUserPicture = (picture, path, userId, callBack) => {
-  let sql = `UPDATE user
-  SET ${db.escape(picture)}= ${db.escape(path)} WHERE id = ${db.escape(userId)}`;
+  let sql = `UPDATE user SET ${db.escape(picture)}= ${db.escape(path)} WHERE id = ${db.escape(userId)}`;
   db.query(sql, () => {});
   return callBack(null, null);
 };
@@ -140,7 +138,7 @@ const updateValidEmail = (
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {
-      let sql = `UPDATE user SET valid_email = '1', token_email = NULL WHERE id = ${db.escape(result[0].id)}`;
+      sql = `UPDATE user SET valid_email = '1', token_email = NULL WHERE id = ${db.escape(result[0].id)}`;
       db.query(sql, () => {});
       return callBack(null, result, data);
     } else {
@@ -154,7 +152,7 @@ const updateTokenPassword = (email, tokenPassword, callBack) => {
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {
-      let sql = `UPDATE user SET token_password = ${db.escape(tokenPassword)} WHERE id = ${db.escape(result[0].id)}`;
+      sql = `UPDATE user SET token_password = ${db.escape(tokenPassword)} WHERE id = ${db.escape(result[0].id)}`;
       db.query(sql, () => {});
       return callBack(null, result, data);
     } else {
@@ -180,7 +178,7 @@ const reinitializePassword = (
     } 
     hachedpassword = bcrypt.hashSync(newPassword, 8);
 
-    let sql = `UPDATE user SET password = ${db.escape(hachedpassword)}, token_password = NULL  WHERE id = ${db.escape(result[0].id)}`;
+    sql = `UPDATE user SET password = ${db.escape(hachedpassword)}, token_password = NULL  WHERE id = ${db.escape(result[0].id)}`;
     db.query(sql, () => {});
     return callBack(null, null);
   });

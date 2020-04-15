@@ -6,6 +6,7 @@ const {
   validate,
   VALIDATOR_EMAIL,
   VALIDATOR_PASSWORD,
+  VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
   VALIDATOR_NUMBER,
 } = require("../utils/user-validator");
@@ -65,7 +66,6 @@ const createUser = async (req, res, next) => {
           );
           return next(error);
         }
-
         return res.status(201).json({
           userId: data.id,
           email: data.email,
@@ -76,20 +76,11 @@ const createUser = async (req, res, next) => {
     }
   );
 };
-//  const validEmail = validate(email, [VALIDATOR_EMAIL])
-//    if (!validEmail.valid ) {
-//      return res
-//        .status(400)
-//        .json({ message:  });
-//    }
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
   const validEmail = validate(email, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]);
-  const validPassword = validate(password, [
-    VALIDATOR_REQUIRE(),
-    VALIDATOR_PASSWORD(),
-  ]);
+  const validPassword = validate(password, [VALIDATOR_REQUIRE(),VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
   if (!validEmail.valid || !validPassword.valid) {
     return res
       .status(400)
@@ -203,10 +194,7 @@ const updateUser = (req, res, next) => {
 const updateUserPassword = (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
   const userId = req.params.uid;
-  const validPassword = validate(newPassword, [
-    VALIDATOR_REQUIRE(),
-    VALIDATOR_PASSWORD(),
-  ]);
+  const validPassword = validate(newPassword, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
   if (!validPassword.valid) {
     return res.status(400).json({ message: validPassword.message });
   } else if (oldPassword === newPassword) {
@@ -268,6 +256,10 @@ const getMatchedByUid = (req, res, next) => {
 
 const deleteUser = (req, res, next) => {
   const userId = req.params.uid;
+  const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  if (!validId.valid) {
+    return res.status(400).json({ message: validId.message });
+  }
   if (!USER.find((u) => u.id !== userId)) {
     throw new HttpError("Could not delete your profile", 404);
   }
@@ -277,7 +269,6 @@ const deleteUser = (req, res, next) => {
 
 const updateValidEmail = (req, res, next) => {
   const { tokenEmail } = req.params;
-
   userModel.updateValidEmail(tokenEmail, (err, result) => {
     if (!err) {
       return res.status(200).json({ user: result[0] });
@@ -303,9 +294,12 @@ const updateTokenPassword = (req, res, next) => {
 const reinitializePassword = (req, res, next) => {
   const { newPassword, repeatPassword } = req.body;
   const { tokenPassword } = req.params;
-  const validPassword = validate(newPassword, [VALIDATOR_PASSWORD]);
+  const validPassword = validate(newPassword, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
   if (!validPassword.valid) {
     return res.status(400).json({ message: validPassword.message });
+  }
+  if (newPassword !== repeatPassword) {
+    return res.status(400).json({ message: "Please repeat the same password" });
   }
   userModel.reinitializePassword(
     tokenPassword,

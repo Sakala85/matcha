@@ -6,6 +6,9 @@ import {
   VALIDATOR_EMAIL,
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
+  VALIDATOR_ALPHA,
+  VALIDATOR_ALPHANUMERIC,
+  VALIDATOR_PASSWORD
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -150,8 +153,8 @@ const Auth = () => {
                       id="username"
                       type="text"
                       label="Your Username"
-                      validators={[VALIDATOR_REQUIRE()]}
-                      errorText="Please enter a userName."
+                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2)]}
+                      errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
                       onInput={inputHandler}
                     />
                   </div>
@@ -163,8 +166,8 @@ const Auth = () => {
                       id="firstname"
                       type="text"
                       label="Your Name"
-                      validators={[VALIDATOR_REQUIRE()]}
-                      errorText="Please enter a Name."
+                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+                      errorText="Please enter a valid Name. (min 2 characters), the name can contain only letters, or '-'"
                       onInput={inputHandler}
                     />
                   </div>
@@ -176,8 +179,8 @@ const Auth = () => {
                       id="lastname"
                       type="text"
                       label="Your Lastname"
-                      validators={[VALIDATOR_REQUIRE()]}
-                      errorText="Please enter a lastname."
+                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+                      errorText="Please enter a valid Lastname. (min 2 characters), the lastname can contain only letters, or '-'"
                       onInput={inputHandler}
                     />
                   </div>
@@ -188,8 +191,8 @@ const Auth = () => {
                     id="email"
                     type="text"
                     label="E-Mail"
-                    validators={[VALIDATOR_EMAIL()]}
-                    errorText="Please enter a valid email address."
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+                    errorText="Please enter a valid email address (something like abc@rst.xyz)"
                     onInput={inputHandler}
                   />
                 </div>
@@ -199,8 +202,8 @@ const Auth = () => {
                     id="password"
                     type="password"
                     label="Password"
-                    validators={[VALIDATOR_MINLENGTH(5)]}
-                    errorText="Please enter a valid password, at least 5 characters."
+                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]}
+                    errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
                     onInput={inputHandler}
                   />
                 </div>

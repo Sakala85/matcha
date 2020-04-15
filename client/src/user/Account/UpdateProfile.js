@@ -6,7 +6,11 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import {
   VALIDATOR_REQUIRE,
   VALIDATOR_MINLENGTH,
-  VALIDATOR_EMAIL
+  VALIDATOR_MAXLENGTH,
+  VALIDATOR_EMAIL,
+  VALIDATOR_MIN,
+  VALIDATOR_MAX,
+  VALIDATOR_NUMBER
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
@@ -103,8 +107,8 @@ const UpdateProfile = props => {
               element="input"
               type="text"
               label="Username"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a valid username."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2)]}
+              errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
               onInput={inputHandler}
               initialValue={formState.inputs.username.value}
               initialValid={true}
@@ -116,8 +120,8 @@ const UpdateProfile = props => {
               element="input"
               type="text"
               label="Firstname"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a valid firstname."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+              errorText="Please enter a valid Name. (min 2 characters), the name can contain only letters, or '-'"
               onInput={inputHandler}
               initialValue={formState.inputs.firstname.value}
               initialValid={true}
@@ -129,8 +133,8 @@ const UpdateProfile = props => {
               element="input"
               type="text"
               label="Lastname"
-              validators={[VALIDATOR_REQUIRE()]}
-              errorText="Please enter a valid lastname."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+              errorText="Please enter a valid Lastname. (min 2 characters), the lastname can contain only letters, or '-'"
               onInput={inputHandler}
               initialValue={formState.inputs.lastname.value}
               initialValid={true}
@@ -143,8 +147,8 @@ const UpdateProfile = props => {
               element="input"
               type="text"
               label="Email"
-              validators={[VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+              errorText="Please enter a valid email address (something like abc@rst.xyz)"
               onInput={inputHandler}
               initialValue={formState.inputs.email.value}
               initialValid={true}
@@ -155,8 +159,8 @@ const UpdateProfile = props => {
               id="bio"
               element="textarea"
               label="Bio"
-              validators={[VALIDATOR_MINLENGTH(5)]}
-              errorText="Please enter a valid Bio (min. 5 characters)."
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5), VALIDATOR_MAXLENGTH(255)]}
+              errorText="Please enter a valid Bio (min. 5 characters, max. 255 characters)."
               onInput={inputHandler}
               initialValue={formState.inputs.bio.value}
               initialValid={true}
@@ -168,10 +172,10 @@ const UpdateProfile = props => {
               element="input"
               type="number"
               label="Age"
-              validators={[VALIDATOR_REQUIRE]}
+              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MIN(18), VALIDATOR_MAX(120), VALIDATOR_NUMBER()]}
               min="18"
               max="100"
-              errorText="Please enter a valid age"
+              errorText="Please enter a valid age between 18 to 120 years"
               onInput={inputHandler}
               initialValue={formState.inputs.age.value}
               initialValid={true}

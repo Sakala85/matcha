@@ -71,7 +71,7 @@ const validate = (value, validators) => {
           return {valid: false, message: `The ${value} is not a valid number: error Message de type ${VALIDATOR_TYPE_NUMBER}`}
       }
       if (validator.type === VALIDATOR_TYPE_ALPHA && !(/^[a-zA-Z.-]*$/).test(value)) {
-          return {valid: false, message: `The ${value} it's wrong, this input should contain only letters: error Message de type ${VALIDATOR_TYPE_ALPHA}`}
+          return {valid: false, message: `The ${value} it's wrong, this input should contain only letters or '-': error Message de type ${VALIDATOR_TYPE_ALPHA}`}
       }
       if (validator.type === VALIDATOR_TYPE_ALPHANUMERIC && !(/^[a-zA-Z0-9_.-]*$/).test(value)) {
           return {valid: false, message: `The ${value} it's wrong, this input can contain only letters, numbers & '_' & '-' : error Message de type ${VALIDATOR_TYPE_ALPHANUMERIC}`}
