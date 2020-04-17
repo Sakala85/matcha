@@ -59,6 +59,42 @@ const UserItem = (props) => {
     } catch (err) {}
   };
 
+    const reportProfile = async () => {
+    setShowDetail(false); //SEND A VISIT NOTIF
+    try {
+    await sendRequest(
+        `http://localhost:5000/api/user/match/report/${auth.userId}`,
+        "POST",
+        JSON.stringify({
+          reported: props.id,
+
+        }),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+    } catch (err) {}
+  };
+
+    const blockProfile = async () => {
+    setShowDetail(false); //SEND A VISIT NOTIF
+    try {
+    await sendRequest(
+        `http://localhost:5000/api/user/match/block/${auth.userId}`,
+        "POST",
+        JSON.stringify({
+          blocked: props.id,
+          
+        }),
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
+      );
+    } catch (err) {}
+  };
+
   return (
     <li key={props.id}>
       <React.Fragment>
@@ -155,6 +191,16 @@ const UserItem = (props) => {
             <Row>
               <Col>
                 <h2>{props.gender}</h2>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <button onClick={reportProfile}>Report</button>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <button onClick={blockProfile}>Block</button>
               </Col>
             </Row>
             <Row>

@@ -13,4 +13,8 @@ router.post('/like/:uid', matchController.like);
 
 router.delete("/:uid", matchController.unmatch);
 
+router.post('/report/:uid', matchController.report);
+
+router.post("/block/:uid", matchController.block);
+
 module.exports = router;

@@ -33,6 +33,26 @@ sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(unmatched)} AND id_us
 return callBack (null, null);
 };
 
+
+const reportProfil = (reporter, reported, callBack) => {
+  let sql = `INSERT INTO report (id_user1, id_user2) VALUES (${db.escape(reporter)}, ${db.escape(reported)})`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    return callBack(null, null);
+  });
+};
+
+const blockProfil = (blocker, blocked, callBack) => {
+  let sql = `INSERT INTO blocked (id_user1, id_user2) VALUES (${db.escape(blocker)}, ${db.escape(blocked)})`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    return callBack(null, null);
+  });
+};
+
+
 exports.addLike = addLike;
 exports.addDislike = addDislike;
 exports.deleteMatch = deleteMatch;
+exports.reportProfil = reportProfil;
+exports.blockProfil = blockProfil;

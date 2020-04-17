@@ -124,6 +124,7 @@ const getMatch = (matchId, callBack) => {
 
 const getUserMatch = (userId, callBack) => {
   let sql = `SELECT * FROM user_match INNER JOIN user ON user.id = user_match.id_user2 WHERE id_user1 = ${db.escape(userId)}`;
+ // ajouter le inner join pour mettre de cote la liste des user block 
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, result);
