@@ -33,7 +33,7 @@ const Auth = () => {
 
   const [formState, inputHandler, setFormData] = useForm(
     {
-      email: {
+      username: {
         value: "",
         isValid: false,
       },
@@ -52,7 +52,7 @@ const Auth = () => {
           ...formState.inputs,
           name: undefined,
         },
-        formState.inputs.email.isValid && formState.inputs.password.isValid
+        formState.inputs.username.isValid && formState.inputs.password.isValid
       );
     } else {
       setFormData(
@@ -85,7 +85,7 @@ const Auth = () => {
           "http://localhost:5000/api/user/login",
           "POST",
           JSON.stringify({
-            email: formState.inputs.email.value,
+            username: formState.inputs.username.value,
             password: formState.inputs.password.value,
           }),
           {
@@ -150,11 +150,11 @@ const Auth = () => {
                   <div className="InputForm__LogIn">
                     <Input
                       element="input"
-                      id="username"
+                      id="email"
                       type="text"
-                      label="Your Username"
-                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2)]}
-                      errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
+                      label="E-Mail"
+                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+                      errorText="Please enter a valid email address (something like abc@rst.xyz)"
                       onInput={inputHandler}
                     />
                   </div>
@@ -166,7 +166,11 @@ const Auth = () => {
                       id="firstname"
                       type="text"
                       label="Your Name"
-                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+                      validators={[
+                        VALIDATOR_REQUIRE(),
+                        VALIDATOR_ALPHA(),
+                        VALIDATOR_MINLENGTH(2),
+                      ]}
                       errorText="Please enter a valid Name. (min 2 characters), the name can contain only letters, or '-'"
                       onInput={inputHandler}
                     />
@@ -179,7 +183,11 @@ const Auth = () => {
                       id="lastname"
                       type="text"
                       label="Your Lastname"
-                      validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHA(), VALIDATOR_MINLENGTH(2)]}
+                      validators={[
+                        VALIDATOR_REQUIRE(),
+                        VALIDATOR_ALPHA(),
+                        VALIDATOR_MINLENGTH(2),
+                      ]}
                       errorText="Please enter a valid Lastname. (min 2 characters), the lastname can contain only letters, or '-'"
                       onInput={inputHandler}
                     />
@@ -188,11 +196,15 @@ const Auth = () => {
                 <div className="InputForm__LogIn">
                   <Input
                     element="input"
-                    id="email"
+                    id="username"
                     type="text"
-                    label="E-Mail"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-                    errorText="Please enter a valid email address (something like abc@rst.xyz)"
+                    label="Your username"
+                    validators={[
+                      VALIDATOR_REQUIRE(),
+                      VALIDATOR_ALPHANUMERIC(),
+                      VALIDATOR_MINLENGTH(2),
+                    ]}
+                    errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
                     onInput={inputHandler}
                   />
                 </div>
@@ -202,7 +214,11 @@ const Auth = () => {
                     id="password"
                     type="password"
                     label="Password"
-                    validators={[VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]}
+                    validators={[
+                      VALIDATOR_REQUIRE(),
+                      VALIDATOR_PASSWORD(),
+                      VALIDATOR_MINLENGTH(6),
+                    ]}
                     errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
                     onInput={inputHandler}
                   />

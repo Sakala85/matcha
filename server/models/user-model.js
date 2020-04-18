@@ -23,8 +23,8 @@ const insertUser = (
   });
 };
 
-function getPassword(email, callBack) {
-  let sql = `SELECT id, email, password, username FROM user WHERE email = ${db.escape(email)}`;
+function getPassword(username, callBack) {
+  let sql = `SELECT id, email, password, username FROM user WHERE username = ${db.escape(username)}`;
   db.query(sql, (err, result, data) => {
     if (!result[0]) {
       return callBack("No User Found", null);
@@ -34,14 +34,14 @@ function getPassword(email, callBack) {
   });
 }
 
-const isUser = (email, callBack) => {
-  let sql = `SELECT * FROM user WHERE email = ${db.escape(email)}`;
+const isUser = (username, callBack) => {
+  let sql = `SELECT * FROM user WHERE username = ${db.escape(username)}`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     if (result.length > 0) {
       return callBack(null, null);
     }
-    return callBack("Email or Password Incorect", null);
+    return callBack("Username or Password Incorect", null);
   });
 };
 

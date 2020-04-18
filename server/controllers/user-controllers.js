@@ -5,8 +5,10 @@ const {
   updateUserValidate,
   validate,
   VALIDATOR_EMAIL,
+  VALIDATOR_ALPHANUMERIC,
   VALIDATOR_PASSWORD,
   VALIDATOR_MINLENGTH,
+  VALIDATOR_MAXLENGTH,
   VALIDATOR_REQUIRE,
   VALIDATOR_NUMBER,
 } = require("../utils/user-validator");
@@ -78,15 +80,16 @@ const createUser = async (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  const { email, password } = req.body;
-  const validEmail = validate(email, [VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]);
+  const { username, password } = req.body;
+  const validUsername = validate(username, [VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(15)]);
   const validPassword = validate(password, [VALIDATOR_REQUIRE(),VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
-  if (!validEmail.valid || !validPassword.valid) {
+  if (!validUsername.valid || !validPassword.valid) {
     return res
       .status(400)
-      .json({ message: validEmail.message || validPassword.message });
+      .json({ message: validUsername.message || validPassword.message });
   }
-  userModel.getPassword(email, (err, user) => {
+  userModel.getPassword(username, (err, user) => {
+    console.log(user)
     if (!user) {
       res.status(400).json({ message: "No user FOUND." });
     } else {
@@ -97,7 +100,7 @@ const login = (req, res, next) => {
         let token;
         try {
           token = jwt.sign(
-            { userId: user.id, email: user.email },
+            { userId: user.id, username: user.username },
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
