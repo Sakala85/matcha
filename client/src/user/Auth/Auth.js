@@ -225,7 +225,7 @@ const Auth = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={!formState.isValid}
+                  disabled={formState.isValid}
                   className="button__logIn__signUp"
                 >
                   {isLoginMode ? "LOGIN" : "SIGNUP"}
