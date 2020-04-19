@@ -8,7 +8,7 @@ import {
   VALIDATOR_REQUIRE,
   VALIDATOR_ALPHA,
   VALIDATOR_ALPHANUMERIC,
-  VALIDATOR_PASSWORD
+  VALIDATOR_PASSWORD,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { AuthContext } from "../../shared/context/auth-context";
@@ -51,7 +51,9 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          name: undefined,
+          email: undefined,
+          firstname: undefined,
+          lastname: undefined
         },
         formState.inputs.username.isValid && formState.inputs.password.isValid
       );
@@ -59,7 +61,7 @@ const Auth = () => {
       setFormData(
         {
           ...formState.inputs,
-          username: {
+          email: {
             value: "",
             isValid: false,
           },
@@ -124,7 +126,6 @@ const Auth = () => {
     }
   };
 
-  
   const errorHandler = () => {
     clearError();
   };
@@ -209,9 +210,9 @@ const Auth = () => {
                   </div>
                 )}
                 {isLoginMode && (
-                <div className="InputForm__LogIn">
-                  <img src={image3} alt="image3" />
-                </div>
+                  <div className="InputForm__LogIn">
+                    <img src={image3} alt="image3" />
+                  </div>
                 )}
                 <div className="InputForm__LogIn">
                   <Input
