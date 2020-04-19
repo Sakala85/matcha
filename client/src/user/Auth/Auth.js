@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Modal, Container, Row, Col } from "react-bootstrap";
+import { Modal, Container, Row, Col, Card } from "react-bootstrap";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import Input from "../../shared/components/FormElements/Input";
 import {
@@ -16,13 +16,14 @@ import "./Auth.css";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { Link } from "react-router-dom";
+import image1 from "./img/femmelove.png";
+import image2 from "./img/hommelove.png";
+import image3 from "./img/cadenas.png";
 
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+
   const {
     isLoading,
     error,
@@ -123,6 +124,7 @@ const Auth = () => {
     }
   };
 
+  
   const errorHandler = () => {
     clearError();
   };
@@ -131,19 +133,32 @@ const Auth = () => {
     <Container className="containerBack" fluid>
       <Row>
         <Col>
-          <button className="button__logIn" onClick={handleShow}>
+          {/* <button className="button__logIn" onClick={handleShow}>
             LogIn or SignUp
-          </button>
-          <Modal show={show} onHide={handleClose}>
+          </button> */}
+          {/* <Modal show={show} onHide={handleClose}> */}
+          <Card>
             <ErrorModal
               show={error}
               error={errorMessage}
               onHide={errorHandler}
             />
-            <Modal.Header closeButton>
-              <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title>
+            <Modal.Header>
+              <button
+                onClick={switchModeHandler}
+                className="button__logIn__signUp__switch"
+              >
+                SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
+              </button>
+              {/* <Modal.Title>{isLoginMode ? "LOGIN" : "SIGNUP"}</Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
+              {!isLoginMode && (
+                <div className="InputForm__LogIn">
+                  <img src={image1} alt="image1" />
+                  <img src={image2} alt="image2" />
+                </div>
+              )}
               <form onSubmit={authSubmitHandler}>
                 {isLoading && <LoadingSpinner asOverlay />}
                 {!isLoginMode && (
@@ -152,7 +167,7 @@ const Auth = () => {
                       element="input"
                       id="email"
                       type="text"
-                      label="E-Mail"
+                      placeholder="E-Mail"
                       validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
                       errorText="Please enter a valid email address (something like abc@rst.xyz)"
                       onInput={inputHandler}
@@ -165,7 +180,7 @@ const Auth = () => {
                       element="input"
                       id="firstname"
                       type="text"
-                      label="Your Name"
+                      placeholder="Name"
                       validators={[
                         VALIDATOR_REQUIRE(),
                         VALIDATOR_ALPHA(),
@@ -182,7 +197,7 @@ const Auth = () => {
                       element="input"
                       id="lastname"
                       type="text"
-                      label="Your Lastname"
+                      placeholder="Lastname"
                       validators={[
                         VALIDATOR_REQUIRE(),
                         VALIDATOR_ALPHA(),
@@ -193,18 +208,23 @@ const Auth = () => {
                     />
                   </div>
                 )}
+                {isLoginMode && (
+                <div className="InputForm__LogIn">
+                  <img src={image3} alt="image3" />
+                </div>
+                )}
                 <div className="InputForm__LogIn">
                   <Input
                     element="input"
                     id="username"
                     type="text"
-                    label="Your username"
+                    placeholder="Username"
                     validators={[
                       VALIDATOR_REQUIRE(),
                       VALIDATOR_ALPHANUMERIC(),
                       VALIDATOR_MINLENGTH(2),
                     ]}
-                    errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
+                    errorText="Please enter a valid username. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
                     onInput={inputHandler}
                   />
                 </div>
@@ -213,7 +233,7 @@ const Auth = () => {
                     element="input"
                     id="password"
                     type="password"
-                    label="Password"
+                    placeholder="Password"
                     validators={[
                       VALIDATOR_REQUIRE(),
                       VALIDATOR_PASSWORD(),
@@ -225,21 +245,17 @@ const Auth = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={formState.isValid}
+                  disabled={!formState.isValid}
                   className="button__logIn__signUp"
                 >
                   {isLoginMode ? "LOGIN" : "SIGNUP"}
                 </button>
               </form>
             </Modal.Body>
-            <button
-              onClick={switchModeHandler}
-              className="button__logIn__signUp__switch"
-            >
-              SWITCH TO {isLoginMode ? "SIGNUP" : "LOGIN"}
-            </button>
+
             <Link to="/forgetpassword">Mot de passe oublié?</Link>
-          </Modal>
+            {/* </Modal> */}
+          </Card>
         </Col>
       </Row>
     </Container>

@@ -110,7 +110,7 @@ const UpdateProfile = props => {
               type="text"
               label="Username"
               validators={[VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2)]}
-              errorText="Please enter a valid userName. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
+              errorText="Please enter a valid username. (min 2 characters), the username can contain only letters, numbers, '_' and '-' "
               onInput={inputHandler}
               initialValue={formState.inputs.username.value}
               initialValid={true}

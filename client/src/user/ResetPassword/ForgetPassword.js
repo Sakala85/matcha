@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./resetpass.css";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -57,6 +58,10 @@ const ForgetPassword = () => {
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
+      <div className="title">
+          Please enter your email address to receive a link to reset your
+          password
+      </div>
       {!isLoading && (
         <form onSubmit={UpdateSubmitHandler}>
           <div className="InputForm__LogIn">
@@ -64,7 +69,7 @@ const ForgetPassword = () => {
               id="email"
               element="input"
               type="text"
-              label="E-Mail"
+              placeholder="E-Mail"
               validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
               errorText="Please enter a valid email address (something like abc@rst.xyz)"
               onInput={inputHandler}
@@ -76,11 +81,11 @@ const ForgetPassword = () => {
             disabled={!formState.isValid}
             className="button__logIn__signUp"
           >
-            Change Password
+            Send
           </button>
         </form>
       )}
-      {changedPassword && <h3>Check tes mails pour changer de mdp</h3>}
+      {changedPassword && <h6>Check your mail for update your password</h6>}
     </React.Fragment>
   );
 };

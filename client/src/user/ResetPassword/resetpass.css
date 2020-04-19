@@ -1,0 +1,9 @@
+.title {
+    text-align: center;
+}
+
+h6, .h6{
+    text-align: center;
+        margin: 40px auto;
+    color: #ff69b4;
+}

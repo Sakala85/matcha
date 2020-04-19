@@ -1,7 +1,4 @@
 
-.InputForm__LogIn{
-  margin-top: 10px;
-}
 /* BUTTON */
 .button__logIn__signUp{
   display: block;
@@ -13,6 +10,8 @@
   background-color: pink;
   border-color: pink;
   border: 5px solid rgb(233, 90, 149);
+
+
 }
 .button__logIn__signUp:hover {
   background-color: rgb(233, 90, 149);
@@ -21,7 +20,7 @@
 }
 .button__logIn__signUp__switch{
   display: block;
-  width: 100%;
+  width: 60%;
   height: 50px;
   margin: 0 auto;
   color: black;
@@ -39,7 +38,6 @@
   position: absolute;
   top: 0;
   height: 100%;
-  background-image: url(./WelcomeImg/matchWelcome2.jpg);
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -60,4 +58,39 @@
   background-color: rgb(233, 90, 149);
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+a {
+  text-align: center;
+  color: grey;
+      margin-bottom: 25px;
+}
+
+.containerBack.container-fluid{
+  text-align: center;
+  width: 100%;
+}
+
+.input-password {
+    margin-bottom: 70px;
+}
+
+.col{
+      max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.card{
+      box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.1);
+    width: 450px;
+    margin: 20px auto;
+
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+    margin-bottom: 30px;
 }

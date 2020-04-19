@@ -74,7 +74,6 @@ const updateUser = (
 const updateUserPassword = (
   oldPassword,
   newPassword,
-  repeatPassword,
   userId,
   callBack
 ) => {

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./resetpass.css";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -65,6 +66,12 @@ const ReinitializePassword = () => {
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
+      <div className="title">
+        You can choose now your new password. <br></br>
+        <br></br>
+        The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6
+        characters)
+      </div>
       {!isLoading && (
         <form onSubmit={UpdateSubmitHandler}>
           <div className="InputForm__LogIn">
@@ -72,11 +79,15 @@ const ReinitializePassword = () => {
               id="newPassword"
               element="input"
               type="password"
-              label="New Password"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              placeholder="New Password"
+              validators={[
+                VALIDATOR_REQUIRE(),
+                VALIDATOR_MINLENGTH(6),
+                VALIDATOR_PASSWORD(),
+              ]}
               errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
-              initialValue={''}
+              initialValue={""}
               initialValid={false}
             />
           </div>
@@ -85,11 +96,15 @@ const ReinitializePassword = () => {
               id="repeatPassword"
               element="input"
               type="password"
-              label="Repeat Password"
-              validators={[VALIDATOR_REQUIRE(),VALIDATOR_MINLENGTH(6), VALIDATOR_PASSWORD()]}
+              placeholder="Repeat Password"
+              validators={[
+                VALIDATOR_REQUIRE(),
+                VALIDATOR_MINLENGTH(6),
+                VALIDATOR_PASSWORD(),
+              ]}
               errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
               onInput={inputHandler}
-              initialValue={''}
+              initialValue={""}
               initialValid={false}
             />
           </div>
@@ -102,7 +117,7 @@ const ReinitializePassword = () => {
           </button>
         </form>
       )}
-      {changedPassword && <h3>Password Changed</h3>}
+      {changedPassword && <h6>Password Changed</h6>}
     </React.Fragment>
   );
 };
