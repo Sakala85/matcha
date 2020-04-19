@@ -5,33 +5,36 @@
   width: 150px;
   height: 40px;
   margin: 0 auto;
-  border-radius: 50px;
-  color: black;
+  border-radius: 20px;
+  color: #2b2e3082;
+  letter-spacing: 2px;
+  font-weight: bold;
   background-color: pink;
   border-color: pink;
-  border: 5px solid rgb(233, 90, 149);
+  border: 2px solid rgb(233, 90, 149);
 
 
 }
 .button__logIn__signUp:hover {
-  background-color: rgb(233, 90, 149);
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+background-color: rgba(251, 123, 176, 0.34);
+box-shadow: 0 12px 16px 0 rgba(255, 120, 200, 0.19), 0 1px 5px 0 rgba(255, 120, 200, 0.19);
 }
+
 .button__logIn__signUp__switch{
   display: block;
   width: 60%;
   height: 50px;
   margin: 0 auto;
-  color: black;
+   color: #2b2e3082;
+  letter-spacing: 2px;
+  font-weight: bold;
   background-color: pink;
   border-color: pink;
-  border: 5px solid rgb(233, 90, 149);
+  border: 2px solid rgb(233, 90, 149);
 }
 .button__logIn__signUp__switch:hover{
-  background-color: rgb(233, 90, 149);
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+background-color: rgba(251, 123, 176, 0.34);
+    box-shadow: 0 12px 16px 0 rgba(255, 120, 200, 0.19), 0 1px 5px 0 rgba(255, 120, 200, 0.19);
 }
 
 .containerBack {
@@ -52,10 +55,10 @@
   color: black;
   background-color: pink;
   border-color: pink;
-  border: 5px solid rgb(233, 90, 149);
+  border: 2px solid rgb(233, 90, 149);
 }
 .button__logIn:hover {
-  background-color: rgb(233, 90, 149);
+  background-color: rgba(251, 123, 176, 0.34);
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
@@ -64,6 +67,11 @@ a {
   text-align: center;
   color: grey;
       margin-bottom: 25px;
+     
+}
+a:hover {
+    color: #f099c0;
+    text-decoration: underline;
 }
 
 .containerBack.container-fluid{

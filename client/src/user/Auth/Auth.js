@@ -248,7 +248,7 @@ const Auth = () => {
                   disabled={!formState.isValid}
                   className="button__logIn__signUp"
                 >
-                  {isLoginMode ? "LOGIN" : "SIGNUP"}
+                  {isLoginMode ? "login" : "signup"}
                 </button>
               </form>
             </Modal.Body>
