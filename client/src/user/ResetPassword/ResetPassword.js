@@ -11,7 +11,8 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
+import { Card , Modal} from "react-bootstrap";
 
 const ReinitializePassword = () => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
@@ -66,58 +67,64 @@ const ReinitializePassword = () => {
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-      <div className="title">
-        You can choose now your new password. <br></br>
-        <br></br>
-        The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6
-        characters)
-      </div>
-      {!isLoading && (
-        <form onSubmit={UpdateSubmitHandler}>
-          <div className="InputForm__LogIn">
-            <Input
-              id="newPassword"
-              element="input"
-              type="password"
-              placeholder="New Password"
-              validators={[
-                VALIDATOR_REQUIRE(),
-                VALIDATOR_MINLENGTH(6),
-                VALIDATOR_PASSWORD(),
-              ]}
-              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
-              onInput={inputHandler}
-              initialValue={""}
-              initialValid={false}
-            />
+      <Card className="card-2">
+        <Modal.Header>
+          <div className="title">
+            You can choose now your new password. <br></br>
+            The password need contain 1 uppercase, 1 lowercase and 1 number
+            (min. 6 characters)
           </div>
-          <div className="InputForm__LogIn">
-            <Input
-              id="repeatPassword"
-              element="input"
-              type="password"
-              placeholder="Repeat Password"
-              validators={[
-                VALIDATOR_REQUIRE(),
-                VALIDATOR_MINLENGTH(6),
-                VALIDATOR_PASSWORD(),
-              ]}
-              errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
-              onInput={inputHandler}
-              initialValue={""}
-              initialValid={false}
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={!formState.isValid}
-            className="button__logIn__signUp"
-          >
-            Update Password
-          </button>
-        </form>
-      )}
-      {changedPassword && <h6>Password Changed</h6>}
+        </Modal.Header>
+        {!isLoading && (
+          <form onSubmit={UpdateSubmitHandler}>
+            <div className="InputForm__LogIn">
+              <Input
+                id="newPassword"
+                element="input"
+                type="password"
+                placeholder="New Password"
+                validators={[
+                  VALIDATOR_REQUIRE(),
+                  VALIDATOR_MINLENGTH(6),
+                  VALIDATOR_PASSWORD(),
+                ]}
+                errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
+                onInput={inputHandler}
+                initialValue={""}
+                initialValid={false}
+              />
+            </div>
+            <div className="InputForm__LogIn">
+              <Input
+                id="repeatPassword"
+                element="input"
+                type="password"
+                placeholder="Repeat Password"
+                validators={[
+                  VALIDATOR_REQUIRE(),
+                  VALIDATOR_MINLENGTH(6),
+                  VALIDATOR_PASSWORD(),
+                ]}
+                errorText="Please enter a valid Password. The password need contain 1 uppercase, 1 lowercase and 1 number (min. 6 characters)"
+                onInput={inputHandler}
+                initialValue={""}
+                initialValid={false}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={!formState.isValid}
+              className="button__reset"
+            >
+              update
+            </button>
+          </form>
+        )}
+        {changedPassword && <h6>Password Changed</h6>}
+        <Link className="return" to="/">
+          Click to return to the login
+        </Link>
+      </Card>
     </React.Fragment>
   );
 };

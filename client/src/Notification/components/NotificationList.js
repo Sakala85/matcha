@@ -4,7 +4,7 @@ import moment from "moment-timezone/builds/moment-timezone-with-data";
 
 import NotificationItem from "./NotificationItem";
 import "./NotificationList.css";
-import { Card, Col } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 const timezone = "Europe/Paris";

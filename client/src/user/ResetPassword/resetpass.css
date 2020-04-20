@@ -1,5 +1,5 @@
 .title {
-letter-spacing: 1px;
+/* letter-spacing: 1px; */
     text-align: center;
     font-size: 18px;
     margin: 0px auto;
@@ -10,7 +10,7 @@ letter-spacing: 1px;
 
 h6, .h6{
     text-align: center;
-        margin: 40px auto;
+        margin: 25px auto;
     color: #ff69b4;
 }
 
@@ -47,9 +47,23 @@ a.return:hover {
   border-color: pink;
   border: 2px solid rgb(233, 90, 149);
 
-
 }
 
 .InputForm__reset {
     margin-top: 40px;
+}
+
+.button__reset{
+  display: block;
+  width: 150px;
+  height: 40px;
+  margin: 0 auto;
+  border-radius: 20px;
+  color: #2b2e3082;
+  letter-spacing: 2px;
+  font-weight: bold;
+  background-color: pink;
+  border-color: pink;
+  border: 2px solid rgb(233, 90, 149);
+
 }

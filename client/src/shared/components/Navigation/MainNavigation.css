@@ -9,6 +9,12 @@
     margin-right: 2rem;
     cursor: pointer;
   }
+
+  img.logo{
+        display: block;
+    margin-left: 110px;
+    margin-right: auto;
+  }
   
   .main-navigation__menu-btn span {
     display: block;

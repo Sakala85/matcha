@@ -33,14 +33,13 @@ const sendEmailInscription = (email, tokenEmail) => {
 const sendEmailResetPass = (email, tokenPassword) => {
 
   const url = `http://localhost:3000/resetpassword/${tokenPassword}`;
-    "Pour reinitialiser votre mot de passe, clquez sur ce lien : ";
 
   transporter = nodemailer.createTransport(smtpConfig);
   mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
-    subject: "Réinitialisation du mot de passe",
-    html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
+    subject: "Reset your password on matcha website",
+    html: `Please click on this link to reset your password: <a href="${url}">${url}</a>`,
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {

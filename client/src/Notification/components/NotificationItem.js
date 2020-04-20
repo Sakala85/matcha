@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Card, Col, Image, Row } from "react-bootstrap";
+// import { Link } from "react-router-dom";
+import { Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import Icon from "@material-ui/core/Icon";
 
