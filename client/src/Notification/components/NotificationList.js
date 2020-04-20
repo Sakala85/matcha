@@ -1,9 +1,13 @@
 import React from "react";
 
+import moment from "moment-timezone/builds/moment-timezone-with-data";
+
 import NotificationItem from "./NotificationItem";
 import "./NotificationList.css";
 import { Card, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+
+const timezone = "Europe/Paris";
 
 const NotificationList = props => {
   if (props.items.length === 0) {
@@ -16,21 +20,24 @@ const NotificationList = props => {
     );
   }
   return (
+    
 
-      <Col md={{ span: 10, offset: 1 }}>
+      <div md={{ span: 10, offset: 1 }}>
       {props.items.map(item => {
         return (
-          <NotificationItem
-            type={item.type}
-            image={item.picture1}
-            key={item.id}
-            name={item.username}
-            date={item.date}
-            link=""
-          />
+          <Card className= "card-1">
+            <NotificationItem
+              type={item.type}
+              image={item.picture1}
+              key={item.id}
+              name={item.username}
+              date={moment(item.date).tz(timezone).format("DD/MM/YYYY HH:mm")}
+              link=""
+            />
+          </Card>
         );
       })}
-      </Col>
+      </div>
   );
 };
 

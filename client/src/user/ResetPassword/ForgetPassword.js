@@ -7,6 +7,8 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { VALIDATOR_EMAIL, VALIDATOR_REQUIRE, } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
+import { Link } from "react-router-dom";
+import { Card , Modal} from "react-bootstrap";
 
 const ForgetPassword = () => {
   const {
@@ -58,34 +60,41 @@ const ForgetPassword = () => {
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-      <div className="title">
-          Please enter your email address to receive a link to reset your
-          password
-      </div>
-      {!isLoading && (
-        <form onSubmit={UpdateSubmitHandler}>
-          <div className="InputForm__LogIn">
-            <Input
-              id="email"
-              element="input"
-              type="text"
-              placeholder="E-Mail"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email address (something like abc@rst.xyz)"
-              onInput={inputHandler}
-            />
+      <Card className="card-2">
+        <Modal.Header>
+          <div className="title">
+            Please enter your email address to receive a link for reset your
+            password
           </div>
+        </Modal.Header>
+        {!isLoading && (
+          <form onSubmit={UpdateSubmitHandler}>
+            <div className="InputForm__reset">
+              <Input
+                id="email"
+                element="input"
+                type="text"
+                placeholder="E-Mail"
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
+                errorText="Please enter a valid email address (something like abc@rst.xyz)"
+                onInput={inputHandler}
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={!formState.isValid}
-            className="button__logIn__signUp"
-          >
-            Send
-          </button>
-        </form>
-      )}
-      {changedPassword && <h6>Check your mail for update your password</h6>}
+            <button
+              type="submit"
+              disabled={!formState.isValid}
+              className="button__send__mail"
+            >
+              Send
+            </button>
+          </form>
+        )}
+        {changedPassword && <h6>Check your mail for update your password</h6>}
+        <Link className="return" to="/">
+          Click to return to the login
+        </Link>
+      </Card>
     </React.Fragment>
   );
 };
