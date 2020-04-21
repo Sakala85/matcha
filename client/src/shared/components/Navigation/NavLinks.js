@@ -18,7 +18,13 @@ const NavLinks = (props) => {
   useEffect(() => {
     const username = auth.username;
     socket = io(ENDPOINT);
-    if (username !== false && username !== null && localStorage.getItem("notifUnread") !== undefined) {
+    const tmp = localStorage.getItem("notifUnread");
+    console.log(tmp)
+    if (
+      username !== false &&
+      username !== null &&
+      tmp !== undefined && !isNaN(tmp)
+    ) {
       setNotifNumber(localStorage.getItem("notifUnread"));
       const userId = auth.userId;
       socket.emit("connectNew", { username, userId }, (error) => {
@@ -28,9 +34,13 @@ const NavLinks = (props) => {
       });
     }
   }, [ENDPOINT, auth.username, auth.userId]);
+
   useEffect(() => {
     socket.on("notifPusher", (param) => {
       let notifNumber = +localStorage.getItem("notifUnread");
+      if (isNaN(notifNumber)) {
+        notifNumber = 0;
+      }
       notifNumber++;
       setNotifNumber(notifNumber);
       localStorage.setItem("notifUnread", notifNumber);
@@ -54,7 +64,6 @@ const NavLinks = (props) => {
   });
   const notifReset = async (e) => {
     if (auth.userId !== false && auth.userId !== null) {
-      localStorage.setItem("notifUnread", 0);
       try {
         const readedNotif = await sendRequest(
           `http://localhost:5000/api/user/notification/${auth.userId}`,
@@ -68,8 +77,10 @@ const NavLinks = (props) => {
           "notifUnread",
           readedNotif.notification[0].notifNumber
         );
+
       } catch (err) {}
       setNotifNumber(0);
+
     }
   };
 
