@@ -7,6 +7,7 @@ import { VALIDATOR_REQUIRE , VALIDATOR_MINLENGTH} from "../../shared/util/valida
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
+import { Card } from "react-bootstrap";
 
 const UpdateInterest = (props) => {
   const {
@@ -55,32 +56,34 @@ const UpdateInterest = (props) => {
 
   return (
     <React.Fragment>
-      <InterestList />
-      <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-      {!isLoading && (
-        <form onSubmit={UpdateSubmitHandler}>
-          <div className="InputForm__LogIn">
-            <Input
-              id="interest"
-              element="input"
-              type="text"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
-              label="Add Interest"
-              errorText="Please enter an Interest. (2 characters min.)"
-              initialValue=""
-              initialValid={false}
-              onInput={inputHandler}
-            />
-            <button
-              type="submit"
-              disabled={!formState.isValid}
-              className="button__logIn__signUp"
-            >
-              Add Interest
-            </button>
-          </div>
-        </form>
-      )}
+      <Card className="settingsInterest">
+        <InterestList />
+        <ErrorModal show={error} error={errorMessage} onHide={clearError} />
+        {!isLoading && (
+          <form onSubmit={UpdateSubmitHandler}>
+            <div className="InputForm__LogIn">
+              <Input
+                id="interest"
+                element="input"
+                type="text"
+                validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
+                label="Add Interest"
+                errorText="Please enter an Interest. (2 characters min.)"
+                initialValue=""
+                initialValid={false}
+                onInput={inputHandler}
+              />
+              <button
+                type="submit"
+                disabled={!formState.isValid}
+                className="button__logIn__signUp"
+              >
+                Add Interest
+              </button>
+            </div>
+          </form>
+        )}
+      </Card>
     </React.Fragment>
   );
 };

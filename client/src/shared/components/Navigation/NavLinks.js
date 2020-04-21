@@ -32,7 +32,9 @@ const NavLinks = (props) => {
           alert(error);
         }
       });
-    }
+    } return () => {
+        socket.off();
+      };
   }, [ENDPOINT, auth.username, auth.userId]);
 
   useEffect(() => {
