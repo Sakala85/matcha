@@ -18,10 +18,7 @@ const NavLinks = props => {
         <li>
           <NavLink to="/match" exact>
             {/* <img className="navbutton" src={matchIcon} alt="match" /> */}
-            <Icon className="navBouton" >
-    
-              whatshot
-            </Icon>
+            <Icon className="navBouton">whatshot</Icon>
           </NavLink>
         </li>
       )}
@@ -49,15 +46,15 @@ const NavLinks = props => {
         <li>
           <NavLink to="/user">
             {/* <img className="navbutton" src={userIcon} alt="User" /> */}
-            <Icon className="navBouton"> account_circle</Icon>
+            <Icon className="navBouton">settings</Icon>
           </NavLink>
         </li>
       )}
       {auth.isLoggedIn && (
         <li>
-  
-            <Icon className="navBouton" onClick={auth.logout}> power_settings_new</Icon>
-
+          <Icon className="navBouton" onClick={auth.logout}>
+            power_settings_new
+          </Icon>
         </li>
       )}
     </ul>
