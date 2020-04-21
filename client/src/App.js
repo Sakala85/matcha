@@ -88,8 +88,8 @@ const App = () => {
       }}
     >
       <Router>
-        {token !== false && <MainNavigation />}
-        {token !== false && <NotifPush username={username}/>}
+        {token !== false && token !== null && <MainNavigation />}
+        {token !== false && token !== null && <NotifPush username={username}/>}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

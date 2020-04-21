@@ -94,7 +94,7 @@ const updateUserPassword = (
 };
 
 const updateUserPicture = (picture, path, userId, callBack) => {
-  let sql = `UPDATE user SET ${db.escape(picture)}= ${db.escape(path)} WHERE id = ${db.escape(userId)}`;
+  let sql = `UPDATE user SET ${picture}= '${path}' WHERE id = ${db.escape(userId)}`;
   db.query(sql, () => {});
   return callBack(null, null);
 };
