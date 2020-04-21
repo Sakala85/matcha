@@ -23,7 +23,9 @@ span.material-icons.MuiIcon-root.navBouton:hover {
   color: hotpink;
     width: 40px;
 }
-
+.notification-container{
+  margin-top: 80px!important;
+}
 .nav-links {
     list-style: none;
     margin: 0;

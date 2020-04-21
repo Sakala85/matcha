@@ -11,11 +11,11 @@ const like = (req, res, next) => {
   const {liked} = req.body;
   const matcher = req.userData.userId;
   const room_id = uuid.v1();
-  const validLiked = validate(liked, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
-  const validMatcher = validate(matcher, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
-  if (!validLiked.valid || !validMatcher.valid) {
-    return res.status(400).json({ message: validLiked.message || validMatcher.message });
-  }
+  // const validLiked = validate(liked, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  // const validMatcher = validate(matcher, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  // if (!validLiked.valid || !validMatcher.valid) {
+  //   return res.status(400).json({ message: validLiked.message || validMatcher.message });
+  // }
   matchModel.addLike(matcher, liked, room_id, (err, result) => {
     if (!err) {
       return res.status(201).json({ result });

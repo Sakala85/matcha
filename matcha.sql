@@ -38,10 +38,10 @@ CREATE TABLE `blocked` (
 -- Déchargement des données de la table `blocked`
 --
 
-INSERT INTO `blocked` (`id`, `id_user1`, `id_user2`) VALUES
-(1, 50, 53),
-(2, 50, 52),
-(3, 50, 52);
+-- INSERT INTO `blocked` (`id`, `id_user1`, `id_user2`) VALUES
+-- (1, 50, 53),
+-- (2, 50, 52),
+-- (3, 50, 52);
 
 -- --------------------------------------------------------
 
@@ -59,14 +59,14 @@ CREATE TABLE `interest` (
 -- Déchargement des données de la table `interest`
 --
 
-INSERT INTO `interest` (`id`, `id_user`, `id_interest_list`) VALUES
-(3, 50, 3),
-(4, 50, 4),
-(5, 50, 5),
-(8, 50, 7),
-(9, 50, 8),
-(10, 50, 9),
-(11, 50, 10);
+-- INSERT INTO `interest` (`id`, `id_user`, `id_interest_list`) VALUES
+-- (3, 50, 3),
+-- (4, 50, 4),
+-- (5, 50, 5),
+-- (8, 50, 7),
+-- (9, 50, 8),
+-- (10, 50, 9),
+-- (11, 50, 10);
 
 -- --------------------------------------------------------
 
@@ -83,17 +83,17 @@ CREATE TABLE `interest_list` (
 -- Déchargement des données de la table `interest_list`
 --
 
-INSERT INTO `interest_list` (`id`, `interest`) VALUES
-(1, '\'ma\\\'ma\''),
-(2, '\'ok\\\'l\''),
-(3, 'ma\'ma'),
-(4, 'ok\'l'),
-(5, 'lokl'),
-(6, ' '),
-(7, 'aa'),
-(8, 'ok'),
-(9, 'lol'),
-(10, 'pute');
+-- INSERT INTO `interest_list` (`id`, `interest`) VALUES
+-- (1, '\'ma\\\'ma\''),
+-- (2, '\'ok\\\'l\''),
+-- (3, 'ma\'ma'),
+-- (4, 'ok\'l'),
+-- (5, 'lokl'),
+-- (6, ' '),
+-- (7, 'aa'),
+-- (8, 'ok'),
+-- (9, 'lol'),
+-- (10, 'pute');
 
 -- --------------------------------------------------------
 
@@ -120,59 +120,17 @@ CREATE TABLE `notification` (
   `id_user1` int(11) NOT NULL,
   `id_user2` int(11) NOT NULL,
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `readed` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `notification`
 --
 
-INSERT INTO `notification` (`id`, `id_user1`, `id_user2`, `type`, `date`) VALUES
-(31, 50, 50, 'Visit', '2020-04-13 15:31:24'),
-(32, 50, 50, 'Visit', '2020-04-13 15:36:19'),
-(33, 51, 51, 'Visit', '2020-04-13 18:41:26'),
-(34, 50, 50, 'Visit', '2020-04-13 23:06:28'),
-(35, 50, 50, 'Like', '2020-04-13 23:06:31'),
-(36, 50, 50, 'Visit', '2020-04-13 23:06:39'),
-(37, 50, 50, 'Like', '2020-04-13 23:06:42'),
-(38, 50, 50, 'Visit', '2020-04-13 23:36:43'),
-(39, 50, 50, 'Like', '2020-04-13 23:36:46'),
-(40, 50, 50, 'Visit', '2020-04-13 23:36:51'),
-(41, 50, 50, 'Visit', '2020-04-15 21:37:39'),
-(42, 50, 51, 'Visit', '2020-04-15 21:37:43'),
-(43, 50, 52, 'Visit', '2020-04-15 21:37:48'),
-(44, 50, 50, 'Visit', '2020-04-15 21:37:51'),
-(45, 50, 53, 'Visit', '2020-04-15 21:38:02'),
-(46, 50, 50, 'Visit', '2020-04-15 21:40:46'),
-(47, 50, 50, 'Like', '2020-04-15 21:40:53'),
-(48, 50, 50, 'Visit', '2020-04-17 17:36:36'),
-(49, 50, 50, 'Like', '2020-04-17 17:36:39'),
-(50, 50, 50, 'Visit', '2020-04-17 17:46:43'),
-(51, 50, 51, 'Visit', '2020-04-17 17:47:05'),
-(52, 50, 51, 'Visit', '2020-04-17 17:47:10'),
-(53, 50, 51, 'Visit', '2020-04-17 17:47:20'),
-(54, 50, 51, 'Visit', '2020-04-17 17:47:28'),
-(55, 50, 50, 'Visit', '2020-04-17 18:01:09'),
-(56, 50, 50, 'Visit', '2020-04-17 18:01:13'),
-(57, 50, 50, 'Visit', '2020-04-17 18:01:26'),
-(58, 50, 50, 'Visit', '2020-04-17 18:19:11'),
-(59, 50, 50, 'Visit', '2020-04-17 18:19:45'),
-(60, 50, 51, 'Visit', '2020-04-17 18:19:49'),
-(61, 50, 53, 'Visit', '2020-04-17 18:19:53'),
-(62, 50, 52, 'Visit', '2020-04-17 18:21:50'),
-(63, 50, 50, 'Visit', '2020-04-17 18:25:12'),
-(64, 50, 50, 'Visit', '2020-04-17 18:27:25'),
-(65, 50, 51, 'Visit', '2020-04-17 18:27:29'),
-(66, 50, 52, 'Visit', '2020-04-17 18:27:33'),
-(67, 50, 50, 'Visit', '2020-04-17 18:33:27'),
-(68, 50, 52, 'Visit', '2020-04-17 18:35:49'),
-(69, 50, 52, 'Visit', '2020-04-17 18:46:57'),
-(70, 50, 53, 'Visit', '2020-04-17 18:47:21'),
-(71, 50, 53, 'Visit', '2020-04-17 18:47:25'),
-(72, 50, 52, 'Visit', '2020-04-17 18:47:28'),
-(73, 50, 53, 'Visit', '2020-04-17 18:48:17'),
-(74, 50, 52, 'Visit', '2020-04-17 18:48:20'),
-(75, 50, 52, 'Visit', '2020-04-17 19:08:36');
+-- INSERT INTO `notification` (`id`, `id_user1`, `id_user2`, `type`, `date`) VALUES
+
+-- (75, 50, 52, 'Visit', '2020-04-17 19:08:36');
 
 -- --------------------------------------------------------
 
@@ -190,15 +148,15 @@ CREATE TABLE `report` (
 -- Déchargement des données de la table `report`
 --
 
-INSERT INTO `report` (`id`, `id_user1`, `id_user2`) VALUES
-(1, 50, 50),
-(2, 50, 51),
-(3, 50, 52),
-(4, 50, 50),
-(5, 50, 52),
-(6, 50, 53),
-(7, 50, 53),
-(8, 50, 52);
+-- INSERT INTO `report` (`id`, `id_user1`, `id_user2`) VALUES
+-- (1, 50, 50),
+-- (2, 50, 51),
+-- (3, 50, 52),
+-- (4, 50, 50),
+-- (5, 50, 52),
+-- (6, 50, 53),
+-- (7, 50, 53),
+-- (8, 50, 52);
 
 -- --------------------------------------------------------
 
@@ -237,11 +195,11 @@ CREATE TABLE `user` (
 -- Déchargement des données de la table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `token_email`, `token_password`, `valid_profil`, `valid_email`, `online`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
-(50, 'lolo', 'khoucha.amira@yahoo.com', '$2a$08$zYrEuugv0VT4yxFmM5StqesQQUwN4.A52cfe2UudJ9g5FugiIzqzm', 'nss', 'akhiuhiuen', '0d0eeeb0-7d8b-11ea-9445-8b47d25485ca', NULL, 0, 0, 1, 'Woman', 'Both', '<script>alert(\"Boo!\")</script>\n\n', NULL, NULL, 90, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
-(51, 'ferh', 'bouujnobu@ojidh.fr', '$2a$08$N20Y3Fd0qhmSiRQ1Lrus/.cbH3y.lVx/vX4IoFdGNZOjGgepVvVgW', 'bjkugib', 'vikvb', '9cab76a0-7da5-11ea-88cc-ad5d7e57bc1d', NULL, 0, 0, 1, 'Man', 'Both', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
-(52, 'ak', 'fnrnf@okok.com', '$2a$08$0FByePxH1NZaunqaYLfXTe7PwQkWhYnTHH4AUA1U09I75rPMOkBYO', 'ngjrn', 'nfrjn', 'f45aab00-7da5-11ea-88cc-ad5d7e57bc1d', NULL, 0, 0, 1, 'Man', 'Both', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
-(53, 'akhoucha', 'njinj@lol.fr', '$2a$08$2x8QlUVmgyXBA2WAJsRgC.xL9ZYyRmNQ1pZsWk/Z3/nb5iALWcsue', 'ndu', 'njno', 'dc0da180-7da8-11ea-95ef-f5fd4f2593bc', NULL, 0, 0, 1, 'Man', 'Both', 'bbibibibi', NULL, NULL, 38, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png');
+-- INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `token_email`, `token_password`, `valid_profil`, `valid_email`, `online`, `gender`, `orientation`, `bio`, `popularity`, `last_visit`, `age`, `latitude`, `longitude`, `picture1`, `picture2`, `picture3`, `picture4`, `picture5`) VALUES
+-- (50, 'lolo', 'khoucha.amira@yahoo.com', '$2a$08$zYrEuugv0VT4yxFmM5StqesQQUwN4.A52cfe2UudJ9g5FugiIzqzm', 'nss', 'akhiuhiuen', '0d0eeeb0-7d8b-11ea-9445-8b47d25485ca', NULL, 0, 0, 1, 'Woman', 'Both', '<script>alert(\"Boo!\")</script>\n\n', NULL, NULL, 90, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
+-- (51, 'ferh', 'bouujnobu@ojidh.fr', '$2a$08$N20Y3Fd0qhmSiRQ1Lrus/.cbH3y.lVx/vX4IoFdGNZOjGgepVvVgW', 'bjkugib', 'vikvb', '9cab76a0-7da5-11ea-88cc-ad5d7e57bc1d', NULL, 0, 0, 1, 'Man', 'Both', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
+-- (52, 'ak', 'fnrnf@okok.com', '$2a$08$0FByePxH1NZaunqaYLfXTe7PwQkWhYnTHH4AUA1U09I75rPMOkBYO', 'ngjrn', 'nfrjn', 'f45aab00-7da5-11ea-88cc-ad5d7e57bc1d', NULL, 0, 0, 1, 'Man', 'Both', NULL, NULL, NULL, NULL, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png'),
+-- (53, 'akhoucha', 'njinj@lol.fr', '$2a$08$2x8QlUVmgyXBA2WAJsRgC.xL9ZYyRmNQ1pZsWk/Z3/nb5iALWcsue', 'ndu', 'njno', 'dc0da180-7da8-11ea-95ef-f5fd4f2593bc', NULL, 0, 0, 1, 'Man', 'Both', 'bbibibibi', NULL, NULL, 38, NULL, NULL, 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png', 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-6.png');
 
 -- --------------------------------------------------------
 
@@ -271,8 +229,8 @@ CREATE TABLE `user_like` (
 -- Déchargement des données de la table `user_like`
 --
 
-INSERT INTO `user_like` (`id`, `id_user1`, `id_user2`) VALUES
-(6, 50, 50);
+-- INSERT INTO `user_like` (`id`, `id_user1`, `id_user2`) VALUES
+-- (6, 50, 50);
 
 -- --------------------------------------------------------
 
@@ -283,16 +241,17 @@ INSERT INTO `user_like` (`id`, `id_user1`, `id_user2`) VALUES
 CREATE TABLE `user_match` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
-  `id_user2` int(11) NOT NULL
+  `id_user2` int(11) NOT NULL,
+  `room_id` VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `user_match`
 --
 
-INSERT INTO `user_match` (`id`, `id_user1`, `id_user2`) VALUES
-(19, 50, 50),
-(20, 50, 50);
+-- INSERT INTO `user_match` (`id`, `id_user1`, `id_user2`) VALUES
+-- (19, 50, 50),
+-- (20, 50, 50);
 
 -- --------------------------------------------------------
 

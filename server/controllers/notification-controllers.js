@@ -42,6 +42,30 @@ const createNotif = (req, res, next) => {
   });
 };
 
+const getNotificationNumber = (req, res, next) => {
+  const userId = req.params.uid;
+  notificationModel.countNotification(userId, (err, result) => {
+    if (!err) {
+      return res.status(201).json({ notification: result });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
+const setReadedNotif = (req, res, next) => {
+  const userId = req.params.uid;
+  notificationModel.readNotification(userId, (err, result) => {
+    if (!err) {
+      return res.status(201).json({ notification: "updated" });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
 
 exports.createNotif = createNotif;
+exports.setReadedNotif = setReadedNotif;
+exports.getNotificationNumber = getNotificationNumber;
 exports.getNotificationById = getNotificationById;

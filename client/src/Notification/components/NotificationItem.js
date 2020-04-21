@@ -22,7 +22,7 @@ const NotificationItem = props => {
   return (
     <div>
       <Image src={props.image} roundedCircle className="image__notif" />
-      <h7 className="title__card">{props.date}</h7>
+      <h6 className="title__card">{props.date}</h6>
       <h2 className="title__card">{props.name}</h2>
       <Message src={Message()}></Message>
       <br></br>

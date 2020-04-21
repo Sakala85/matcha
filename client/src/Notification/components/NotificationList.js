@@ -25,11 +25,10 @@ const NotificationList = props => {
       <div md={{ span: 10, offset: 1 }}>
       {props.items.map(item => {
         return (
-          <Card className= "card-1">
+          <Card className= "card-1" key={item.id}>
             <NotificationItem
               type={item.type}
               image={item.picture1}
-              key={item.id}
               name={item.username}
               date={moment(item.date).tz(timezone).format("DD/MM/YYYY HH:mm")}
               link=""

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -6,7 +6,6 @@ import {
   Switch,
 } from "react-router-dom";
 import "./App.css";
-import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Chat from "./chat/components/Chat/Chat";
 import Join from "./chat/components/Join/Join";
 import Match from "./match/pages/Match";
@@ -16,13 +15,19 @@ import UpdateUser from "./user/Account/UpdateUser";
 import ConfirmEmail from "./user/ConfirmEmail/ConfirmEmail";
 import ForgetPassword from "./user/ResetPassword/ForgetPassword";
 import ResetPassword from "./user/ResetPassword/ResetPassword";
-import NotifPush from "./Notification/PushNotif/pushNotif";
 import { AuthContext } from "./shared/context/auth-context";
+import { useHttpClient } from "./shared/hooks/http-hook";
+import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+
 
 const App = () => {
   const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
   const [username, setUserName] = useState(false);
+  const [notifSet, setNotifSet] = useState(false);
+  const { sendRequest } = useHttpClient();
 
   const login = useCallback((uid, token, username) => {
     setToken(token);
@@ -33,10 +38,32 @@ const App = () => {
     setToken(null);
     setUserId(null);
     setUserName(null);
+    setNotifSet(false)
   }, []);
 
   let routes;
-
+  useEffect(() => {
+    if (token !== null && token !== false && notifSet === false) {
+      const setNotifNumber = async (event) => {
+        try {
+          const readedNotif = await sendRequest(
+            `http://localhost:5000/api/user/notification/${userId}/count`,
+            "GET",
+            null,
+            {
+              Authorization: "Bearer " + token,
+            }
+          );
+          localStorage.setItem(
+            "notifUnread",
+            readedNotif.notification[0].notifNumber
+          );
+          setNotifSet(true);
+        } catch (err) {}
+      };
+      setNotifNumber();
+    }
+  });
   if (token) {
     routes = (
       <Switch>
@@ -75,7 +102,6 @@ const App = () => {
       </Switch>
     );
   }
-  console.log(token)
   return (
     <AuthContext.Provider
       value={{
@@ -88,8 +114,8 @@ const App = () => {
       }}
     >
       <Router>
-        {token !== false && token !== null && <MainNavigation />}
-        {token !== false && token !== null && <NotifPush username={username}/>}
+        {token !== false && token !== null && <MainNavigation username={username}/>}
+        {token !== false && token !== null && <ReactNotification />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

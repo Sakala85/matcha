@@ -1,23 +1,24 @@
 const addLike = (matcher, liked, room_id, callBack) => {
-  let sql = `SELECT * FROM user_like WHERE id_user1 = ${db.escape(liked)} AND id_user2 = ${db.escape(matcher)}`;
+  let sql = `SELECT * FROM user_like WHERE id_user1 = ${liked} AND id_user2 = ${matcher}`;
   db.query(sql, (err, result) => {
     if (!result[0]) {
-      let sql = `INSERT INTO user_like (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(liked)}, ${db.escape(room_id)})`;
+      let sql = `INSERT INTO user_like (id_user1, id_user2) VALUES (${matcher}, ${liked})`;
       db.query(sql, (err, result) => {});
-    return callBack(err, {message: "like"});
-    }
-    else {
-      let sql = `INSERT INTO user_match (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(liked)})`;
+      return callBack(err, { message: "like" });
+    } else {
+      let sql = `INSERT INTO user_match (id_user1, id_user2,room_id) VALUES (${matcher}, ${liked}, ${room_id})`;
       db.query(sql, (err, result) => {});
-      sql = `INSERT INTO user_match (id_user1, id_user2) VALUES (${db.escape(liked)}, ${db.escape(matcher)})`;
+      sql = `INSERT INTO user_match (id_user1, id_user2, room_id) VALUES (${liked}, ${matcher}, ${room_id})`;
       db.query(sql, (err, result) => {});
-    return callBack(err, {message: "match"});
+      return callBack(err, { message: "match" });
     }
   });
 };
 
 const addDislike = (matcher, disliked, callBack) => {
-  let sql = `INSERT INTO user_dislike (id_user1, id_user2) VALUES (${db.escape(matcher)}, ${db.escape(disliked)})`;
+  let sql = `INSERT INTO user_dislike (id_user1, id_user2) VALUES (${db.escape(
+    matcher
+  )}, ${db.escape(disliked)})`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, null);
@@ -25,17 +26,21 @@ const addDislike = (matcher, disliked, callBack) => {
 };
 
 const deleteMatch = (unmatcher, unmatched, callBack) => {
-let sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(unmatcher)} AND id_user2 = ${db.escape(unmatched)}`
+  let sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(
+    unmatcher
+  )} AND id_user2 = ${db.escape(unmatched)}`;
   db.query(sql, (err, result) => {});
-sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(unmatched)} AND id_user2 = ${db.escape(unmatcher)}`;
+  sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(
+    unmatched
+  )} AND id_user2 = ${db.escape(unmatcher)}`;
   db.query(sql, (err, result) => {});
-  console.log(unmatcher + "okok" + unmatched)
-return callBack (null, null);
+  return callBack(null, null);
 };
 
-
 const reportProfil = (reporter, reported, callBack) => {
-  let sql = `INSERT INTO report (id_user1, id_user2) VALUES (${db.escape(reporter)}, ${db.escape(reported)})`;
+  let sql = `INSERT INTO report (id_user1, id_user2) VALUES (${db.escape(
+    reporter
+  )}, ${db.escape(reported)})`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, null);
@@ -43,13 +48,14 @@ const reportProfil = (reporter, reported, callBack) => {
 };
 
 const blockProfil = (blocker, blocked, callBack) => {
-  let sql = `INSERT INTO blocked (id_user1, id_user2) VALUES (${db.escape(blocker)}, ${db.escape(blocked)})`;
+  let sql = `INSERT INTO blocked (id_user1, id_user2) VALUES (${db.escape(
+    blocker
+  )}, ${db.escape(blocked)})`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, null);
   });
 };
-
 
 exports.addLike = addLike;
 exports.addDislike = addDislike;
