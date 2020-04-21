@@ -38,7 +38,8 @@ const App = () => {
     setToken(null);
     setUserId(null);
     setUserName(null);
-    setNotifSet(false)
+    setNotifSet(false);
+    window.location.reload();
   }, []);
 
   let routes;
