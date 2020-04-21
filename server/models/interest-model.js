@@ -1,6 +1,5 @@
 const instertInterest = (interest, userId, callBack) => {
   let interestValid = interest
-  console.log(interestValid)
   let sql = `SELECT * FROM interest_list WHERE interest = ${db.escape(interestValid)}`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;

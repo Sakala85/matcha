@@ -89,7 +89,6 @@ const login = (req, res, next) => {
       .json({ message: validUsername.message || validPassword.message });
   }
   userModel.getPassword(username, (err, user) => {
-    console.log(user)
     if (!user) {
       res.status(400).json({ message: "No user FOUND." });
     } else {

@@ -53,7 +53,7 @@ const Auth = () => {
           ...formState.inputs,
           email: undefined,
           firstname: undefined,
-          lastname: undefined
+          lastname: undefined,
         },
         formState.inputs.username.isValid && formState.inputs.password.isValid
       );
