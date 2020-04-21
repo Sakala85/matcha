@@ -18,14 +18,14 @@ const ChatList = (props) => {
   return (
     <Col md={{ span: 10, offset: 1 }}>
       {props.items.map((user) => {
-        return (
+          return (
           <ChatItem
             id={user.id}
             image={user.picture1}
             key={user.id}
             name={user.username}
             username={props.userName}
-            room_id={user.room_id}
+            room_id={user.id}
           />
         );
       })}

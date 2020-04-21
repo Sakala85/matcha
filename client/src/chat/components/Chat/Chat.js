@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-
+import { AuthContext } from "../../../shared/context/auth-context";
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
@@ -16,16 +16,17 @@ const Chat = ({ location }) => {
   const [online, setOnline] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [room, setRoom] = useState([]);
   const ENDPOINT = "localhost:5000";
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const { name, room, roomName } = queryString.parse(location.search);
     socket = io(ENDPOINT);
     setName(name);
+    setRoom(room);
     setRoomName(roomName);
-    const id_user1 = 41;
-    const id_user2 = 43;
-    socket.emit("join", { name, room, id_user1, id_user2 }, (error) => {
+    socket.emit("join", { name, room }, (error) => {
       if (error) {
         alert(error);
       }
@@ -37,12 +38,14 @@ const Chat = ({ location }) => {
       setMessages([...messages, message]);
     });
     socket.on("messages", (Holdmessages) => {
-      console.log(Holdmessages.result);
       let mess;
       Holdmessages.result.map((Holdmessage) => {
-        mess = { user: "mo", text: Holdmessage.message }
+        mess = {
+          user: Holdmessage.username,
+          text: Holdmessage.message,
+          date: Holdmessage.date,
+        };
         setMessages([...messages, mess]);
-        console.log("OL")
         return null;
       });
     });
@@ -63,12 +66,13 @@ const Chat = ({ location }) => {
 
   const sendMessage = (event) => {
     event.preventDefault();
-
+    console.log(messages);
     if (message) {
-      socket.emit("sendMessage", message, () => setMessage(""));
+      socket.emit("sendMessage", auth.userId, room, message, () =>
+        setMessage("")
+      );
     }
   };
-  console.log(messages)
   return (
     <div className="outerContainer">
       <div className="container">

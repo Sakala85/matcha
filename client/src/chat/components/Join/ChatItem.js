@@ -30,9 +30,9 @@ const ChatItem = props => {
     } catch (err) {}
   };
 
-  const link = `/chat?name=${props.username}&room=${props.name}`;
+  const link = `/chat?name=${props.username}&room=${props.room_id}&roomName=${props.name}`;
   return (
-    <Link to={link}>
+    <Link to={link} key={props.room_id}>
       <Card className="bg-dark text-white card__container_notif">
         <Row>
           <Col>

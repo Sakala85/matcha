@@ -27,7 +27,6 @@ const NavLinks = (props) => {
     ) {
       setNotifNumber(localStorage.getItem("notifUnread"));
       const userId = auth.userId;
-      console.log(localStorage.getItem("notifUnread"))
       socket.emit("connectNew", { username, userId }, (error) => {
         if (error) {
           alert(error);

@@ -35,14 +35,13 @@ const notificationSocket = (io, socket) => {
       }
     );
 
-    socket.on("join", ({ name, room, id_user1, id_user2 }, callback) => {
+    socket.on("join", ({ name, room }, callback) => {
       const { error, user } = addUser({ id: socket.id, name, room });
 
       if (error) return callback(error);
 
       socket.join(user.room);
-
-      let sql = `SELECT * FROM message WHERE id_user1 = ${id_user1} AND id_user2 = ${id_user2}`;
+      let sql = `SELECT user.username, message.message, message.date FROM message INNER JOIN user ON user.id = message.id_user1 WHERE id_room = ${db.escape(user.room)}`;
       db.query(sql, (err, result) => {
         if (err) throw err;
         socket.emit("messages", { result });
@@ -58,9 +57,10 @@ const notificationSocket = (io, socket) => {
       callback();
     });
 
-    socket.on("sendMessage", (message, callback) => {
+    socket.on("sendMessage", (userId, room, message, callback) => {
       const user = getUser(socket.id);
-
+      let sql = `INSERT INTO message (id_user1, id_room, message, date) VALUES (${db.escape(userId)}, ${db.escape(room)}, ${db.escape(message)}, NOW())`;
+      db.query(sql, (err, result) => {});
       io.to(user.room).emit("message", { user: user.name, text: message });
 
       callback();

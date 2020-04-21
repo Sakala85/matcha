@@ -104,7 +104,7 @@ CREATE TABLE `interest_list` (
 CREATE TABLE `message` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
-  `id_user2` int(11) NOT NULL,
+  `id_room` int(11) NOT NULL,
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -241,8 +241,7 @@ CREATE TABLE `user_like` (
 CREATE TABLE `user_match` (
   `id` int(11) NOT NULL,
   `id_user1` int(11) NOT NULL,
-  `id_user2` int(11) NOT NULL,
-  `room_id` VARCHAR(255) NOT NULL
+  `id_user2` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -297,7 +296,7 @@ ALTER TABLE `interest_list`
 ALTER TABLE `message`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user1` (`id_user1`),
-  ADD KEY `id_user2` (`id_user2`);
+  ADD KEY `id_room` (`id_room`);
 
 --
 -- Index pour la table `notification`
@@ -445,7 +444,7 @@ ALTER TABLE `interest`
 --
 ALTER TABLE `message`
   ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`id_user1`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`id_user2`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`id_room`) REFERENCES `user_match` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `notification`
