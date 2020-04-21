@@ -33,6 +33,9 @@ const NavLinks = (props) => {
         }
       });
     }
+    return () => {
+      socket.off();
+    };
   }, [ENDPOINT, auth.username, auth.userId]);
 
   useEffect(() => {
