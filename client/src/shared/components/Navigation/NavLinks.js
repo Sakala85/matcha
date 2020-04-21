@@ -108,10 +108,7 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <Icon className="navBouton" onClick={auth.logout}>
-          {" "}
-          power_settings_new
-        </Icon>
+        <Icon className="navBouton" onClick={auth.logout}>power_settings_new</Icon>
       </li>
     </ul>
   );
