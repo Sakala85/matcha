@@ -156,8 +156,8 @@ const Auth = () => {
             <Modal.Body>
               {!isLoginMode && (
                 <div className="InputForm__LogIn">
-                  <img src={image1} alt="image1" />
-                  <img src={image2} alt="image2" />
+                  <img className="auth" src={image1} alt="image1" />
+                  <img className="auth" src={image2} alt="image2" />
                 </div>
               )}
               <form onSubmit={authSubmitHandler}>
@@ -211,7 +211,7 @@ const Auth = () => {
                 )}
                 {isLoginMode && (
                   <div className="InputForm__LogIn">
-                    <img src={image3} alt="image3" />
+                    <img className="auth" src={image3} alt="image3" />
                   </div>
                 )}
                 <div className="InputForm__LogIn">

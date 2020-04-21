@@ -46,10 +46,15 @@
   background: #ffd1d1;
 }
 
-p {
+/* p {
     text-align: justify;
     margin-left: -80px;
     margin-right: -80px;
+} */
+p {
+    text-align: justify;
+
+    margin: 0 auto;
 }
 
 .form-control.false {

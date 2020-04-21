@@ -21,20 +21,25 @@ const MainNavigation = props => {
   };
   return (
     <React.Fragment>
-    {drawerIsOpen && <BackDrop onClick={CloseDrawerHandler}/>}
-        <SideDrawer show={drawerIsOpen} onClick={CloseDrawerHandler}>
-          <nav className="main-navigation__drawer-nav">
-            <NavLinks />
-          </nav>
-        </SideDrawer>
+      {drawerIsOpen && <BackDrop onClick={CloseDrawerHandler} />}
+      <SideDrawer show={drawerIsOpen} onClick={CloseDrawerHandler}>
+        <nav className="main-navigation__drawer-nav">
+          <NavLinks />
+        </nav>
+      </SideDrawer>
       <MainHeader>
-        <button className="main-navigation__menu-btn" onClick={OpenDrawerHandler}>
+        <button
+          className="main-navigation__menu-btn"
+          onClick={OpenDrawerHandler}
+        >
           <span />
           <span />
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/"><img src={matchaLogo} alt="matcha logo" /></Link>
+          <Link to="/">
+            <img className="logo" src={matchaLogo} alt="matcha logo" />
+          </Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />
