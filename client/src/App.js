@@ -18,9 +18,8 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import ReactNotification from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
-
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 const App = () => {
   const [token, setToken] = useState(false);
@@ -33,22 +32,11 @@ const App = () => {
     setToken(token);
     setUserId(uid);
     setUserName(username);
-  }, []);
-  const logout = useCallback(() => {
-    setToken(null);
-    setUserId(null);
-    setUserName(null);
-    setNotifSet(false);
-    window.location.reload();
-  }, []);
-
-  let routes;
-  useEffect(() => {
     if (token !== null && token !== false && notifSet === false) {
       const setNotifNumber = async (event) => {
         try {
           const readedNotif = await sendRequest(
-            `http://localhost:5000/api/user/notification/${userId}/count`,
+            `http://localhost:5000/api/user/notification/${uid}/count`,
             "GET",
             null,
             {
@@ -59,12 +47,23 @@ const App = () => {
             "notifUnread",
             readedNotif.notification[0].notifNumber
           );
-          setNotifSet(true);
+          setNotifSet(readedNotif.notification[0].notifNumber);
         } catch (err) {}
       };
       setNotifNumber();
     }
-  });
+  }, [notifSet, sendRequest]);
+
+  const logout = useCallback(() => {
+    setToken(null);
+    setUserId(null);
+    setUserName(null);
+    setNotifSet(false);
+    window.location.reload();
+  }, []);
+
+  let routes;
+  useEffect(() => {});
   if (token) {
     routes = (
       <Switch>
@@ -115,7 +114,9 @@ const App = () => {
       }}
     >
       <Router>
-        {token !== false && token !== null && <MainNavigation username={username}/>}
+        {token !== false && token !== null && notifSet !== false && (
+          <MainNavigation username={username} />
+        )}
         {token !== false && token !== null && <ReactNotification />}
         <main>{routes}</main>
       </Router>

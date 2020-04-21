@@ -19,22 +19,24 @@ const NavLinks = (props) => {
     const username = auth.username;
     socket = io(ENDPOINT);
     const tmp = localStorage.getItem("notifUnread");
-    console.log(tmp)
     if (
       username !== false &&
       username !== null &&
-      tmp !== undefined && !isNaN(tmp)
+      tmp !== undefined &&
+      !isNaN(tmp)
     ) {
       setNotifNumber(localStorage.getItem("notifUnread"));
       const userId = auth.userId;
+      console.log(localStorage.getItem("notifUnread"))
       socket.emit("connectNew", { username, userId }, (error) => {
         if (error) {
           alert(error);
         }
       });
-    } return () => {
-        socket.off();
-      };
+    }
+    return () => {
+      socket.off();
+    };
   }, [ENDPOINT, auth.username, auth.userId]);
 
   useEffect(() => {
@@ -79,10 +81,8 @@ const NavLinks = (props) => {
           "notifUnread",
           readedNotif.notification[0].notifNumber
         );
-
       } catch (err) {}
       setNotifNumber(0);
-
     }
   };
 
@@ -110,7 +110,9 @@ const NavLinks = (props) => {
         </NavLink>
       </li>
       <li>
-        <Icon className="navBouton" onClick={auth.logout}>power_settings_new</Icon>
+        <Icon className="navBouton" onClick={auth.logout}>
+          power_settings_new
+        </Icon>
       </li>
     </ul>
   );
