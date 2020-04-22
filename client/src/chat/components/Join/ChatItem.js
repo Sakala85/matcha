@@ -1,22 +1,22 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Col, Image, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "./ChatItem.css";
-import { AuthContext } from "../../../shared/context/auth-context";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
+import {useCookies} from "react-cookie";
 
 
 
 const ChatItem = props => {
-  const auth = useContext(AuthContext);
   const { sendRequest } = useHttpClient();
 
+  const [cookies] = useCookies(['token']);
 
   const unmatchProfile = async () => {
     try {
     await sendRequest(
-        `http://localhost:5000/api/user/match/${auth.userId}`,
+        `http://localhost:5000/api/user/match/${cookies.userId}`,
         "DELETE",
         JSON.stringify({
           unmatched: props.id,
@@ -24,7 +24,7 @@ const ChatItem = props => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

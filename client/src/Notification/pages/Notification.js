@@ -1,31 +1,31 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import NotificationList from "../components/NotificationList";
-import { AuthContext } from "../../shared/context/auth-context";
+import {useCookies} from "react-cookie";
 
 const Notification = () => {
   const [loadedNotif, setLoadedNotif] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     const fetchNotif = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/user/notification/${auth.userId}`,
+          `http://localhost:5000/api/user/notification/${cookies.userId}`,
           "GET",
           null,
           {
-            Authorization: "Bearer " + auth.token
+            Authorization: "Bearer " + cookies.token
           }
         );
         setLoadedNotif(responseData.notification);
       } catch (err) {}
     };
     fetchNotif();
-  }, [sendRequest, auth.token, auth.userId]);
+  }, [sendRequest, cookies.token, cookies.userId]);
   return (
     <React.Fragment>
       <ErrorModal error={error} onHide={clearError} />

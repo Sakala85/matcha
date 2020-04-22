@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
+import {useCookies} from "react-cookie";
 
 const InterestItem = (props) => {
   const { sendRequest } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
 
   const deleteInterest = async () => {
     try {
@@ -13,7 +13,7 @@ const InterestItem = (props) => {
         "DELETE",
         null,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

@@ -24,7 +24,7 @@ const MainNavigation = props => {
       {drawerIsOpen && <BackDrop onClick={CloseDrawerHandler} />}
       <SideDrawer show={drawerIsOpen} onClick={CloseDrawerHandler}>
         <nav className="main-navigation__drawer-nav">
-          <NavLinks />
+          <NavLinks notifNumber={props.notifNumber}/>
         </nav>
       </SideDrawer>
       <MainHeader>
@@ -42,7 +42,7 @@ const MainNavigation = props => {
           </Link>
         </h1>
         <nav className="main-navigation__header-nav">
-          <NavLinks />
+          <NavLinks notifNumber={props.notifNumber}/>
         </nav>
       </MainHeader>
     </React.Fragment>
