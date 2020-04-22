@@ -11,7 +11,7 @@ import {
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { Card } from "react-bootstrap";
+import { Card, Modal} from "react-bootstrap";
 
 const UpdatePassword = () => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
@@ -67,10 +67,12 @@ const UpdatePassword = () => {
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-      <Card className="settingsPassword">
+        <Modal.Header>
+          <div className="titleUpdate">Password settings</div>
+        </Modal.Header>
         {!isLoading && (
-          <form onSubmit={UpdateSubmitHandler}>
-            <div className="InputForm__LogIn">
+          <form className="formUpdatePassword" onSubmit={UpdateSubmitHandler}>
+            <div className="InputForm__Password">
               <Input
                 id="oldPassword"
                 element="input"
@@ -131,7 +133,7 @@ const UpdatePassword = () => {
           </form>
         )}
         {changedPassword && <h3>Password Changed</h3>}
-      </Card>
+
     </React.Fragment>
   );
 };

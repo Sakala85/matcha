@@ -55,13 +55,13 @@ const UpdateUser = () => {
         </div>
       )}
       {
-        <ul>
+        <div>
           {loadedUser.map((item) => (
-            <li key={item.id}>
+            <span key={item.id}>
               <FormUser items={item} />
-            </li>
+            </span>
           ))}
-        </ul>
+        </div>
       }
       ;
     </React.Fragment>

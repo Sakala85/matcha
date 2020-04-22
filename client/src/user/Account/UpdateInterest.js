@@ -7,7 +7,7 @@ import { VALIDATOR_REQUIRE , VALIDATOR_MINLENGTH} from "../../shared/util/valida
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { Card } from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
 
 const UpdateInterest = (props) => {
   const {
@@ -56,12 +56,14 @@ const UpdateInterest = (props) => {
 
   return (
     <React.Fragment>
-      <Card className="settingsInterest">
+        <Modal.Header>
+          <div className="titleUpdate">Interest settings</div>
+        </Modal.Header>
         <InterestList />
         <ErrorModal show={error} error={errorMessage} onHide={clearError} />
         {!isLoading && (
-          <form onSubmit={UpdateSubmitHandler}>
-            <div className="InputForm__LogIn">
+          <form className="formUpdateInterest" onSubmit={UpdateSubmitHandler}>
+            <div className="InputForm__Interest">
               <Input
                 id="interest"
                 element="input"
@@ -83,7 +85,6 @@ const UpdateInterest = (props) => {
             </div>
           </form>
         )}
-      </Card>
     </React.Fragment>
   );
 };

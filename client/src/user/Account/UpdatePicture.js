@@ -5,7 +5,10 @@ import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import { AuthContext } from "../../shared/context/auth-context";
-import { Card } from "react-bootstrap";
+import { Card, Modal } from "react-bootstrap";
+import Icon from "@material-ui/core/Icon";
+
+import "./FormUser.css"
 
 const UpdatePicture = props => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
@@ -121,74 +124,61 @@ const UpdatePicture = props => {
 
   return (
     <React.Fragment>
-      <Card className="settingsPicture">
-        <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-        {isLoading && (
-          <div className="center">
-            <LoadingSpinner />
-          </div>
-        )}
-        <form onSubmit={pictureSubmitHandler1}>
-          <ImageUpload
-            default={props.items.picture1}
-            center
-            id="picture1"
-            onInput={inputHandler}
-            errorText="Please provide an Image !"
-          />
-          <button className="button__logIn__signUp" type="submit">
-            SAVE IMAGE
-          </button>
-        </form>
-        <form onSubmit={pictureSubmitHandler2}>
-          <ImageUpload
-            default={props.items.picture2}
-            center
-            id="picture2"
-            onInput={inputHandler}
-            errorText="Please provide an Image !"
-          />
-          <button className="button__logIn__signUp" type="submit">
-            SAVE IMAGE
-          </button>
-        </form>
-        <form onSubmit={pictureSubmitHandler3}>
-          <ImageUpload
-            default={props.items.picture3}
-            center
-            id="picture3"
-            onInput={inputHandler}
-            errorText="Please provide an Image !"
-          />
-          <button className="button__logIn__signUp" type="submit">
-            SAVE IMAGE
-          </button>
-        </form>
-        <form onSubmit={pictureSubmitHandler4}>
-          <ImageUpload
-            default={props.items.picture4}
-            center
-            id="picture4"
-            onInput={inputHandler}
-            errorText="Please provide an Image !"
-          />
-          <button className="button__logIn__signUp" type="submit">
-            SAVE IMAGE
-          </button>
-        </form>
-        <form onSubmit={pictureSubmitHandler5}>
-          <ImageUpload
-            default={props.items.picture5}
-            center
-            id="picture5"
-            onInput={inputHandler}
-            errorText="Please provide an Image !"
-          />
-          <button className="button__logIn__signUp" type="submit">
-            SAVE IMAGE
-          </button>
-        </form>
-      </Card>
+      {/* <Modal.Header>
+          <div className="titleUpdate">Picture settings</div>
+        </Modal.Header> */}
+      <ErrorModal show={error} error={errorMessage} onHide={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
+
+      <form onSubmit={pictureSubmitHandler2}>
+        <ImageUpload
+          default={props.items.picture2}
+          center
+          id="picture2"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
+      <form onSubmit={pictureSubmitHandler3}>
+        <ImageUpload
+          default={props.items.picture3}
+          center
+          id="picture3"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
+      <form onSubmit={pictureSubmitHandler1}>
+        <ImageUpload
+          default={props.items.picture1}
+          center
+          id="picture1"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
+      <form onSubmit={pictureSubmitHandler4}>
+        <ImageUpload
+          default={props.items.picture4}
+          center
+          id="picture4"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
+      <form onSubmit={pictureSubmitHandler5}>
+        <ImageUpload
+          default={props.items.picture5}
+          center
+          id="picture5"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
     </React.Fragment>
   );
 };

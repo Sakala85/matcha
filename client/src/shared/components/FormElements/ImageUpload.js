@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Icon from "@material-ui/core/Icon";
 
 import './ImageUpload.css';
 
@@ -44,22 +45,37 @@ const ImageUpload = props => {
       <input
         id={props.id}
         ref={filePickerRef}
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         type="file"
         accept=".jpg,.png,.jpeg"
         onChange={pickedHandler}
       />
-      <div className={`image-upload ${props.center && 'center'}`}>
-        <div className="image-upload__preview">
-          {previewUrl && <img src={previewUrl} alt="Preview" />}
-          {!previewUrl && <img src={props.default} alt="oldPick"/>}
-        </div>
-        <button type="button" onClick={pickImageHandler} className="button__logIn__signUp">
-          PICK IMAGE
-        </button>
-
+      {/* <div className={`image-upload ${props.center && "center"}`}> */}
+      <div>
+        {previewUrl && <img src={previewUrl} alt="Preview" />}
+        {!previewUrl && <img src={props.default} alt="oldPick" />}
       </div>
-      {!isValid && <p>{props.errorText}</p>}
+      <div>
+
+       {isValid && <button className="disketteBouton">
+          <Icon className="savedisket"> save</Icon>
+        </button>}
+      </div>
+
+      <div>
+        <button type="button" onClick={pickImageHandler}  className="penBouton">
+          <Icon className="change-image"> create</Icon>
+        </button>
+        {/* <button
+          type="button"
+          onClick={pickImageHandler}
+          className="button__pick__image"
+        >
+          Pick image{" "}
+        </button> */}
+      </div>
+      {/* </div> */}
+      {/* {!isValid && <p>{props.errorText}</p>} */}
     </div>
   );
 };

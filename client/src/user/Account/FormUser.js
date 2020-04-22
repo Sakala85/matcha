@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, Card, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 import "./FormUser.css";
@@ -11,30 +11,25 @@ import UpdatePicture from "./UpdatePicture";
 const FormUser = props => {
   return (
     <React.Fragment>
-      <Row>
-        {/* PREMIERE DIV POUR INTERETS */}
-        <Col className="form__div__account">
-          <h1>Update your interest</h1>
-          <UpdateInterest />
-        </Col>
+      <Card className="settingsPicture">
+        <UpdatePicture items={props.items} />
+      </Card>
+      <Card className="settingsInterest">
+        {/* <h1>Update your interest</h1> */}
+        <UpdateInterest />
+      </Card>
 
-        {/* DIV POUR PROFIL */}
-        <Col className="form__div__account">
-          <h1>Update your profile</h1>
-          <UpdateProfile items={props.items} />
-        </Col>
+      {/* DIV POUR PROFIL */}
+      <Card className="settingsProfil">
+        {/* <h1>Update your profile</h1> */}
+        <UpdateProfile items={props.items} />
+      </Card>
 
-        {/* DIV POUR PASSWORD */}
-        <Col className="form__div__account">
-          <h1>Update your password</h1>
-          <UpdatePassword />
-        </Col>
-      </Row>
-      <Row>
-        <Col className="form__div__account">
-          <UpdatePicture items={props.items}/>
-        </Col>
-      </Row>
+      {/* DIV POUR PASSWORD */}
+      <Card className="settingsPassword">
+        {/* <h1>Update your password</h1> */}
+        <UpdatePassword />
+      </Card>
     </React.Fragment>
   );
 };
