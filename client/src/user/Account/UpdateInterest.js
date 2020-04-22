@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import InterestList from "./InterestList";
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -6,8 +6,8 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { VALIDATOR_REQUIRE , VALIDATOR_MINLENGTH} from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
 import { Card } from "react-bootstrap";
+import {useCookies} from "react-cookie";
 
 const UpdateInterest = (props) => {
   const {
@@ -17,8 +17,7 @@ const UpdateInterest = (props) => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  const auth = useContext(AuthContext);
-
+  const [cookies] = useCookies(['token']);
   const [formState, inputHandler] = useForm(
     {
       interest: {
@@ -33,14 +32,14 @@ const UpdateInterest = (props) => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/interest/${auth.userId}`,
+        `http://localhost:5000/api/user/interest/${cookies.userId}`,
         "POST",
         JSON.stringify({
           interest: formState.inputs.interest.value,
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

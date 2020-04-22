@@ -1,85 +1,47 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../../context/auth-context";
 import "./NavLinks.css";
 import Icon from "@material-ui/core/Icon";
-import io from "socket.io-client";
-import { store } from "react-notifications-component";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
+import { useCookies } from "react-cookie";
+import { AuthContext } from "../../../shared/context/auth-context";
 
-let socket;
 const NavLinks = (props) => {
+  const [cookies, setCookie] = useCookies(["token"]);
   const ENDPOINT = "localhost:5000";
-  const auth = useContext(AuthContext);
-  const [notifNumber, setNotifNumber] = useState(
-    localStorage.getItem("notifUnread")
-  );
+  const [notifNumber, setNotifNumber] = useState(cookies.notification);
+  const [notifSet, setNotifSet] = useState(null);
   const { sendRequest } = useHttpClient();
+  const auth = useContext(AuthContext);
   useEffect(() => {
-    const username = auth.username;
-    socket = io(ENDPOINT);
-    const tmp = localStorage.getItem("notifUnread");
-    if (
-      username !== false &&
-      username !== null &&
-      tmp !== undefined &&
-      !isNaN(tmp)
-    ) {
-      setNotifNumber(localStorage.getItem("notifUnread"));
-      const userId = auth.userId;
-      socket.emit("connectNew", { username, userId }, (error) => {
-        if (error) {
-          alert(error);
-        }
-      });
+    if (auth.token && notifSet === null) {
+      setNotifSet(1);
+      setNotifNumber(cookies.notification);
     }
-    return () => {
-      socket.off();
-    };
-  }, [ENDPOINT, auth.username, auth.userId]);
+
+  }, [ENDPOINT, cookies, auth, notifSet]);
 
   useEffect(() => {
-    socket.on("notifPusher", (param) => {
-      let notifNumber = +localStorage.getItem("notifUnread");
-      if (isNaN(notifNumber)) {
-        notifNumber = 0;
-      }
-      notifNumber++;
-      setNotifNumber(notifNumber);
-      localStorage.setItem("notifUnread", notifNumber);
-      store.addNotification({
-        title: `${param.username}`,
-        message: `${param.type} your profile`,
-        type: "info",
-        insert: "top",
-        container: "top-right",
-        animationIn: ["animated", "fadeIn"],
-        animationOut: ["animated", "fadeOut"],
-        dismiss: {
-          duration: 2000,
-          onScreen: true,
-        },
-      });
-    });
-    return () => {
-      socket.off();
-    };
-  });
+    if (props.notifNumber !== 0) {
+      setNotifNumber(cookies.notification);
+    }
+
+  }, [cookies, props.notifNumber
+  ]);
+
+
   const notifReset = async (e) => {
-    if (auth.userId !== false && auth.userId !== null) {
+    if (cookies.userId !== false && cookies.userId !== null) {
       try {
         const readedNotif = await sendRequest(
-          `http://localhost:5000/api/user/notification/${auth.userId}`,
+          `http://localhost:5000/api/user/notification/${cookies.userId}`,
           "PATCH",
           null,
           {
-            Authorization: "Bearer " + auth.token,
+            Authorization: "Bearer " + cookies.token,
           }
         );
-        localStorage.setItem(
-          "notifUnread",
-          readedNotif.notification[0].notifNumber
-        );
+        setCookie("notification", readedNotif.notification[0].notifNumber);
       } catch (err) {}
       setNotifNumber(0);
     }

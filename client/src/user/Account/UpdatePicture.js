@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
-import { AuthContext } from "../../shared/context/auth-context";
 import { Card } from "react-bootstrap";
+import {useCookies} from "react-cookie";
 
 const UpdatePicture = props => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
 
   const [formState, inputHandler] = useForm(
     {
@@ -44,11 +44,11 @@ const UpdatePicture = props => {
       formData.append("picture", "picture1");
       formData.append("image", formState.inputs.picture1.value);
       await sendRequest(
-        `http://localhost:5000/api/user/picture/${auth.userId}`,
+        `http://localhost:5000/api/user/picture/${cookies.userId}`,
         "PATCH",
         formData,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -60,11 +60,11 @@ const UpdatePicture = props => {
       formData.append("picture", "picture2");
       formData.append("image", formState.inputs.picture2.value);
       await sendRequest(
-        `http://localhost:5000/api/user/picture/${auth.userId}`,
+        `http://localhost:5000/api/user/picture/${cookies.userId}`,
         "PATCH",
         formData,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -76,11 +76,11 @@ const UpdatePicture = props => {
       formData.append("picture", "picture3");
       formData.append("image", formState.inputs.picture3.value);
       await sendRequest(
-        `http://localhost:5000/api/user/picture/${auth.userId}`,
+        `http://localhost:5000/api/user/picture/${cookies.userId}`,
         "PATCH",
         formData,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -92,11 +92,11 @@ const UpdatePicture = props => {
       formData.append("picture", "picture4");
       formData.append("image", formState.inputs.picture4.value);
       await sendRequest(
-        `http://localhost:5000/api/user/picture/${auth.userId}`,
+        `http://localhost:5000/api/user/picture/${cookies.userId}`,
         "PATCH",
         formData,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -108,11 +108,11 @@ const UpdatePicture = props => {
       formData.append("picture", "picture5");
       formData.append("image", formState.inputs.picture5.value);
       await sendRequest(
-        `http://localhost:5000/api/user/picture/${auth.userId}`,
+        `http://localhost:5000/api/user/picture/${cookies.userId}`,
         "PATCH",
         formData,
         {
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

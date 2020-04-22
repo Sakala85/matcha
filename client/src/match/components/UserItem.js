@@ -1,21 +1,21 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 // import Map from '../../shared/components/UIElements/Map';
 import { Col, Image, Row, Button, Modal, Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "./UserItem.css";
-import { AuthContext } from "../../shared/context/auth-context";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import sendNotification from "../../shared/util/sendNotification";
+import {useCookies} from "react-cookie";
 
 const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
   const { sendRequest } = useHttpClient();
 
   const openDetailHandler = async () => {
     setShowDetail(true);
-    sendNotification(auth.userId, props.id, "Visit", auth.token, auth.username);
+    sendNotification(cookies.userId, props.id, "Visit", cookies.token, cookies.username);
   };
   const closeDetailHandler = () => setShowDetail(false);
   const closeMatchHandler = () => setShowMatch(false);
@@ -25,14 +25,14 @@ const UserItem = (props) => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/match/dislike/${auth.userId}`,
+        `http://localhost:5000/api/user/match/dislike/${cookies.userId}`,
         "POST",
         JSON.stringify({
           disliked: props.id,
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -42,20 +42,20 @@ const UserItem = (props) => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
       const response = await sendRequest(
-        `http://localhost:5000/api/user/match/like/${auth.userId}`,
+        `http://localhost:5000/api/user/match/like/${cookies.userId}`,
         "POST",
         JSON.stringify({
           liked: props.id,
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
       if (response.result.message === "match") {
         openMatchHandler();
       }
-      sendNotification(auth.userId, props.id, "Like", auth.token, auth.username);
+      sendNotification(cookies.userId, props.id, "Like", cookies.token, cookies.username);
     } catch (err) {}
   };
 
@@ -63,7 +63,7 @@ const UserItem = (props) => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
     await sendRequest(
-        `http://localhost:5000/api/user/match/report/${auth.userId}`,
+        `http://localhost:5000/api/user/match/report/${cookies.userId}`,
         "POST",
         JSON.stringify({
           reported: props.id,
@@ -71,7 +71,7 @@ const UserItem = (props) => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}
@@ -81,7 +81,7 @@ const UserItem = (props) => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
     await sendRequest(
-        `http://localhost:5000/api/user/match/block/${auth.userId}`,
+        `http://localhost:5000/api/user/match/block/${cookies.userId}`,
         "POST",
         JSON.stringify({
           blocked: props.id,
@@ -89,7 +89,7 @@ const UserItem = (props) => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

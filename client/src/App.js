@@ -18,53 +18,68 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import SocketClient from "./shared/util/socketClient";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import { useCookies } from "react-cookie";
 
 const App = () => {
-  const [token, setToken] = useState(false);
+  const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(false);
   const [username, setUserName] = useState(false);
   const [notifSet, setNotifSet] = useState(false);
+  const [notifNumber, setNotifNumber] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { sendRequest } = useHttpClient();
 
-  const login = useCallback((uid, token, username) => {
-    setToken(token);
-    setUserId(uid);
-    setUserName(username);
-    if (token !== null && token !== false && notifSet === false) {
-      const setNotifNumber = async (event) => {
-        try {
-          const readedNotif = await sendRequest(
-            `http://localhost:5000/api/user/notification/${uid}/count`,
-            "GET",
-            null,
-            {
-              Authorization: "Bearer " + token,
-            }
-          );
-          localStorage.setItem(
-            "notifUnread",
-            readedNotif.notification[0].notifNumber
-          );
-          setNotifSet(readedNotif.notification[0].notifNumber);
-        } catch (err) {}
-      };
-      setNotifNumber();
-    }
-  }, [notifSet, sendRequest]);
+  const login = useCallback(
+    (uid, token, username) => {
+      setToken(token);
+      setUserId(uid);
+      setCookie("token", token);
+      setCookie("userId", uid);
+      setCookie("username", username);
+      setUserName(username);
+
+      if (token !== null && token !== false && notifSet === false) {
+        const setNotifNumber = async (event) => {
+          try {
+            const readedNotif = await sendRequest(
+              `http://localhost:5000/api/user/notification/${uid}/count`,
+              "GET",
+              null,
+              {
+                Authorization: "Bearer " + token,
+              }
+            );
+            setCookie("notification", readedNotif.notification[0].notifNumber);
+            setNotifNumber(readedNotif.notification[0].notifNumber)
+            setNotifSet(readedNotif.notification[0].notifNumber);
+          } catch (err) {}
+        };
+        setNotifNumber();
+      }
+    },
+    [notifSet, sendRequest, setCookie]
+  );
 
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
     setUserName(null);
     setNotifSet(false);
-    window.location.reload();
-  }, []);
+    removeCookie("token");
+  }, [removeCookie]);
+
+  const addNotification = useCallback(() => {
+    const newNotification = cookies.notification + 1;
+    setCookie("notification", newNotification);
+    setNotifNumber(newNotification);
+  }, [cookies, setCookie]);
 
   let routes;
   useEffect(() => {});
-  if (token) {
+  if (cookies.token) {
     routes = (
       <Switch>
         <Route path="/match" exact>
@@ -111,13 +126,13 @@ const App = () => {
         username: username,
         login: login,
         logout: logout,
+        addNotification: addNotification,
       }}
     >
       <Router>
-        {token !== false && token !== null && notifSet !== false && (
-          <MainNavigation username={username} />
-        )}
-        {token !== false && token !== null && <ReactNotification />}
+        {cookies.token && <MainNavigation username={username} notifNumber={notifNumber}/>}
+        {cookies.token && <ReactNotification />}
+        {cookies.token && <SocketClient />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

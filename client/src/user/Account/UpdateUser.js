@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import FormUser from "./FormUser";
 import { Card } from "react-bootstrap";
-
+import {useCookies} from "react-cookie";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
 
 const UpdateUser = () => {
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
   const [loadedUser, setLoadedUser] = useState(false);
   const {
     isLoading,
@@ -23,11 +22,11 @@ const UpdateUser = () => {
     const fetchUser = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/user/${auth.userId}`,
+          `http://localhost:5000/api/user/${cookies.userId}`,
           "GET",
           null,
           {
-            Authorization: "Bearer " + auth.token,
+            Authorization: "Bearer " + cookies.token,
           }
         );
         // ! UID (16) === UID AuthUser
@@ -35,7 +34,7 @@ const UpdateUser = () => {
       } catch (err) {}
     };
     fetchUser();
-  }, [sendRequest, auth.token, auth.userId]);
+  }, [sendRequest, cookies]);
 
   if (!loadedUser) {
     return (

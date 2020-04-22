@@ -22,15 +22,17 @@ const addUser = ({ id, name, room }) => {
 
 const addUserBack = ({ id, username, userId }) => {
   const existingUser = users.find((user) => user.username === username);
-
   const user = { id, username, userId };
   if (!existingUser) {
     users.push(user);
+  } else {
+    const index = users.findIndex((user) => user.userId === userId);
+    users[index].id = id;
   }
-  return { user };
 }
+
 const getUserBack = (id) => {
-  const user = users.find((user) => user.userId === id);
+  const user = users.find((user) => user.userId === String(id));
   return (user)
 }
 

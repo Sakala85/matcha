@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -16,8 +16,8 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
 import { Card } from "react-bootstrap";
+import {useCookies} from "react-cookie";
 
 const UpdateProfile = props => {
   const {
@@ -27,7 +27,7 @@ const UpdateProfile = props => {
     clearError,
     errorMessage
   } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
 
   const [formState, inputHandler] = useForm(
     {
@@ -71,7 +71,7 @@ const UpdateProfile = props => {
     event.preventDefault();
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/${auth.userId}`,
+        `http://localhost:5000/api/user/${cookies.userId}`,
         "PATCH",
         JSON.stringify({
           username: formState.inputs.username.value,
@@ -85,7 +85,7 @@ const UpdateProfile = props => {
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
+          Authorization: "Bearer " + cookies.token,
         }
       );
     } catch (err) {}

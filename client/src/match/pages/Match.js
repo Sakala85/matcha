@@ -1,27 +1,27 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import UserList from "../components/UserList";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
-import { AuthContext } from "../../shared/context/auth-context";
+import {useCookies} from "react-cookie";
 
 const Match = () => {
   const [loadedUsers, setLoadedUsers] = useState();
+  const [cookies] = useCookies(['token']);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
-  const auth = useContext(AuthContext);
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        if (auth.userId !== false) {
+        if (cookies.userId !== false) {
         const responseData = await sendRequest(
           // Il faudra mettre ca en restful
           // `http://localhost:5000/api/users/${auth.userId}/matchs/`,
           /********************************************************* */
-          `http://localhost:5000/api/user/match/${auth.userId}`,
+          `http://localhost:5000/api/user/match/${cookies.userId}`,
           "GET",
           null,
           {
-            Authorization: "Bearer " + auth.token,
+            Authorization: "Bearer " + cookies.token,
           }
         );
         setLoadedUsers(responseData.user.result);
@@ -29,7 +29,7 @@ const Match = () => {
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest, auth.token, auth.userId]);
+  }, [sendRequest, cookies.token, cookies.userId]);
   return (
     <React.Fragment>
       <ErrorModal error={error} onHide={clearError} />

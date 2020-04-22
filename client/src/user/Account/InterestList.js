@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import InterestItem from "./InterestItem";
-import { AuthContext } from "../../shared/context/auth-context";
+import {useCookies} from "react-cookie";
 
 const InterestList = () => {
   const [loadedInterest, setLoadedInterest] = useState();
@@ -14,24 +14,24 @@ const InterestList = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(['token']);
 
   useEffect(() => {
     const fetchInterest = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/user/interest/${auth.userId}`,
+          `http://localhost:5000/api/user/interest/${cookies.userId}`,
           "GET",
           null,
           {
-            authorization: "Bearer " + auth.token,
+            authorization: "Bearer " + cookies.token,
           }
         );
         setLoadedInterest(responseData.interest);
       } catch (err) {}
     };
     fetchInterest();
-  }, [sendRequest, auth.token, auth.userId]);
+  }, [sendRequest, cookies.token, cookies.userId]);
 
   const interestDeleteHandler = (deletedInterestId) => {
     setLoadedInterest((prevInterest) =>

@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-import { AuthContext } from "../../../shared/context/auth-context";
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
+import {useCookies} from "react-cookie";
 
 import "./Chat.css";
 
 let socket;
 
 const Chat = ({ location }) => {
+  const [cookies] = useCookies(['token']);
   const [name, setName] = useState("");
   const [roomName, setRoomName] = useState("");
   const [online, setOnline] = useState(false);
@@ -18,7 +19,6 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   const [room, setRoom] = useState([]);
   const ENDPOINT = "localhost:5000";
-  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const { name, room, roomName } = queryString.parse(location.search);
@@ -68,7 +68,7 @@ const Chat = ({ location }) => {
     event.preventDefault();
     console.log(messages);
     if (message) {
-      socket.emit("sendMessage", auth.userId, room, message, () =>
+      socket.emit("sendMessage", cookies.userId, room, message, () =>
         setMessage("")
       );
     }
