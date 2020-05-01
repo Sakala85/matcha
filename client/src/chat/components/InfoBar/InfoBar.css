@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rebeccapurple;
   border-radius: 4px 4px 0 0;
   height: 60px;
   width: 100%;
@@ -13,7 +12,7 @@
   display: flex;
   align-items: center;
   margin-left: 5%;
-  color: white;
+  color: black;
 }
 
 .rightInnerContainer {
@@ -25,4 +24,13 @@
 
 .onlineIcon {
   margin-right: 5%;
+  width: 15px;
+  height: 15px;
+}
+
+.closeIcon{
+  margin-right: 5%;
+  margin-top: 5px;
+  width: 20px;
+  height: 20px;
 }

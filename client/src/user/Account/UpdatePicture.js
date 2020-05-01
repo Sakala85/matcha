@@ -4,9 +4,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
-import { AuthContext } from "../../shared/context/auth-context";
-import { Card, Modal } from "react-bootstrap";
-import Icon from "@material-ui/core/Icon";
+import { Modal } from "react-bootstrap";
 
 import "./FormUser.css"
 // import { Card } from "react-bootstrap";

@@ -2,7 +2,7 @@ import React from "react";
 
 import onlineIcon from "../../../shared/icons/onlineIcon.png";
 import offlineIcon from "../../../shared/icons/offlineIcon.png";
-import closeIcon from "../../../shared/icons/closeIcon.png";
+import closeIcon from "../../../shared/icons/cancel.png";
 
 import "./InfoBar.css";
 
@@ -19,7 +19,7 @@ const InfoBar = ({ room, online }) => (
     </div>
     <div className="rightInnerContainer">
       <a href="/join">
-        <img src={closeIcon} alt="close icon" />
+        <img src={closeIcon} alt="closeIcon" className="closeIcon"/>
       </a>
     </div>
   </div>

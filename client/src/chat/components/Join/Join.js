@@ -10,7 +10,6 @@ const SignIn = () => {
   const [loadedUsers, setLoadedUsers] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [cookies] = useCookies(['token']);
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {

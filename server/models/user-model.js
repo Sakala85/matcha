@@ -122,7 +122,10 @@ const getMatch = (matchId, callBack) => {
 };
 
 const getUserMatch = (userId, callBack) => {
-  let sql = `SELECT user_match.id, user.username, user.picture1 FROM user_match INNER JOIN user ON user.id = user_match.id_user2 WHERE ((id_user1 = ${db.escape(userId)}) OR (id_user2 = ${db.escape(userId)}))`;
+  let sql = `SELECT user_match.id, user.username, user.picture1 FROM user_match 
+  INNER JOIN user ON (user.id = user_match.id_user2 OR user.id = user_match.id_user1) AND user.id <> ${db.escape(userId)}
+  WHERE ((id_user1 = ${db.escape(userId)}) 
+  OR (id_user2 = ${db.escape(userId)}))`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, result);
