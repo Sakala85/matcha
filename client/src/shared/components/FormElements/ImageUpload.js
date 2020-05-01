@@ -52,8 +52,8 @@ const ImageUpload = props => {
       />
       {/* <div className={`image-upload ${props.center && "center"}`}> */}
       <div>
-        {previewUrl && <img src={previewUrl} alt="Preview" />}
-        {!previewUrl && <img src={props.default} alt="oldPick" />}
+        {previewUrl && <img className="update-photo" src={previewUrl} alt="Preview" />}
+        {!previewUrl && <img className="update-photo" src={props.default} alt="oldPick" />}
       </div>
       <div>
 
@@ -61,21 +61,12 @@ const ImageUpload = props => {
           <Icon className="savedisket"> save</Icon>
         </button>}
       </div>
-
       <div>
         <button type="button" onClick={pickImageHandler}  className="penBouton">
           <Icon className="change-image"> create</Icon>
         </button>
-        {/* <button
-          type="button"
-          onClick={pickImageHandler}
-          className="button__pick__image"
-        >
-          Pick image{" "}
-        </button> */}
       </div>
-      {/* </div> */}
-      {/* {!isValid && <p>{props.errorText}</p>} */}
+
     </div>
   );
 };

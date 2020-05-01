@@ -30,3 +30,7 @@
   height: 15rem;
   width: 100%;
 }
+mg.d-block.w-100 {
+    width: 350px!important;
+    height: 320px;
+}

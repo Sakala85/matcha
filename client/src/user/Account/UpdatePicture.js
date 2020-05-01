@@ -9,7 +9,7 @@ import { Card, Modal } from "react-bootstrap";
 import Icon from "@material-ui/core/Icon";
 
 import "./FormUser.css"
-import { Card } from "react-bootstrap";
+// import { Card } from "react-bootstrap";
 import {useCookies} from "react-cookie";
 
 const UpdatePicture = props => {
@@ -135,7 +135,22 @@ const UpdatePicture = props => {
           <LoadingSpinner />
         </div>
       )}
+      <Modal.Header className="title">
+        <div className="titleUpdate">Your avatar </div>
+      </Modal.Header>
+      <form className="avatar" onSubmit={pictureSubmitHandler1}>
+        <ImageUpload
+          default={props.items.picture1}
+          center
+          id="picture1"
+          onInput={inputHandler}
+          errorText="Provide an Image!"
+        />
+      </form>
 
+      <Modal.Header className="title">
+        <div className="titleUpdate">Your picture </div>
+      </Modal.Header>
       <form onSubmit={pictureSubmitHandler2}>
         <ImageUpload
           default={props.items.picture2}
@@ -154,15 +169,7 @@ const UpdatePicture = props => {
           errorText="Provide an Image!"
         />
       </form>
-      <form onSubmit={pictureSubmitHandler1}>
-        <ImageUpload
-          default={props.items.picture1}
-          center
-          id="picture1"
-          onInput={inputHandler}
-          errorText="Provide an Image!"
-        />
-      </form>
+
       <form onSubmit={pictureSubmitHandler4}>
         <ImageUpload
           default={props.items.picture4}
