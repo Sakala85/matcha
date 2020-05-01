@@ -16,7 +16,7 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { Card } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {useCookies} from "react-cookie";
 
 const UpdateProfile = props => {

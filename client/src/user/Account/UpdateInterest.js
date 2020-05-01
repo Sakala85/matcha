@@ -6,7 +6,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { VALIDATOR_REQUIRE , VALIDATOR_MINLENGTH} from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { Card } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import {useCookies} from "react-cookie";
 
 const UpdateInterest = (props) => {

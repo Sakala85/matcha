@@ -11,7 +11,7 @@ import {
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
-import { Card, Modal} from "react-bootstrap";
+import { Modal} from "react-bootstrap";
 
 const UpdatePassword = () => {
   const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();

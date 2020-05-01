@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Row, Card, Modal } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 import "./FormUser.css";

@@ -18,7 +18,6 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import SocketClient from "./shared/util/socketClient";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
@@ -41,7 +40,7 @@ const App = () => {
       setCookie("username", username);
       setUserName(username);
 
-      if (token !== null && token !== false && notifSet === false) {
+      if (token !== null && token !== false && notifSet !== true) {
         const setNotifNumber = async (event) => {
           try {
             const readedNotif = await sendRequest(
@@ -53,8 +52,8 @@ const App = () => {
               }
             );
             setCookie("notification", readedNotif.notification[0].notifNumber);
-            setNotifNumber(readedNotif.notification[0].notifNumber)
-            setNotifSet(readedNotif.notification[0].notifNumber);
+            setNotifNumber(readedNotif.notification[0].notifNumber);
+            setNotifSet(true);
           } catch (err) {}
         };
         setNotifNumber();
@@ -69,10 +68,11 @@ const App = () => {
     setUserName(null);
     setNotifSet(false);
     removeCookie("token");
+    window.location.reload();
   }, [removeCookie]);
 
   const addNotification = useCallback(() => {
-    const newNotification = cookies.notification + 1;
+    const newNotification = +cookies.notification + 1;
     setCookie("notification", newNotification);
     setNotifNumber(newNotification);
   }, [cookies, setCookie]);
@@ -130,9 +130,10 @@ const App = () => {
       }}
     >
       <Router>
-        {cookies.token && <MainNavigation username={username} notifNumber={notifNumber}/>}
+        {cookies.token && (
+          <MainNavigation username={username} notifNumber={notifNumber} />
+        )}
         {cookies.token && <ReactNotification />}
-        {cookies.token && <SocketClient />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

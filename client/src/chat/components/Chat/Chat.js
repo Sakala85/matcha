@@ -4,14 +4,14 @@ import io from "socket.io-client";
 import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 
 import "./Chat.css";
 
 let socket;
 
 const Chat = ({ location }) => {
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const [name, setName] = useState("");
   const [roomName, setRoomName] = useState("");
   const [online, setOnline] = useState(false);
@@ -26,7 +26,7 @@ const Chat = ({ location }) => {
     setName(name);
     setRoom(room);
     setRoomName(roomName);
-    socket.emit("join", { name, room }, (error) => {
+    socket.emit("join", { name, room, roomName }, (error) => {
       if (error) {
         alert(error);
       }
@@ -39,19 +39,21 @@ const Chat = ({ location }) => {
     });
     socket.on("messages", (Holdmessages) => {
       let mess;
+      const allMess = [];
       Holdmessages.result.map((Holdmessage) => {
         mess = {
-          user: Holdmessage.username,
+          user: Holdmessage.username,  
           text: Holdmessage.message,
           date: Holdmessage.date,
         };
-        setMessages([...messages, mess]);
+        allMess.push(mess);
         return null;
       });
+      setMessages(allMess);
     });
 
     socket.on("roomData", ({ users }) => {
-      if (!users[1]) {
+      if (!users) {
         setOnline(false);
       } else {
         setOnline(true);
@@ -59,19 +61,21 @@ const Chat = ({ location }) => {
     });
 
     return () => {
-      socket.emit("disconnect");
       socket.off();
     };
   }, [messages]);
 
   const sendMessage = (event) => {
     event.preventDefault();
-    console.log(messages);
     if (message) {
       socket.emit("sendMessage", cookies.userId, room, message, () =>
         setMessage("")
       );
     }
+    
+    return () => {
+      socket.off();
+    };
   };
   return (
     <div className="outerContainer">

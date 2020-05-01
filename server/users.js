@@ -1,25 +1,5 @@
 const users = [];
 
-const connectUser = ({ id, username }) => {
-
-}
-
-const addUser = ({ id, name, room }) => {
-  name = name.trim().toLowerCase();
-  room = room.trim().toLowerCase();
-
-  const existingUser = users.find((user) => user.room === room && user.name === name);
-
-  if(!name || !room) return { error: 'Username and room are required.' };
-  if(existingUser) return { error: 'Username is taken.' };
-
-  const user = { id, name, room };
-
-  users.push(user);
-
-  return { user };
-}
-
 const addUserBack = ({ id, username, userId }) => {
   const existingUser = users.find((user) => user.username === username);
   const user = { id, username, userId };
@@ -29,21 +9,34 @@ const addUserBack = ({ id, username, userId }) => {
     const index = users.findIndex((user) => user.userId === userId);
     users[index].id = id;
   }
-}
+};
 
 const getUserBack = (id) => {
   const user = users.find((user) => user.userId === String(id));
-  return (user)
-}
+  return user;
+};
 
-const removeUser = (id) => {
+const getUserBackByName = (username) => {
+  const user = users.find((user) => user.username === String(username));
+  return user;
+};
+
+const disconnectUser = (id) => {
   const index = users.findIndex((user) => user.id === id);
-
-  if(index !== -1) return users.splice(index, 1)[0];
-}
-
-const getUser = (id) => users.find((user) => user.id === id);
+  if (index >= 0) {
+    users[index].id = "0";
+    return(users[index].userId)
+  } else {
+    return 0;
+  }
+};
 
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
-module.exports = { addUser, removeUser, getUser, getUsersInRoom, connectUser, addUserBack,getUserBack };
+module.exports = {
+  getUserBackByName,
+  disconnectUser,
+  getUsersInRoom,
+  addUserBack,
+  getUserBack,
+};

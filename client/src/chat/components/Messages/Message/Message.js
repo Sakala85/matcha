@@ -1,15 +1,15 @@
 import React from 'react';
 
 import './Message.css';
+import moment from "moment-timezone/builds/moment-timezone-with-data";
 
-import ReactEmoji from 'react-emoji';
+const timezone = "Europe/Paris";
 
-const Message = ({ message: { text, user }, name }) => {
+const Message = (props) => {
   let isSentByCurrentUser = false;
 
-  const trimmedName = name.trim().toLowerCase();
-
-  if(user === trimmedName) {
+  const trimmedName = props.name.trim().toLowerCase();
+  if(props.message.user.trim().toLowerCase() === trimmedName) {
     isSentByCurrentUser = true;
   }
 
@@ -17,18 +17,18 @@ const Message = ({ message: { text, user }, name }) => {
     isSentByCurrentUser
       ? (
         <div className="messageContainer justifyEnd">
-          <p className="sentText pr-10">{trimmedName}</p>
+          <p className="sentText pr-10">{moment(props.message.date).tz(timezone).format("DD/MM HH:mm")}</p>
           <div className="messageBox backgroundBlue">
-            <p className="messageText colorWhite">{ReactEmoji.emojify(text)}</p>
+            <p className="messageText colorWhite">{props.message.text}</p>
           </div>
         </div>
         )
         : (
           <div className="messageContainer justifyStart">
             <div className="messageBox backgroundLight">
-              <p className="messageText colorDark">{ReactEmoji.emojify(text)}</p>
+              <p className="messageText colorDark">{props.message.text}</p>
             </div>
-            <p className="sentText pl-10 ">{user}</p>
+            <p className="sentText pl-10 ">{moment(props.message.date).tz(timezone).format("DD/MM HH:mm")}</p>
           </div>
         )
   );

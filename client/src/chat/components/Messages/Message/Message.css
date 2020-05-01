@@ -1,5 +1,4 @@
 .messageBox {
-  background: #F3F3F3;
   border-radius: 20px;
   padding: 5px 20px;
   color: white;
@@ -27,11 +26,11 @@
 }
 
 .sentText {
+  margin: 0 0;
   display: flex;
   align-items: center;
   font-family: Helvetica;
   color: #828282;
-  letter-spacing: 0.3px;
 }
 
 .pl-10 {
@@ -59,9 +58,9 @@
 }
 
 .backgroundBlue {
-  background: rebeccapurple;
+  background: blue;
 }
 
 .backgroundLight {
-  background: #F3F3F3;
+  background: lightsteelblue;
 }
