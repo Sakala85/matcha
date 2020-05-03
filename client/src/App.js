@@ -21,6 +21,9 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
+import moment from "moment";
+// import cookie from "react-cookie";
+
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -35,8 +38,14 @@ const App = () => {
     (uid, token, username) => {
       setToken(token);
       setUserId(uid);
-      setCookie("token", token);
+      let d = new Date();
+      d.setTime(d.getTime() + 60 * 60 * 1000);
+      console.log(d);
+
+  // cookies.set("token", token, { path: "/", expires: d });
+      setCookie("token", token , moment().add(1, "hours"));
       setCookie("userId", uid);
+  
       setCookie("username", username);
       setUserName(username);
 
@@ -59,7 +68,7 @@ const App = () => {
         setNotifNumber();
       }
     },
-    [notifSet, sendRequest, setCookie]
+    [notifSet, sendRequest, setCookie, cookies]
   );
 
   const logout = useCallback(() => {
@@ -74,6 +83,7 @@ const App = () => {
   const addNotification = useCallback(() => {
     const newNotification = +cookies.notification + 1;
     setCookie("notification", newNotification);
+    cookies.set('notification', {path: '/', expires: moment().add(1, "hours")})
     setNotifNumber(newNotification);
   }, [cookies, setCookie]);
 
