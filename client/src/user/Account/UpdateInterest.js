@@ -77,7 +77,7 @@ const UpdateInterest = (props) => {
             <button
               type="submit"
               disabled={!formState.isValid}
-              className="button__logIn__signUp"
+              className="button__update"
             >
               Add Interest
             </button>

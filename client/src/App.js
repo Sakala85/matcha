@@ -30,7 +30,6 @@ const App = () => {
   const [userId, setUserId] = useState(false);
   const [username, setUserName] = useState(false);
   const [notifSet, setNotifSet] = useState(false);
-  const [notifNumber, setNotifNumber] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { sendRequest } = useHttpClient();
 
@@ -43,13 +42,13 @@ const App = () => {
       console.log(d);
 
   // cookies.set("token", token, { path: "/", expires: d });
-      setCookie("token", token , moment().add(1, "hours"));
+      setCookie("token", token);
       setCookie("userId", uid);
   
       setCookie("username", username);
       setUserName(username);
 
-      if (token !== null && token !== false && notifSet !== true) {
+      if (token !== null && token !== false && notifSet === false && token) {
         const setNotifNumber = async (event) => {
           try {
             const readedNotif = await sendRequest(
@@ -61,14 +60,14 @@ const App = () => {
               }
             );
             setCookie("notification", readedNotif.notification[0].notifNumber);
-            setNotifNumber(readedNotif.notification[0].notifNumber);
-            setNotifSet(true);
           } catch (err) {}
+            setNotifSet(true);
+
         };
         setNotifNumber();
       }
     },
-    [notifSet, sendRequest, setCookie, cookies]
+    [notifSet, sendRequest, setCookie]
   );
 
   const logout = useCallback(() => {
@@ -83,8 +82,6 @@ const App = () => {
   const addNotification = useCallback(() => {
     const newNotification = +cookies.notification + 1;
     setCookie("notification", newNotification);
-    cookies.set('notification', {path: '/', expires: moment().add(1, "hours")})
-    setNotifNumber(newNotification);
   }, [cookies, setCookie]);
 
   let routes;
@@ -141,7 +138,7 @@ const App = () => {
     >
       <Router>
         {cookies.token && (
-          <MainNavigation username={username} notifNumber={notifNumber} />
+          <MainNavigation username={username} notifNumber={cookies.notification} />
         )}
         {cookies.token && <ReactNotification />}
         <main>{routes}</main>

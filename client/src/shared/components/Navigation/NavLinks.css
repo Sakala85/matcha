@@ -54,12 +54,15 @@ span.material-icons.MuiIcon-root.navBouton:hover {
   }
   
   .nav-links button {
-    cursor: pointer;
-    border: 1px solid #292929;
-    color: #292929;
+     cursor: pointer;
+    border: 0;
+    color: grey;
     background: transparent;
-    padding: 0.5rem;
-    font: inherit;
+    /* padding: 0.5rem; */
+    /* font: inherit; */
+    /* margin-left: -14px; */
+        margin-left: -31px;
+    margin-top: 8px;
   }
   
   .nav-links button:focus {

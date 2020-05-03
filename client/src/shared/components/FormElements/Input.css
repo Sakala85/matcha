@@ -2,17 +2,22 @@
   text-align: center;
 }
 .form-control {
-  width: 300px;
-  height: auto;
+  width: 350px;
+  /* height: auto; */
+  font: inherit;
   border: 0px;
   text-align: center;
+  padding: 0.15rem 0.25rem;
+      margin-bottom: 33px;
+
+
 }
 
 .form-control label,
 .form-control input,
 .form-control textarea {
   display: block;
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
 }
 
 .form-control label {
@@ -21,11 +26,12 @@
 
 .form-control input,
 .form-control textarea {
-  width: 100%;
+    width: 350px;
   font: inherit;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc42;
   background: #f8f8f8;
   padding: 0.15rem 0.25rem;
+color: #3b7dc3bf;
 }
 
 .form-control input:focus,
@@ -44,7 +50,20 @@
 .form-control--invalid textarea {
   border-color: #ff69b4;
   background: #ffd1d1;
+  width: 350px;
+    font: inherit;
+    /* border: 1px solid #cccccc42; */
+    /* background: #f8f8f8; */
+    
+  font: inherit;
+  padding: 0.15rem 0.25rem;
+color: #3b7dc3bf;
 }
+
+.form-control.form-control--invalid{
+  width: 350px;
+}
+
 
 /* p {
     text-align: justify;
@@ -58,7 +77,9 @@ p {
 }
 
 .form-control.false {
-  width: auto;
+  width: 350px;
+      margin-top: 33px;
+
 }
 
 .InputForm__LogIn{

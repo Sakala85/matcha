@@ -1,20 +1,25 @@
 .form__div__account{
-    /* width: 500px;
+    width: 500px;
     margin: 0 auto;
     text-align: center;
-    background-color: #F6CFCA;
-    border-radius: 20px;
-    margin-top: 88px; */
+    /* background-color: #F6CFCA; */
+    /* border-radius: 20px; */
+    /* margin-top: 88px; */
+}
+.form__div__account.col{
+    padding-left: 0%;
+    padding-right: 0%;
 }
 
 .settingsPicture.card {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    /* box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); */
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     /* flex-direction: unset; */
     /* margin-left: 0; */
     width: -moz-fit-content;
-    width: fit-content;
-    margin-left: 40px;
+    /* width: fit-content; */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .image-upload__preview {
@@ -35,6 +40,22 @@ button.disketteBouton {
     background-color: #ffffff2e;
 }
 
+button.supp {
+    border: none;
+    color: none;
+    /* color: #0000ff03; */
+    background-color: #ffffff2e;
+}
+span.material-icons.MuiIcon-root.supp {
+color: #3b7dc3;
+    font-size: 30px;
+    width: 50px;
+    height: 35px;
+    vertical-align: middle;
+}
+span.material-icons.MuiIcon-root.supp:hover {
+    color: rgb(250, 109, 102);
+}
 span.material-icons.MuiIcon-root.savedisket {
     color: #3b7dc3;
     font-size: 30px;
@@ -47,19 +68,38 @@ span.material-icons.MuiIcon-root.savedisket:hover {
     color: rgb(250, 109, 102);
 }
 
-.button__pick__image {
-/* display: block; */
-    /* margin: 0 auto; */
-    /* border-radius: 5px; */
-    /* color: #3b7dc3; */
-    /* letter-spacing: 2px; */
-    /* font-size: 17px; */
-    /* font-weight: bold; */
+.button__update {
+display: block; 
+border-radius: 5px;
+margin: 0 auto;
+    color: #3b7dc3;
+    letter-spacing: 2px;
+    font-size: 17px;
+    font-weight: bold;
     /* background-color: pink; */
-    /* border-color: pink; */
-    /* margin-top: 15px; */
-    /* border: 2px solid #ff149352; */
+    border-color: pink;
+    margin-top: 40px;
+     border: 2px solid #ff149352;
+         margin-bottom: 30px;
+
 }
+
+.button__update:hover{
+display: block; 
+border-radius: 5px;
+margin: 0 auto;
+    color: #3b7dc3;
+    letter-spacing: 2px;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: pink;
+    border-color: pink;
+    margin-top: 40px;
+     border: 2px solid #ff149352;
+         margin-bottom: 30px;
+
+}
+
 
 .image-upload__preview {
     width: 100px;
@@ -138,11 +178,54 @@ button.penBouton {
 }
 
 .settingsInterest.card {
-    margin-left: 400px;
-    margin-top: -720px;
+    margin-left: 0;
+    /* margin-top: -720px; */
+    height: 513px;
 }
 
 .settingsProfil.card {
-    margin-left: 400px;
+    margin-left: 0;
     /* margin-top: -720px; */
+    height: 100%;
+}
+
+.row{
+    margin-left: 0;
+    margin-right: 0;
+
+}
+
+label {
+    color: #3b7dc3bf;
+    text-align: left;
+    font-weight: 100;
+    margin-bottom: 0;
+}
+
+img.update-photo {
+    margin-top: 30px;
+}
+
+.form__div__account{
+    text-align: left;
+}
+
+ul {
+    margin-top: 30px;
+    list-style: none;
+}
+
+.button__pick__image {
+    /* display: block; */
+    /* vertical-align: middle; */
+    /* margin: 0 auto; */
+    border-radius: 5px;
+    color: #3b7dc3;
+    letter-spacing: 2px;
+    font-size: 17px;
+    font-weight: bold;
+    /* background-color: pink; */
+    /* border-color: pink; */
+    /* margin-top: 15px; */
+    border: 2px solid #ff149352;
 }

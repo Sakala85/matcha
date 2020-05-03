@@ -1,6 +1,7 @@
 import React from "react";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import {useCookies} from "react-cookie";
+import { Icon } from "@material-ui/core";
 
 const InterestItem = (props) => {
   const { sendRequest } = useHttpClient();
@@ -22,7 +23,11 @@ const InterestItem = (props) => {
 
   return (
     <li key={props.id}>
-      <button onClick={deleteInterest}>x</button>
+     <button className="supp" onClick={deleteInterest} > <Icon className="supp"> delete_forever
+</Icon> </button>
+
+
+      {/* <button onClick={deleteInterest}>x</button> */}
       {props.interest}
     </li>
   );

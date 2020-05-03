@@ -2,8 +2,12 @@ import React, { useEffect, useContext, useState } from "react";
 import io from "socket.io-client";
 import { store } from "react-notifications-component";
 import { useCookies } from "react-cookie";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import { AuthContext } from "../../shared/context/auth-context";
 import "./socketClient.css";
+import { NavLink } from "react-router-dom";
+import "../components/Navigation/NavLinks.css";
+import Icon from "@material-ui/core/Icon";
 let socket;
 
 const SocketClient = (props) => {
@@ -12,6 +16,8 @@ const SocketClient = (props) => {
   const [cookieSet, setCookieSet] = useState(false);
   const [notifNumber, setNotifNumber] = useState(cookies.notification);
   const auth = useContext(AuthContext);
+  const { sendRequest } = useHttpClient();
+
 
   useEffect(() => {
     if (cookies.token && !cookieSet) {
@@ -28,9 +34,31 @@ const SocketClient = (props) => {
     }
   }, [ENDPOINT, cookies, cookieSet]);
 
-  const notifReset = () => {
-    setNotifNumber("0");
-  };
+    const notifReset = async (e) => {
+      if (
+        cookies.userId !== false &&
+        cookies.userId !== null &&
+        cookies.token
+      ) {
+        try {
+          await sendRequest(
+            `http://localhost:5000/api/user/notification/${cookies.userId}`,
+            "PATCH",
+            null,
+            {
+              Authorization: "Bearer " + cookies.token,
+            }
+          );
+          setCookie("notification", 0);
+        } catch (err) {}
+        
+      }
+      setNotifNumber("0");
+      return 1;
+
+    };
+
+
   useEffect(() => {
     if (socket) {
       socket.on("notifPusher", (param) => {
@@ -60,9 +88,11 @@ const SocketClient = (props) => {
     }
   }, [cookies, setCookie, auth, notifNumber]);
   return (
-    <button className="notif_number" onClick={notifReset}>
-      {notifNumber}
-    </button>
+
+            <NavLink to="/notification" onClick={notifReset}>
+          <Icon className="navBouton"> notifications_none</Icon>
+          {notifNumber}
+        </NavLink>
   );
 };
 
