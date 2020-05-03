@@ -57,6 +57,18 @@ const Input = props => {
         type={props.type}
         min={props.min}
         max={props.max}
+        step="1"
+        placeholder={props.placeholder}
+        onChange={changeHandler}
+        onBlur={touchHandler}
+        value={inputState.value}
+      />
+    ) : props.element === "range" ? (
+      <input
+        id={props.id}
+        type="range"
+        min={props.min}
+        max={props.max}
         placeholder={props.placeholder}
         onChange={changeHandler}
         onBlur={touchHandler}
