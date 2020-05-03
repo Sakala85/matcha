@@ -125,7 +125,7 @@ const UserItem = (props) => {
                   src={props.picture}
                   alt={props.picture}
                   // REVOIR LE alt, je sais pas comment en mettre un unique
-                  height="400px"
+                  // height="400px"
                 />
                 <Carousel.Caption>
                   <h3>Description</h3>
@@ -137,7 +137,7 @@ const UserItem = (props) => {
                   className="d-block w-100"
                   src={props.picture2}
                   alt={props.picture2}
-                  height="400px"
+                  // height="400px"
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -145,7 +145,7 @@ const UserItem = (props) => {
                   className="d-block w-100"
                   src={props.picture3}
                   alt={props.picture3}
-                  height="400px"
+                  // height="400px"
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -153,7 +153,7 @@ const UserItem = (props) => {
                   className="d-block w-100"
                   src={props.picture4}
                   alt={props.picture4}
-                  height="400px"
+                  // height="400px"
                 />
               </Carousel.Item>
               <Carousel.Item>
@@ -161,7 +161,7 @@ const UserItem = (props) => {
                   className="d-block w-100"
                   src={props.picture5}
                   alt={props.picture5}
-                  height="400px"
+                  // height="400px"
                 />
               </Carousel.Item>
             </Carousel>

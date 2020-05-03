@@ -13,8 +13,8 @@
   border-color: pink;
   border: 2px solid rgb(233, 90, 149);
 
-
 }
+
 .button__logIn__signUp:hover {
 background-color: rgba(251, 123, 176, 0.34);
 box-shadow: 0 12px 16px 0 rgba(255, 120, 200, 0.19), 0 1px 5px 0 rgba(255, 120, 200, 0.19);
@@ -32,6 +32,7 @@ box-shadow: 0 12px 16px 0 rgba(255, 120, 200, 0.19), 0 1px 5px 0 rgba(255, 120, 
   border-color: pink;
   border: 2px solid rgb(233, 90, 149);
 }
+
 .button__logIn__signUp__switch:hover{
 background-color: rgba(251, 123, 176, 0.34);
     box-shadow: 0 12px 16px 0 rgba(255, 120, 200, 0.19), 0 1px 5px 0 rgba(255, 120, 200, 0.19);
@@ -87,18 +88,23 @@ a:hover {
       max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-
 }
 
-.card{
+/* .card{
       box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.1);
     width: 450px;
-    margin: 40px auto;
-
+ 
+} */
+.card-auth.card {
+    margin: 0 auto;
+    margin-top: 35px;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.1);
+    width: 450px;
 }
 
 img.auth {
     vertical-align: middle;
     border-style: none;
     margin-bottom: 30px;
+    width: auto;
 }

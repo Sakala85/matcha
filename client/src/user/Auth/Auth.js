@@ -138,7 +138,7 @@ const Auth = () => {
             LogIn or SignUp
           </button> */}
           {/* <Modal show={show} onHide={handleClose}> */}
-          <Card>
+          <Card className="card-auth">
             <ErrorModal
               show={error}
               error={errorMessage}

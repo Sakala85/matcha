@@ -31,3 +31,17 @@
   display: inline-block;
 }
 
+.title {
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 18px;
+    margin: 0px auto;
+    /* margin-left: 30px; */
+    /* margin-right: 30px; */
+    color: gray;
+}
+
+img.update-photo {
+    width: 150px;
+    height: 120px;
+}
