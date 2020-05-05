@@ -36,6 +36,14 @@ const getInterest = (userId, callBack) => {
   });
 };
 
+const getInterestList = (callBack) => {
+  let sql = `SELECT * FROM interest`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    return callBack(err, result);
+  });
+};
+
 const deleteInterestDB = (interestId, callBack) => {
   let sql = `DELETE FROM interest WHERE id = ${db.escape(interestId)}`;
   db.query(sql, (err, result, data) => {
@@ -44,6 +52,7 @@ const deleteInterestDB = (interestId, callBack) => {
   });
 };
 
+exports.getInterestList = getInterestList;
 exports.instertInterest = instertInterest;
 exports.getInterest = getInterest;
 exports.deleteInterestDB = deleteInterestDB;

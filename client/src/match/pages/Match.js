@@ -17,7 +17,7 @@ const Match = () => {
             // Il faudra mettre ca en restful
             // `http://localhost:5000/api/users/${auth.userId}/matchs/`,
             /********************************************************* */
-            `http://localhost:5000/api/user/match/${cookies.userId}`,
+            `http://localhost:5000/api/user/match/${cookies.userId}/${cookies.orientation}`,
             "GET",
             null,
             {
@@ -29,7 +29,7 @@ const Match = () => {
       } catch (err) {}
     };
     fetchUsers();
-  }, [sendRequest, cookies.token, cookies.userId]);
+  }, [sendRequest, cookies]);
   return (
     <React.Fragment>
       <ErrorModal error={error} onHide={clearError} />
@@ -39,6 +39,7 @@ const Match = () => {
         </div>
       )}
       {!isLoading && loadedUsers && <FilterMatch items={loadedUsers} />}
+      {!isLoading && !loadedUsers && <h2>No Match possible found</h2>}
     </React.Fragment>
   );
 };

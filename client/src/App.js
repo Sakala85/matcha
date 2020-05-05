@@ -21,9 +21,7 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
-import moment from "moment";
 // import cookie from "react-cookie";
-
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -34,18 +32,15 @@ const App = () => {
   const { sendRequest } = useHttpClient();
 
   const login = useCallback(
-    (uid, token, username) => {
+    (uid, token, username, orientation) => {
       setToken(token);
       setUserId(uid);
       let d = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
-      console.log(d);
-
-  // cookies.set("token", token, { path: "/", expires: d });
-      setCookie("token", token);
-      setCookie("userId", uid);
-  
-      setCookie("username", username);
+      setCookie("token", token, { path: '/', expires: d });
+      setCookie("userId", uid, { path: '/', expires: d });
+      setCookie("orientation", orientation, { path: '/', expires: d });
+      setCookie("username", username, { path: '/', expires: d });
       setUserName(username);
 
       if (token !== null && token !== false && notifSet === false && token) {
@@ -66,6 +61,7 @@ const App = () => {
         };
         setNotifNumber();
       }
+      window.location.reload();
     },
     [notifSet, sendRequest, setCookie]
   );
@@ -137,10 +133,10 @@ const App = () => {
       }}
     >
       <Router>
-        {cookies.token && (
+        {cookies.token && cookies.token !== null && cookies.token !== undefined && (
           <MainNavigation username={username} notifNumber={cookies.notification} />
         )}
-        {cookies.token && <ReactNotification />}
+        {cookies.token && cookies.token !== null && cookies.token !== undefined &&<ReactNotification />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

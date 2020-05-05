@@ -98,7 +98,8 @@ const Auth = () => {
         auth.login(
           responseData.userId,
           responseData.token,
-          responseData.username
+          responseData.username,
+          responseData.orientation
         );
       } catch (err) {}
     } else {

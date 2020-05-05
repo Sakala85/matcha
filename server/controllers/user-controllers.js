@@ -116,6 +116,7 @@ const login = (req, res, next) => {
           email: user.email,
           token: token,
           username: user.username,
+          orientation: user.orientation,
           message: "logged in",
         });
       }
@@ -139,7 +140,7 @@ const getUserById = (req, res, next) => {
 };
 
 const getMatchById = (req, res, next) => {
-  userModel.getMatch(req.params.uid, (err, result) => {
+  userModel.getMatch(req.params.uid, req.params.orientation, (err, result) => {
     if (!err) {
       return res.status(201).json({ user: { result } });
     } else {
