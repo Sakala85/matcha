@@ -24,7 +24,7 @@ const insertUser = (
 };
 
 function getPassword(username, callBack) {
-  let sql = `SELECT id, email, password, username FROM user WHERE username = ${db.escape(username)}`;
+  let sql = `SELECT id, email, password, username, orientation FROM user WHERE username = ${db.escape(username)}`;
   db.query(sql, (err, result, data) => {
     if (!result[0]) {
       return callBack("No User Found", null);
@@ -110,8 +110,29 @@ const getUser = (userId, callBack) => {
   });
 };
 
-const getMatch = (matchId, callBack) => {
-  let sql = `SELECT * FROM user`;
+const getMatch = (matchId, orientation, callBack) => {
+  let sql;
+  if (orientation === "Both") {
+    sql = `SELECT user.id, username, picture1, picture2, picture3, picture4, picture5, bio, gender, age, popularity, online
+   FROM user
+  LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(matchId)})
+  OR (user_match.id_user2 = user.id AND user_match.id_user1 = ${db.escape(matchId)})
+  LEFT JOIN user_dislike ON (user_dislike.id_user1 = user.id AND user_dislike.id_user2 = ${db.escape(matchId)})
+  OR (user_dislike.id_user2 = user.id AND user_dislike.id_user1 = ${db.escape(matchId)})
+  LEFT JOIN blocked ON (blocked.id_user1 = user.id AND blocked.id_user2 = ${db.escape(matchId)})
+  OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
+  WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL`
+  } else {
+    sql = `SELECT user.id, username, picture1, picture2, picture3, picture4, picture5, bio, gender, age, popularity, online
+    FROM user
+   LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(matchId)})
+   OR (user_match.id_user2 = user.id AND user_match.id_user1 = ${db.escape(matchId)})
+   LEFT JOIN user_dislike ON (user_dislike.id_user1 = user.id AND user_dislike.id_user2 = ${db.escape(matchId)})
+   OR (user_dislike.id_user2 = user.id AND user_dislike.id_user1 = ${db.escape(matchId)})
+   LEFT JOIN blocked ON (blocked.id_user1 = user.id AND blocked.id_user2 = ${db.escape(matchId)})
+   OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
+   WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL AND gender = ${db.escape(orientation)}`
+  }
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     if (result.length > 0) {

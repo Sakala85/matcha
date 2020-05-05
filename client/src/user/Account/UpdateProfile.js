@@ -12,22 +12,22 @@ import {
   VALIDATOR_ALPHANUMERIC,
   VALIDATOR_MIN,
   VALIDATOR_MAX,
-  VALIDATOR_NUMBER
+  VALIDATOR_NUMBER,
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { Modal, Row, Col} from "react-bootstrap";
-import {useCookies} from "react-cookie";
+import { Modal, Row, Col } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 
-const UpdateProfile = props => {
+const UpdateProfile = (props) => {
   const {
     isLoading,
     error,
     sendRequest,
     clearError,
-    errorMessage
+    errorMessage,
   } = useHttpClient();
-  const [cookies] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const [formState, inputHandler] = useForm(
     {
@@ -67,7 +67,7 @@ const UpdateProfile = props => {
     false
   );
 
-  const UpdateSubmitHandler = async event => {
+  const UpdateSubmitHandler = async (event) => {
     event.preventDefault();
     try {
       await sendRequest(
@@ -88,6 +88,8 @@ const UpdateProfile = props => {
           Authorization: "Bearer " + cookies.token,
         }
       );
+      setCookie("orientation", formState.inputs.orientation.value);
+      setCookie("username", formState.inputs.username.value);
     } catch (err) {}
   };
 

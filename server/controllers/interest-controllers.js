@@ -43,6 +43,16 @@ const getInterestById = (req, res, next) => {
   });
 };
 
+const getInterestList = (req, res, next) => {
+  interestModel.getInterestList((err, data) => {
+    if (err) {
+      return res.status(400).json({ message: err });
+    } else {
+      return res.status(201).json({ interest: data });
+    }
+  });
+};
+
 const deleteInterest = (req, res, next) => {
   const interestId = req.params.iid;
   interestModel.deleteInterestDB(interestId, (err, data) => {
@@ -53,7 +63,7 @@ const deleteInterest = (req, res, next) => {
     }
   });
 };
-
+exports.getInterestList = getInterestList;
 exports.createInterest = createInterest;
 exports.getInterestById = getInterestById;
 exports.deleteInterest = deleteInterest;

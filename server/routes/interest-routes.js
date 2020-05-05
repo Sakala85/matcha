@@ -7,6 +7,7 @@ const interestController = require("../controllers/interest-controllers");
 router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour acceder aux routes suivantes.
 
 router.get("/:uid", interestController.getInterestById);
+router.get("/list/all", interestController.getInterestList);
 
 router.post("/:uid", interestController.createInterest);
 
