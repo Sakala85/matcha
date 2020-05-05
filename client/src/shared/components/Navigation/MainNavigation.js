@@ -12,6 +12,7 @@ import {
 } from "../../util/validators";
 import "./MainNavigation.css";
 import { useForm } from "../../hooks/form-hook";
+import { Icon } from "@material-ui/core";
 
 const MainNavigation = (props) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -55,7 +56,7 @@ const MainNavigation = (props) => {
             <img className="logo" src={matchaLogo} alt="matcha logo" />
           </Link>
         </h1>
-        <form className="formUpdatePassword" onSubmit={UpdateSubmitHandler}>
+        <form className="formSearch" onSubmit={UpdateSubmitHandler}>
         <Input
           id="searchBar"
           element="input"
@@ -68,7 +69,7 @@ const MainNavigation = (props) => {
           initialValue={""}
           initialValid={false}
         />
-        <button type="submit">search</button>
+        <button type="submit"><Icon className="searchicon">search</Icon></button>
         </form>
         <nav className="main-navigation__header-nav">
           <NavLinks notifNumber={props.notifNumber} />

@@ -23,14 +23,9 @@ const addDislike = (matcher, disliked, callBack) => {
   });
 };
 
-const deleteMatch = (unmatcher, unmatched, callBack) => {
-  let sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(
-    unmatcher
-  )} AND id_user2 = ${db.escape(unmatched)}`;
-  db.query(sql, (err, result) => {});
-  sql = `DELETE FROM user_match WHERE id_user1 = ${db.escape(
-    unmatched
-  )} AND id_user2 = ${db.escape(unmatcher)}`;
+const deleteMatch = (matchId, callBack) => {
+  console.log(+matchId);
+  let sql = `DELETE FROM user_match WHERE id = ${db.escape(matchId)}`;
   db.query(sql, (err, result) => {});
   return callBack(null, null);
 };

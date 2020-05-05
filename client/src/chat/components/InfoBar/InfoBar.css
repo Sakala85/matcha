@@ -8,11 +8,14 @@
 }
 
 .leftInnerContainer {
-  flex: 0.5;
-  display: flex;
-  align-items: center;
-  margin-left: 5%;
-  color: black;
+    flex: 0.5 1;
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    font-size: 32px;
+    color: #6c91b1;
+    letter-spacing: 3px;
+    text-transform: capitalize;
 }
 
 .rightInnerContainer {

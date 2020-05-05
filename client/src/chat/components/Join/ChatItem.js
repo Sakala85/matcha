@@ -5,6 +5,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./ChatItem.css";
 import { useHttpClient } from "../../../shared/hooks/http-hook";
 import {useCookies} from "react-cookie";
+import { Modal } from "react-bootstrap";
+import { Icon } from "@material-ui/core";
+
 
 
 
@@ -16,12 +19,9 @@ const ChatItem = props => {
   const unmatchProfile = async () => {
     try {
     await sendRequest(
-        `http://localhost:5000/api/user/match/${cookies.userId}`,
+        `http://localhost:5000/api/user/match/${props.id}`,
         "DELETE",
-        JSON.stringify({
-          unmatched: props.id,
-          
-        }),
+        null,
         {
           "Content-Type": "application/json",
           Authorization: "Bearer " + cookies.token,
@@ -30,21 +30,71 @@ const ChatItem = props => {
     } catch (err) {}
   };
 
+      const reportProfile = async () => {
+        // setShowDetail(false); //SEND A VISIT NOTIF
+        try {
+          await sendRequest(
+            `http://localhost:5000/api/user/match/report/${cookies.userId}`,
+            "POST",
+            JSON.stringify({
+              reported: props.id,
+            }),
+            {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + cookies.token,
+            }
+          );
+        } catch (err) {}
+      };
+
+      const blockProfile = async () => {
+        // setShowDetail(false); //SEND A VISIT NOTIF
+        try {
+          await sendRequest(
+            `http://localhost:5000/api/user/match/block/${cookies.userId}`,
+            "POST",
+            JSON.stringify({
+              blocked: props.id,
+            }),
+            {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + cookies.token,
+            }
+          );
+        } catch (err) {}
+      };
   const link = `/chat?name=${props.username}&room=${props.room_id}&roomName=${props.name}`;
   return (
-    <Link to={link} key={props.room_id}>
-      <Card className="bg-dark text-white card__container_notif">
-        <Row>
+    <Card className="card-chat">
+      <Modal.Header className="title">
+        <h3 className="title__chat">The Love begin here ! </h3>
+      </Modal.Header>
+      <Row>
+        <Link to={link} key={props.room_id}>
           <Col>
-            <Image src={props.image} roundedCircle className="image__notif" />
-            <h3 className="title__card">{props.name}</h3>
+            <Image src={props.image} roundedCircle className="image__chat" />
+            <h2 className="title__card">{props.name}</h2>
           </Col>
-          <Col><h3 className="title__card">Open Chat Room</h3></Col>
-          <Col><button onClick={unmatchProfile}>UNMATCH</button></Col>
-        </Row>
-      
-      </Card>
-    </Link>
+        </Link>
+        <Col className="bouton_report">
+          <Row>
+            <button className="button__report" onClick={unmatchProfile}>
+              Unmatch <Icon className="chaticon" color="primary">delete_forever</Icon>
+            </button>
+          </Row>
+          <Row>
+            <button className="button__report" onClick={reportProfile}>
+              Report <Icon className="chaticon" color="primary">report</Icon>
+            </button>
+          </Row>
+          <Row>
+            <button className="button__report" onClick={blockProfile}>
+              Block <Icon className="chaticon" color="primary">block</Icon>
+            </button>
+          </Row>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 

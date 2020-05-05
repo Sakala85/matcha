@@ -53,22 +53,12 @@ const dislike = (req, res, next) => {
 };
 
 const unmatch = (req, res, next) => {
-  const { unmatched } = req.body;
-  const unmatcher = req.params.uid;
-  const validUnmatched = validate(unmatched, [
-    VALIDATOR_REQUIRE(),
-    VALIDATOR_NUMBER(),
-  ]);
-  const validUnmatcher = validate(unmatcher, [
-    VALIDATOR_REQUIRE(),
-    VALIDATOR_NUMBER(),
-  ]);
-  if (!validUnmatched.valid || !validUnmatcher.valid) {
-    return res
-      .status(400)
-      .json({ message: validUnmatched.message || validUnmatcher.message });
+  const matchId = req.params.uid;
+  const matchIdValid = validate(matchId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  if (!matchIdValid.valid) {
+    return res.status(400).json({ message: matchId.message });
   }
-  matchModel.deleteMatch(unmatcher, unmatched, (err, result) => {
+  matchModel.deleteMatch(matchId, (err, result) => {
     if (!err) {
       return res.status(201).json({ message: "user unmatched" });
     } else {

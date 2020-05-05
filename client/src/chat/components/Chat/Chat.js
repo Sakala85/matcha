@@ -5,6 +5,7 @@ import Messages from "../Messages/Messages";
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
 import { useCookies } from "react-cookie";
+import { Card, Modal } from "react-bootstrap"
 
 import "./Chat.css";
 
@@ -21,11 +22,12 @@ const Chat = ({ location }) => {
   const ENDPOINT = "localhost:5000";
 
   useEffect(() => {
-    const { name, room, roomName } = queryString.parse(location.search);
+    const { name, room, roomName} = queryString.parse(location.search);
     socket = io(ENDPOINT);
     setName(name);
     setRoom(room);
     setRoomName(roomName);
+  
     socket.emit("join", { name, room, roomName }, (error) => {
       if (error) {
         alert(error);
@@ -78,9 +80,12 @@ const Chat = ({ location }) => {
     };
   };
   return (
-    <div className="outerContainer">
+    <Card className="card-chatbox">
+      <Modal.Header className="title">
+        <InfoBar className="chat-title" room={roomName} online={online}  />
+      </Modal.Header>
+      {/* <div className="outerContainer"> */}
       <div className="container">
-        <InfoBar room={roomName} online={online} />
         <Messages messages={messages} name={name} />
         <Input
           message={message}
@@ -88,7 +93,8 @@ const Chat = ({ location }) => {
           sendMessage={sendMessage}
         />
       </div>
-    </div>
+      {/* </div> */}
+    </Card>
   );
 };
 

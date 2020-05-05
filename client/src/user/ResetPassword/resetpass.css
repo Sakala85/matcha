@@ -67,3 +67,41 @@ a.return:hover {
   border: 2px solid rgb(233, 90, 149);
 
 }
+
+.button__report {
+    width: 135px;
+    display: block;
+    border-radius: 5px;
+    margin: 0 auto;
+    color: #3b7dc3;
+    letter-spacing: 2px;
+    font-size: 17px;
+    font-weight: bold;
+    /* background-color: pink; */
+    border-color: pink;
+    /* margin-top: 40px; */
+    border: 2px solid #ff149352;
+    margin-bottom: 10px;
+}
+
+.button__report:hover{
+display: block; 
+border-radius: 5px;
+margin: 0 auto;
+    color: #3b7dc3;
+    letter-spacing: 2px;
+    font-size: 17px;
+    font-weight: bold;
+    background-color: pink;
+    border-color: pink;
+    /* margin-top: 40px; */
+     border: 2px solid #ff149352;
+         /* margin-bottom: 30px; */
+    margin-bottom: 10px;
+
+
+}
+
+.bouton_report.col {
+    margin-left: 67px;
+}

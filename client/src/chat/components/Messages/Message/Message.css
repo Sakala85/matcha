@@ -30,7 +30,8 @@
   display: flex;
   align-items: center;
   font-family: Helvetica;
-  color: #828282;
+     color: rgb(172, 199, 229);
+
 }
 
 .pl-10 {
@@ -54,13 +55,13 @@
 }
 
 .colorDark {
-  color: #353535;
+  color: #85a7cc;
 }
 
 .backgroundBlue {
-  background: blue;
+  background: #ff51afad;
 }
 
 .backgroundLight {
-  background: lightsteelblue;
+  background: #fdd1d9;
 }

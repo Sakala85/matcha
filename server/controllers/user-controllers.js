@@ -58,8 +58,10 @@ const createUser = async (req, res, next) => {
           token = jwt.sign(
             { userId: data.id, email: data.email },
             "motdepassesupersecret",
+            
             { expiresIn: "1h" }
           );
+          // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2LCJ1c2VybmFtZSI6ImFraG91Y2hhIiwiaWF0IjoxNTg4NjkwNDA5fQ.u6RzQ6q5kqWKSfDVNKX7Ne2Fu5GuX45tenzlhEEweUs
           sendMail.sendEmailInscription(email, token_email);
         } catch (err) {
           const error = new HttpError(

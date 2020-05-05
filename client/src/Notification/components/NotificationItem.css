@@ -28,6 +28,7 @@ font-weight: bold;
     margin-top: 15px;
     font-size: 32px;
     color: #6c91b1;
+    text-transform: capitalize;
 }
 
 h4.title__card{
