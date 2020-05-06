@@ -82,7 +82,7 @@ const App = () => {
 
   let routes;
   useEffect(() => {});
-  if (cookies.token) {
+  if (cookies.token && cookies.orientation) {
     routes = (
       <Switch>
         <Route path="/match" exact>
@@ -133,10 +133,10 @@ const App = () => {
       }}
     >
       <Router>
-        {cookies.token && cookies.token !== null && cookies.token !== undefined && (
+        {cookies.token && cookies.token !== null && cookies.orientation && cookies.token !== undefined && (
           <MainNavigation username={username} notifNumber={cookies.notification} />
         )}
-        {cookies.token && cookies.token !== null && cookies.token !== undefined &&<ReactNotification />}
+        {cookies.orientation && cookies.token && cookies.token !== null && cookies.token !== undefined &&<ReactNotification />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>

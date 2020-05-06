@@ -35,7 +35,7 @@ const FilterMatch = (props) => {
     (user) => user.age <= formState.inputs.ageMax.value
   );
   const filteredUsers3 = filteredUsers2.filter(
-    (user) => user.popularity > formState.inputs.popMin.value
+    (user) => +user.popularity >= +formState.inputs.popMin.value
   );
   return (
     <React.Fragment>
@@ -85,7 +85,7 @@ const FilterMatch = (props) => {
             id="popMin"
             element="range"
             type="range"
-            initialValue={0}
+            initialValue="0"
             min="0"
             max="30"
             onInput={inputHandler}

@@ -7,7 +7,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 import UserItem from "./UserItem";
 import "./UserList.css";
-import { Card, Col } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 const UserList = (props) => {
@@ -20,13 +20,12 @@ const UserList = (props) => {
   } = useHttpClient();
   const [cookies] = useCookies(["token"]);
   const [loadedInterest, setLoadedInterest] = useState();
-  const [finalUsers, setFinalUsers] = useState();
+  const [finalUsers, setFinalUsers] = useState(props.items);
   const [interestList, setInterestList] = useState();
+  const [interestChecked, setInterestChecked] = useState([]);
   var checkedInterest = [];
 
   const checkElement = (e) => {
-    var tmpFinalUsers = [];
-
     const { id, name, checked } = e.target;
     if (checked === true) {
       checkedInterest.push({ name: name, id: id });
@@ -35,6 +34,35 @@ const UserList = (props) => {
         (interest) => interest.name !== name
       );
     }
+    setInterestChecked(checkedInterest);
+    finalFilterUsers(props.items);
+  };
+
+  const interested = (usersFirstFiltered) => {
+    console.log(navigator.geolocation.getCurrentPosition(function(position) {
+      console.log("Latitude is :", position.coords.latitude);
+      console.log("Longitude is :", position.coords.longitude);
+    }))
+    console.log("OKOK");
+    var rep = false;
+    if (interestChecked && interestList) {
+      interestChecked.map((interestChe) => {
+        rep = interestList.filter((id) => id.id_user === usersFirstFiltered.id);
+        rep = rep.find(
+          (interest) => +interest.id_interest_list === +interestChe.id
+        );
+        return null;
+      });
+    }
+    if (rep) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const finalFilterUsers = (usersFirstFiltered) => {
+    var tmpFinalUsers = [];
     if (loadedInterest && interestList) {
       var returnedUsers = [];
       checkedInterest.map((interest) => {
@@ -44,15 +72,23 @@ const UserList = (props) => {
         return null;
       });
     }
-    returnedUsers.map((usersInterested) => {
-      var tmp = props.items.find((user) => user.id === usersInterested.id_user);
-      if (tmp) {
-        tmpFinalUsers.push(tmp);
-      }
-      return null;
-    });
-    setFinalUsers(tmpFinalUsers)
+    if (returnedUsers) {
+      returnedUsers.map((usersInterested) => {
+        var tmp = usersFirstFiltered.find(
+          (user) => user.id === usersInterested.id_user
+        );
+        if (tmp) {
+          tmpFinalUsers.push(tmp);
+        }
+        return null;
+      });
+    }
+    setFinalUsers(tmpFinalUsers);
   };
+
+  // if (props.items) {
+  //   finalFilterUsers(props.items)
+  // }
 
   useEffect(() => {
     const fetchInterest = async () => {
@@ -114,35 +150,31 @@ const UserList = (props) => {
         <input type="checkbox" id="all" key="all" name="all" />
       </form>
       <ul>
-        {console.log(finalUsers)}
-        {finalUsers && finalUsers.length !== 0 ? (
-          finalUsers.map((user) => {
-            return (
-              <UserItem
-                key={user.id}
-                id={user.id}
-                picture={user.picture1}
-                picture2={user.picture2}
-                picture3={user.picture3}
-                picture4={user.picture4}
-                picture5={user.picture5}
-                username={user.username}
-                bio={user.bio}
-                gender={user.gender}
-                age={user.age}
-                popularity={user.popularity}
-                online={user.online}
-                // A Changer par une var Online (pas test)
-              />
-            );
-          })
-        ) : (
-          <div className="center">
-            <Card>
-              <h2>No user found.</h2>
-            </Card>
-          </div>
-        )}
+        {finalUsers &&
+          props.items.map((user) => {
+            if (interested(user)) {
+              return (
+                <UserItem
+                  key={user.id}
+                  id={user.id}
+                  picture={user.picture1}
+                  picture2={user.picture2}
+                  picture3={user.picture3}
+                  picture4={user.picture4}
+                  picture5={user.picture5}
+                  username={user.username}
+                  bio={user.bio}
+                  gender={user.gender}
+                  age={user.age}
+                  popularity={user.popularity}
+                  online={user.online}
+                  // A Changer par une var Online (pas test)
+                />
+              );
+            } else {
+              return null;
+            }
+          })}
       </ul>
     </Col>
   );
