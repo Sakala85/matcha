@@ -1,0 +1,6 @@
+.dofus{
+    height: 250px;
+    display: block;
+    overflow: auto;    
+    scrollbar-base-color: palevioletred;
+}

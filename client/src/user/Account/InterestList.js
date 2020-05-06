@@ -4,7 +4,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import InterestItem from "./InterestItem";
 import {useCookies} from "react-cookie";
-
+import "./InterestList.css"
 const InterestList = () => {
   const [loadedInterest, setLoadedInterest] = useState();
   const {
@@ -57,7 +57,7 @@ const InterestList = () => {
         </div>
       )}
       {
-        <ul>
+        <ul className="dofus">
           {loadedInterest.map((item) => (
             <InterestItem
               key={item.id}

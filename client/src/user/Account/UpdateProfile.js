@@ -213,7 +213,7 @@ const UpdateProfile = (props) => {
                   initialValid={true}
                 />
               </div>
-              {/* <Input
+              <Input
                 id="gender"
                 validators={[VALIDATOR_REQUIRE()]}
                 element="gender"
@@ -222,7 +222,7 @@ const UpdateProfile = (props) => {
                 initialValid={true}
                 onInput={inputHandler}
                 initialValue={formState.inputs.gender.value}
-              /> */}
+              />
               <div className="InputForm__update">
                 <Input
                   id="orientation"
