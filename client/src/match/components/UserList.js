@@ -21,36 +21,45 @@ const UserList = (props) => {
   const [cookies] = useCookies(["token"]);
   const [loadedInterest, setLoadedInterest] = useState();
   const [finalUsers, setFinalUsers] = useState(props.items);
+  const [all, setAll] = useState(true);
   const [interestList, setInterestList] = useState();
-  const [interestChecked, setInterestChecked] = useState([]);
-  var checkedInterest = [];
+  const [checkedInterest, setCheckedInterest] = useState([]);
 
   const checkElement = (e) => {
     const { id, name, checked } = e.target;
-    if (checked === true) {
-      checkedInterest.push({ name: name, id: id });
+      var tmp = checkedInterest;
+      if (checked === true) {
+      tmp.push({ name: name, id: id });
+      setCheckedInterest(tmp);
     } else {
-      checkedInterest = checkedInterest.filter(
-        (interest) => interest.name !== name
-      );
+      tmp = tmp.filter((interest) => interest.name !== name)
+      setCheckedInterest(tmp);
     }
-    setInterestChecked(checkedInterest);
     finalFilterUsers(props.items);
   };
 
+  const checkAll = () => {
+    if (all === true) {
+      setAll(false)
+    } else {
+      setAll(true)
+    }
+  }
+
   const interested = (usersFirstFiltered) => {
-    console.log(navigator.geolocation.getCurrentPosition(function(position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
-    }))
-    console.log("OKOK");
+    if (all === true) {
+      return (true);
+    }
     var rep = false;
-    if (interestChecked && interestList) {
-      interestChecked.map((interestChe) => {
-        rep = interestList.filter((id) => id.id_user === usersFirstFiltered.id);
-        rep = rep.find(
-          (interest) => +interest.id_interest_list === +interestChe.id
-        );
+    if (checkedInterest && interestList) {
+      checkedInterest.map((interestChe) => {
+        if (!rep){
+          rep = interestList.filter((id) => id.id_user === usersFirstFiltered.id);
+          rep = rep.find(
+            (interest) => +interest.id_interest_list === +interestChe.id
+          );
+        }
+        
         return null;
       });
     }
@@ -75,7 +84,7 @@ const UserList = (props) => {
     if (returnedUsers) {
       returnedUsers.map((usersInterested) => {
         var tmp = usersFirstFiltered.find(
-          (user) => user.id === usersInterested.id_user
+          (user) => +user.id === +usersInterested.id_user
         );
         if (tmp) {
           tmpFinalUsers.push(tmp);
@@ -85,10 +94,6 @@ const UserList = (props) => {
     }
     setFinalUsers(tmpFinalUsers);
   };
-
-  // if (props.items) {
-  //   finalFilterUsers(props.items)
-  // }
 
   useEffect(() => {
     const fetchInterest = async () => {
@@ -138,7 +143,7 @@ const UserList = (props) => {
               <label>{item.interest}</label>
               <input
                 type="checkbox"
-                id={item.id}
+                id={item.id_interest_list}
                 key={item.id}
                 name={item.interest}
                 onClick={checkElement}
@@ -147,7 +152,14 @@ const UserList = (props) => {
             </div>
           ))}
         <label>All</label>
-        <input type="checkbox" id="all" key="all" name="all" />
+        <input
+          type="checkbox"
+          id="all"
+          key="all"
+          name="all"
+          onClick={checkAll}
+          defaultChecked={true}
+        />
       </form>
       <ul>
         {finalUsers &&

@@ -32,7 +32,7 @@ const App = () => {
   const { sendRequest } = useHttpClient();
 
   const login = useCallback(
-    (uid, token, username, orientation) => {
+    (uid, token, username, orientation, latitude, longitude) => {
       setToken(token);
       setUserId(uid);
       let d = new Date();
@@ -41,6 +41,8 @@ const App = () => {
       setCookie("userId", uid, { path: '/', expires: d });
       setCookie("orientation", orientation, { path: '/', expires: d });
       setCookie("username", username, { path: '/', expires: d });
+      setCookie("lat", latitude, { path: '/', expires: d });
+      setCookie("lon", longitude, { path: '/', expires: d });
       setUserName(username);
 
       if (token !== null && token !== false && notifSet === false && token) {
@@ -66,6 +68,14 @@ const App = () => {
     [notifSet, sendRequest, setCookie]
   );
 
+  if ((!token || token === null) && cookies.token) {
+    setToken(cookies.token)
+  }
+  if(!cookies.token && token && token !== null){
+    window.location.reload();
+    alert("Session is expired")
+  }
+
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
@@ -85,9 +95,7 @@ const App = () => {
   if (cookies.token && cookies.orientation) {
     routes = (
       <Switch>
-        <Route path="/match" exact>
-          <Match />
-        </Route>
+        <Route path="/match" component={Match} />
         <Route path="/chat" component={Chat} />
         <Route path="/Join" exact>
           <Join />

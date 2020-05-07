@@ -5,7 +5,7 @@ const instertInterest = (interest, userId, callBack) => {
     if (err) throw err;
     if (result.length > 0) {
       let id_interest = result[0].id;
-      sql = `SELECT * FROM interest WHERE id_interest_list = ${db.escape(id_interest)}`;
+      sql = `SELECT * FROM interest WHERE id_interest_list = ${db.escape(id_interest)} AND id_user = ${db.escape(userId)}`;
       db.query(sql, (err, result, data) => {
         if (result.length === 0) {
           sql = `INSERT INTO interest (id_user, id_interest_list) VALUES (${db.escape(userId)}, ${db.escape(id_interest)})`;
@@ -29,7 +29,7 @@ const instertInterest = (interest, userId, callBack) => {
 };
 
 const getInterest = (userId, callBack) => {
-  let sql = `SELECT interest.id, interest_list.interest FROM interest INNER JOIN interest_list ON interest.id_interest_list = interest_list.id WHERE id_user = ${db.escape(userId)}`;
+  let sql = `SELECT interest.id, interest_list.interest, interest.id_interest_list FROM interest INNER JOIN interest_list ON interest.id_interest_list = interest_list.id WHERE id_user = ${db.escape(userId)}`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     return callBack(err, result);

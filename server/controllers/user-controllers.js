@@ -20,7 +20,7 @@ const sendMail = require("../utils/sendMails");
 // const decodeUriComponent = require('decode-uri-component');
 
 const createUser = async (req, res, next) => {
-  const { username, firstname, lastname, email, password } = req.body;
+  const { username, firstname, lastname, email, password, lat, lon } = req.body;
   const token_email = uuid.v1();
   const userValidator = userValidateAll(
     email,
@@ -70,6 +70,7 @@ const createUser = async (req, res, next) => {
           );
           return next(error);
         }
+        userModel.setLocation(lat, lon, data.id);
         return res.status(201).json({
           userId: data.id,
           email: data.email,
@@ -82,9 +83,14 @@ const createUser = async (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  const { username, password } = req.body;
+  const { username, password, lat, lon } = req.body;
   const validUsername = validate(username, [VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(15)]);
   const validPassword = validate(password, [VALIDATOR_REQUIRE(),VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
+  
+  if(!lat || !lon) {
+    lat = 0;
+    lon = 0;
+  }
   if (!validUsername.valid || !validPassword.valid) {
     return res
       .status(400)
@@ -111,6 +117,7 @@ const login = (req, res, next) => {
             400
           );
         }
+        userModel.setLocation(lat, lon, user.id);
         return res.json({
           userId: user.id,
           email: user.email,

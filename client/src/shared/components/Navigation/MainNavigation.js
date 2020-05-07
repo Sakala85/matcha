@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import history from "./history";
 
 import MainHeader from "./MainHeader";
 import NavLinks from "./NavLinks";
@@ -7,9 +8,7 @@ import SideDrawer from "./SideDrawer";
 import BackDrop from "../UIElements/Backdrop";
 import matchaLogo from "../../icons/logoMatcha.png";
 import Input from "../FormElements/Input";
-import {
-  VALIDATOR_REQUIRE,
-} from "../../util/validators";
+import { VALIDATOR_REQUIRE } from "../../util/validators";
 import "./MainNavigation.css";
 import { useForm } from "../../hooks/form-hook";
 import { Icon } from "@material-ui/core";
@@ -19,9 +18,9 @@ const MainNavigation = (props) => {
   const [formState, inputHandler] = useForm(
     {
       searchBar: {
-        value: '',
-        isValid: false
-      }
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
@@ -29,8 +28,13 @@ const MainNavigation = (props) => {
     setDrawerIsOpen(true);
   };
   const UpdateSubmitHandler = () => {
-    console.log(formState.inputs.searchBar.value)
-  }
+    history.push({
+      pathname: "/match",
+      search: `?profile=${formState.inputs.searchBar.value}`,
+      state: { some: 'state' }
+    });
+
+  };
   const CloseDrawerHandler = () => {
     setDrawerIsOpen(false);
   };
@@ -56,21 +60,21 @@ const MainNavigation = (props) => {
             <img className="logo" src={matchaLogo} alt="matcha logo" />
           </Link>
         </h1>
-        <form className="formSearch" onSubmit={UpdateSubmitHandler}>
-        <Input
-          id="searchBar"
-          element="input"
-          type="text"
-          validators={[
-            VALIDATOR_REQUIRE(),
-          ]}
-          errorText="Please enter a  valid user"
-          onInput={inputHandler}
-          initialValue={""}
-          initialValid={false}
-        />
-        <button type="submit"><Icon className="searchicon">search</Icon></button>
-        </form>
+        {/* <form className="formSearch" onSubmit={UpdateSubmitHandler}> */}
+          <Input
+            id="searchBar"
+            element="input"
+            type="text"
+            validators={[VALIDATOR_REQUIRE()]}
+            errorText="Please enter a  valid user"
+            onInput={inputHandler}
+            initialValue={""}
+            initialValid={false}
+          />
+          <button type="submit" onClick={UpdateSubmitHandler}>
+            <Icon className="searchicon">search</Icon>
+          </button>
+        {/* </form> */}
         <nav className="main-navigation__header-nav">
           <NavLinks notifNumber={props.notifNumber} />
         </nav>

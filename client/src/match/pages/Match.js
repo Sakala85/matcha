@@ -4,8 +4,9 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useCookies } from "react-cookie";
+import queryString from "query-string";
 
-const Match = () => {
+const Match = ({location}) => {
   const [loadedUsers, setLoadedUsers] = useState();
   const [cookies] = useCookies(["token"]);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -38,7 +39,7 @@ const Match = () => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedUsers && <FilterMatch items={loadedUsers} />}
+      {!isLoading && loadedUsers && <FilterMatch items={loadedUsers} profile={queryString.parse(location.search)}/>}
       {!isLoading && !loadedUsers && <h2>No Match possible found</h2>}
     </React.Fragment>
   );

@@ -1,12 +1,50 @@
-import React from "react";
+import React, {useState} from "react";
 import Input from "../../shared/components/FormElements/Input";
 import { useForm } from "../../shared/hooks/form-hook";
 import UserList from "./UserList";
 import "./FilterMatch.css";
 import { Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import { useCookies } from "react-cookie";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
+import UserItem from "./UserItem";
+
 const FilterMatch = (props) => {
+  const [uniqueProfile, setUniqueProfile] = useState(false);
+  const [unique, setUnique] = useState(false);
+
+  function distance(lat1, lon1, lat2, lon2) {
+    if (lat1 === lat2 && lon1 === lon2) {
+      return 0;
+    } else {
+      var radlat1 = (Math.PI * lat1) / 180;
+      var radlat2 = (Math.PI * lat2) / 180;
+      var theta = lon1 - lon2;
+      var radtheta = (Math.PI * theta) / 180;
+      var dist =
+        Math.sin(radlat1) * Math.sin(radlat2) +
+        Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+      if (dist > 1) {
+        dist = 1;
+      }
+      dist = Math.acos(dist);
+      dist = (dist * 180) / Math.PI;
+      dist = dist * 60 * 1.1515;
+      dist = dist * 1.609344;
+      return dist;
+    }
+  }
+  if (props.profile && !unique) {
+    const user = props.items.filter(
+      (user) => user.username === props.profile.profile
+    );
+    if (user.length > 0){
+    setUniqueProfile(user[0])
+  }
+    setUnique(true)
+  }
+
+  const [cookies] = useCookies(["token"]);
   const [formState, inputHandler] = useForm(
     {
       ageMin: {
@@ -37,6 +75,12 @@ const FilterMatch = (props) => {
   const filteredUsers3 = filteredUsers2.filter(
     (user) => +user.popularity >= +formState.inputs.popMin.value
   );
+  const filteredUsers4 = filteredUsers3.filter(
+    (user) =>
+      +distance(user.latitude, user.longitude, cookies.lat, cookies.lon) <=
+      +formState.inputs.distMax.value
+  );
+
   return (
     <React.Fragment>
       <Col md={{ span: 10, offset: 1 }}>
@@ -60,7 +104,7 @@ const FilterMatch = (props) => {
             type="range"
             min={formState.inputs.ageMin.value}
             max="100"
-            initialValue="100"
+            initialValue={formState.inputs.ageMax.value}
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             initialValid={true}
@@ -74,7 +118,7 @@ const FilterMatch = (props) => {
             type="range"
             initialValue="20"
             min="0"
-            max="100"
+            max="1000"
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             initialValid={true}
@@ -95,7 +139,25 @@ const FilterMatch = (props) => {
           {formState.inputs.popMin.value}
         </form>
       </Col>
-      {filteredUsers3 && <UserList items={filteredUsers3} />}
+      {uniqueProfile && (
+      <UserItem
+        key={uniqueProfile.id}
+        id={uniqueProfile.id}
+        picture={uniqueProfile.picture1}
+        picture2={uniqueProfile.picture2}
+        picture3={uniqueProfile.picture3}
+        picture4={uniqueProfile.picture4}
+        picture5={uniqueProfile.picture5}
+        username={uniqueProfile.username}
+        bio={uniqueProfile.bio}
+        gender={uniqueProfile.gender}
+        age={uniqueProfile.age}
+        popularity={uniqueProfile.popularity}
+        online={uniqueProfile.online}
+        show={1}
+        // A Changer par une var Online (pas test)
+      /> )}
+      {filteredUsers4 && <UserList items={filteredUsers4} />}
     </React.Fragment>
   );
 };

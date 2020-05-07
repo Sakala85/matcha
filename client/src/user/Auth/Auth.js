@@ -23,6 +23,8 @@ import image3 from "./img/cadenas.png";
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
+  const [lat, setLat] = useState();
+  const [lon, setLon] = useState();
 
   const {
     isLoading,
@@ -31,7 +33,12 @@ const Auth = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-
+  if (!lat || !lon) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLon(position.coords.longitude);
+    });
+  }
   const [formState, inputHandler, setFormData] = useForm(
     {
       username: {
@@ -90,6 +97,8 @@ const Auth = () => {
           JSON.stringify({
             username: formState.inputs.username.value,
             password: formState.inputs.password.value,
+            lat: lat,
+            lon: lon,
           }),
           {
             "Content-Type": "application/json",
@@ -99,7 +108,9 @@ const Auth = () => {
           responseData.userId,
           responseData.token,
           responseData.username,
-          responseData.orientation
+          responseData.orientation,
+          lat,
+          lon
         );
       } catch (err) {}
     } else {
@@ -113,6 +124,8 @@ const Auth = () => {
             lastname: formState.inputs.lastname.value,
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
+            lat: lat,
+            lon: lon,
           }),
           {
             "Content-Type": "application/json",
@@ -121,7 +134,10 @@ const Auth = () => {
         auth.login(
           responseData.userId,
           responseData.token,
-          responseData.username
+          responseData.username,
+          responseData.orientation,
+          lat,
+          lon
         );
       } catch (err) {}
     }
