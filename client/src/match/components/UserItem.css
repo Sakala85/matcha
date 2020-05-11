@@ -9,13 +9,19 @@
   background: #F6CFCA;
 }
 
-.modal__style{
-  background: #F6CFCA;
-  text-align: center;
-}
 
-.modal__footer{
+.modal__style.modal__footer{
   text-align: center;
+  height: 60px;
+}
+.modal__style.modal-header {
+  margin-top: -30px;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+    height: 60px;
 }
 
 .image__profile{
@@ -30,7 +36,90 @@
   height: 15rem;
   width: 100%;
 }
-mg.d-block.w-100 {
-    width: 350px!important;
-    height: 320px;
+.w-100 {
+
+    width: 300px !important;
+    margin: 0 auto;
+}
+
+.modal-content {
+    margin: 0 auto;
+    /* position: relative; */
+    /* display: flex; */
+    /* flex-direction: column; */
+    width: 800px;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  
+}
+
+.modal__style {
+    background: white;
+    text-align: center;
+    height: 567px;
+}
+
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+h2.popularityh2 {
+    font-size: 25px;
+    color: goldenrod;
+    margin: 0 auto;
+}
+
+span.material-icons.MuiIcon-root.popularityIcon {
+    color: goldenrod;
+    width: 30px;
+    height: 30px;
+    font-size: 34px;
+}
+
+button.close {
+
+    margin-top: -15px;
+    padding: 1rem 1rem;
+    margin: 0 auto;
+}
+
+h6.online {
+    margin: 0 auto;
+}
+
+h2.title__card3 {
+    margin: 0 auto;
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-size: 32px;
+    color: #6c91b1;
+    text-transform: capitalize;
+}
+
+.titlematch.col {
+    margin-top: 0px;
+}
+
+.textmatch.row {
+    display: contents;
+}
+
+h3.textmatch {
+  margin-bottom: 20px;
+    margin-top: 10px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #6c757d;
+
+}
+
+h8.bioclass {
+    padding: 10px;
+    border: #3b7dc396;
+    border-radius: 6px;
+    border-style: solid;
+    color: #6c757d;
 }

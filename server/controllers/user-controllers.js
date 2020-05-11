@@ -83,13 +83,13 @@ const createUser = async (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  const { username, password, lat, lon } = req.body;
+  var { username, password, lat, lon } = req.body;
   const validUsername = validate(username, [VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(15)]);
   const validPassword = validate(password, [VALIDATOR_REQUIRE(),VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
   
   if(!lat || !lon) {
-    lat = 0;
-    lon = 0;
+    lat = 48.8959188;
+    lon = 2.3136012;
   }
   if (!validUsername.valid || !validPassword.valid) {
     return res

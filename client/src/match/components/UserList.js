@@ -7,7 +7,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 import UserItem from "./UserItem";
 import "./UserList.css";
-import { Col } from "react-bootstrap";
+import { Carousel , Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 const UserList = (props) => {
@@ -22,6 +22,7 @@ const UserList = (props) => {
   const [loadedInterest, setLoadedInterest] = useState();
   const [finalUsers, setFinalUsers] = useState(props.items);
   const [all, setAll] = useState(true);
+  const [interestUserList, setInterestUserList] = useState(true);
   const [interestList, setInterestList] = useState();
   const [checkedInterest, setCheckedInterest] = useState([]);
 
@@ -83,6 +84,11 @@ const UserList = (props) => {
     }
     if (returnedUsers) {
       returnedUsers.map((usersInterested) => {
+        console.log(
+          interestList.filter(
+            (interestItem) => +interestItem.id_user === +usersInterested.id_user
+          )
+        );
         var tmp = usersFirstFiltered.find(
           (user) => +user.id === +usersInterested.id_user
         );
@@ -129,14 +135,14 @@ const UserList = (props) => {
     fetchInterest();
   }, [sendRequest, cookies.token, cookies.userId]);
   return (
-    <Col md={{ span: 10, offset: 1 }}>
+    <Row md={{ span: 10, offset: 1 }}>
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
       {isLoading && (
         <div className="center">
           <LoadingSpinner />
         </div>
       )}
-      <form>
+      <form className="interest">
         {loadedInterest &&
           loadedInterest.map((item) => (
             <div key={item.id} id={item.id} data-key={item.id}>
@@ -161,7 +167,8 @@ const UserList = (props) => {
           defaultChecked={true}
         />
       </form>
-      <ul>
+      {/* <ul> */}
+      <Carousel>
         {finalUsers &&
           props.items.map((user) => {
             if (interested(user)) {
@@ -175,8 +182,12 @@ const UserList = (props) => {
                   picture4={user.picture4}
                   picture5={user.picture5}
                   username={user.username}
+                  firstname={user.firstname}
+                  lastname={user.lastname}
+                  orientation={user.orientation}
                   bio={user.bio}
                   gender={user.gender}
+                  interest={interestUserList}
                   age={user.age}
                   popularity={user.popularity}
                   online={user.online}
@@ -187,8 +198,9 @@ const UserList = (props) => {
               return null;
             }
           })}
-      </ul>
-    </Col>
+        {/* </ul> */}
+      </Carousel>
+    </Row>
   );
 };
 
