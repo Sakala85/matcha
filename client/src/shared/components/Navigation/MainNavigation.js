@@ -61,17 +61,18 @@ const MainNavigation = (props) => {
           </Link>
         </h1>
         {/* <form className="formSearch" onSubmit={UpdateSubmitHandler}> */}
-          <Input
+          <Input className="search"
             id="searchBar"
             element="input"
             type="text"
+            placeholder="search..."
             validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a  valid user"
+            errorText="Please enter a valid user"
             onInput={inputHandler}
             initialValue={""}
             initialValid={false}
           />
-          <button type="submit" onClick={UpdateSubmitHandler}>
+          <button className="loupe" type="submit" onClick={UpdateSubmitHandler}>
             <Icon className="searchicon">search</Icon>
           </button>
         {/* </form> */}

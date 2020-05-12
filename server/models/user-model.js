@@ -135,7 +135,7 @@ const getUser = (userId, callBack) => {
 const getMatch = (matchId, orientation, callBack) => {
   let sql;
   if (orientation === "Both") {
-    sql = `SELECT user.id, username, picture1, picture2, picture3, picture4, picture5, bio, gender, age, popularity, online, latitude, longitude
+    sql = `SELECT user.id, username, firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude
    FROM user
   LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(
     matchId
@@ -155,7 +155,7 @@ const getMatch = (matchId, orientation, callBack) => {
   OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
   WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL`;
   } else {
-    sql = `SELECT user.id, username, picture1, picture2, picture3, picture4, picture5, bio, gender, age, popularity, online
+    sql = `SELECT user.id, username,  firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online
     FROM user
    LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(
      matchId

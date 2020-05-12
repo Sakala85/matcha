@@ -26,6 +26,7 @@ const Match = ({location}) => {
             }
           );
           setLoadedUsers(responseData.user.result);
+          console.log(responseData.user.result);
         }
       } catch (err) {}
     };

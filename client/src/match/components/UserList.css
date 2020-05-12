@@ -4,7 +4,16 @@
     padding: 0;
     width: 90%;
     max-width: 50rem;
-    display: flex;
+    display: block;
     justify-content: center;
     flex-wrap: wrap;
   }
+
+  form.interest {
+    margin-bottom: 90px;
+}
+
+.interest{
+  display: block;
+  width: 100%
+}

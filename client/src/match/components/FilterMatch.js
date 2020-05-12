@@ -31,7 +31,8 @@ const FilterMatch = (props) => {
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
       dist = dist * 1.609344;
-      return dist;
+      console.log(lat2)
+      return 0;
     }
   }
   if (props.profile && !unique) {
@@ -118,7 +119,7 @@ const FilterMatch = (props) => {
             type="range"
             initialValue="20"
             min="0"
-            max="1000"
+            max="10000"
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             initialValid={true}
@@ -140,24 +141,29 @@ const FilterMatch = (props) => {
         </form>
       </Col>
       {uniqueProfile && (
-      <UserItem
-        key={uniqueProfile.id}
-        id={uniqueProfile.id}
-        picture={uniqueProfile.picture1}
-        picture2={uniqueProfile.picture2}
-        picture3={uniqueProfile.picture3}
-        picture4={uniqueProfile.picture4}
-        picture5={uniqueProfile.picture5}
-        username={uniqueProfile.username}
-        bio={uniqueProfile.bio}
-        gender={uniqueProfile.gender}
-        age={uniqueProfile.age}
-        popularity={uniqueProfile.popularity}
-        online={uniqueProfile.online}
-        show={1}
-        // A Changer par une var Online (pas test)
-      /> )}
-      {filteredUsers4 && <UserList items={filteredUsers4} />}
+          <UserItem
+            key={uniqueProfile.id}
+            id={uniqueProfile.id}
+            picture={uniqueProfile.picture1}
+            picture2={uniqueProfile.picture2}
+            picture3={uniqueProfile.picture3}
+            picture4={uniqueProfile.picture4}
+            picture5={uniqueProfile.picture5}
+            username={uniqueProfile.username}
+            firstname={uniqueProfile.firstname}
+            lastname={uniqueProfile.lastname}
+            orientation={uniqueProfile.orientation}
+            bio={uniqueProfile.bio}
+            gender={uniqueProfile.gender}
+            age={uniqueProfile.age}
+            popularity={uniqueProfile.popularity}
+            online={uniqueProfile.online}
+            show={1}
+            // A Changer par une var Online (pas test)
+          />
+      )}
+      {filteredUsers4 && (
+      <UserList items={filteredUsers4} />)}
     </React.Fragment>
   );
 };

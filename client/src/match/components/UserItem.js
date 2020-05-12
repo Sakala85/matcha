@@ -6,6 +6,8 @@ import "./UserItem.css";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import sendNotification from "../../shared/util/sendNotification";
 import { useCookies } from "react-cookie";
+import Icon from "@material-ui/core/Icon";
+
 
 const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
@@ -26,7 +28,7 @@ const UserItem = (props) => {
       props.id,
       "Visit",
       cookies.token,
-      cookies.username
+      cookies.username,
     );
   };
   const closeDetailHandler = () => {
@@ -115,9 +117,11 @@ const UserItem = (props) => {
 
   return (
     <React.Fragment>
-      <li key={props.id}>
+      <Row>
+        {/* <li key={props.id}> */}
         <React.Fragment>
           <Modal
+            className="profil"
             size="xl"
             aria-labelledby="contained-modal-title-vcenter"
             centered
@@ -133,8 +137,22 @@ const UserItem = (props) => {
             show={showDetail}
             onHide={closeDetailHandler}
           >
-            <Modal.Header className="modal__style" closeButton>
-              <Modal.Title>{props.username}</Modal.Title>
+            <Modal.Header className="modal__style">
+              <Col className="titlematch">
+                {" "}
+                <h2 className="popularityh2">
+                  <Icon className="popularityIcon">emoji_events</Icon>{" "}
+                  <span>{props.popularity}</span>
+                </h2>{" "}
+              </Col>
+              <Col className="titlematch">
+                {" "}
+                <h2 className="title__card3">{props.username}</h2>{" "}
+              </Col>
+              <Col className="titlematch">
+                {" "}
+                <h6 className="online">{props.online}</h6>
+              </Col>
             </Modal.Header>
             <Modal.Body className="modal__style">
               <Carousel>
@@ -144,19 +162,13 @@ const UserItem = (props) => {
                     src={props.picture}
                     alt={props.picture}
                     // REVOIR LE alt, je sais pas comment en mettre un unique
-                    // height="400px"
                   />
-                  <Carousel.Caption>
-                    <h3>Description</h3>
-                    <p>{props.bio}</p>
-                  </Carousel.Caption>
                 </Carousel.Item>
                 <Carousel.Item>
                   <img
                     className="d-block w-100"
                     src={props.picture2}
                     alt={props.picture2}
-                    // height="400px"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
@@ -164,7 +176,6 @@ const UserItem = (props) => {
                     className="d-block w-100"
                     src={props.picture3}
                     alt={props.picture3}
-                    // height="400px"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
@@ -172,7 +183,6 @@ const UserItem = (props) => {
                     className="d-block w-100"
                     src={props.picture4}
                     alt={props.picture4}
-                    // height="400px"
                   />
                 </Carousel.Item>
                 <Carousel.Item>
@@ -180,48 +190,42 @@ const UserItem = (props) => {
                     className="d-block w-100"
                     src={props.picture5}
                     alt={props.picture5}
-                    // height="400px"
                   />
                 </Carousel.Item>
               </Carousel>
-              <h1 className="title__card">{props.username}</h1>
-              <Row>
-                <Col>
-                  <h2>Age : {props.age}</h2>
-                </Col>
-                <Col>
-                  <h2>Score : {props.popularity}</h2>
-                </Col>
+              <Row className="textmatch">
+                <h3 className="textmatch">
+                  {props.firstname} {props.lastname}, {props.age} years old
+                </h3>
+              </Row>
+              <Row className="textmatch">
+                <h3 className="textmatch">
+                  I'm a {props.gender}, and my orientation is
+                  {props.orientation}
+                </h3>
+              </Row>
+              <Row className="textmatch">
+                <h8 className="bioclass">Bio : {props.bio}</h8>
+              </Row>
+              <Row className="textmatch">
+                <h9>Interest</h9>
+                {/* <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2> */}
               </Row>
               <Row>
                 <Col>
-                  <ul>
-                    <h2>Interest</h2>
-                    {/* <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2> */}
-                  </ul>
-                </Col>
-                <Col>
-                  <h2>Bio : {props.bio}</h2>
-                </Col>
-                <Col>
-                  <h2>{props.online}</h2>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <h2>{props.gender}</h2>
+                  <button className="button__reportok" onClick={reportProfile}>
+                    <Icon className="chaticon" color="primary">
+                      report
+                    </Icon>
+                  </button>
+                  <button className="button__reportok" onClick={blockProfile}>
+                    <Icon className="chaticon" color="primary">
+                      block
+                    </Icon>
+                  </button>
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <button onClick={reportProfile}>Report</button>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <button onClick={blockProfile}>Block</button>
-                </Col>
-              </Row>
+
               <Row>
                 <div className="map-container">
                   {/* <Map center={props.coordinates} zoom={16} /> */}
@@ -231,32 +235,28 @@ const UserItem = (props) => {
 
             <Modal.Footer className="modal__style modal__footer">
               <Button onClick={likeProfile} className="like_dislike">
-                <Image
-                  src={require("../../img/iconProfile/heart.png")}
-                  width="50px"
-                  height="50px"
-                />
+                <Icon>favorite</Icon>
               </Button>
               <Button onClick={dislikeProfile} className="like_dislike">
-                <Image
-                  src={require("../../img/iconProfile/remove.png")}
-                  width="50px"
-                  height="50px"
-                />
+                <Icon>close</Icon>
               </Button>
             </Modal.Footer>
           </Modal>
-          {!props.show && 
-          <Button onClick={openDetailHandler} variant="light">
-            <h2>{props.username}</h2>
-            <Image
-              src={props.picture}
-              roundedCircle
-              className="image__profile"
-            />
-          </Button>}
+          <Carousel.Item>
+            {!props.show && (
+              <Button onClick={openDetailHandler} variant="light">
+                <h2>{props.username}</h2>
+                <Image
+                  src={props.picture}
+                  roundedCircle
+                  className="image__profile"
+                />
+              </Button>
+            )}
+          </Carousel.Item>
         </React.Fragment>
-      </li>
+        {/* </li> */}
+      </Row>
     </React.Fragment>
   );
 };
