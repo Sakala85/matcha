@@ -24,7 +24,6 @@ const addDislike = (matcher, disliked, callBack) => {
 };
 
 const deleteMatch = (matchId, callBack) => {
-  console.log(+matchId);
   let sql = `DELETE FROM user_match WHERE id = ${db.escape(matchId)}`;
   db.query(sql, (err, result) => {});
   return callBack(null, null);

@@ -31,7 +31,6 @@ const FilterMatch = (props) => {
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
       dist = dist * 1.609344;
-      console.log(lat2)
       return 0;
     }
   }
@@ -119,7 +118,7 @@ const FilterMatch = (props) => {
             type="range"
             initialValue="20"
             min="0"
-            max="10000"
+            max="1000"
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             initialValid={true}

@@ -61,10 +61,10 @@ const Chat = ({ location }) => {
           date: Holdmessage.date,
         };
         allMess.push(mess);
-        setAccess(true);
         return null;
       });
-      setMessages(allMess);
+        setAccess(true);
+        setMessages(allMess);
     });
 
     socket.on("roomData", ({ users }) => {

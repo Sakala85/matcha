@@ -28,7 +28,7 @@ const InterestItem = (props) => {
 
 
       {/* <button onClick={deleteInterest}>x</button> */}
-      {props.interest}
+      #{props.interest}
     </li>
   );
 };

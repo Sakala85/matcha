@@ -32,7 +32,6 @@ const ChatItem = props => {
   };
 
       const reportProfile = async () => {
-        console.log(props)
         // setShowDetail(false); //SEND A VISIT NOTIF
         try {
           await sendRequest(

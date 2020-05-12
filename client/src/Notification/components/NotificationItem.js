@@ -23,7 +23,7 @@ const NotificationItem = props => {
     <div>
       <Image src={props.image} roundedCircle className="image__notif" />
       <h6 className="title__card">{props.date}</h6>
-      <h2 className="title__card">{props.name}</h2>
+      <a href="http://localhost:3000/match"><h2 className="title__card">{props.name}</h2></a>
       <Message src={Message()}></Message>
       <br></br>
     </div>

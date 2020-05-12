@@ -118,7 +118,6 @@ const UserItem = (props) => {
   return (
     <React.Fragment>
       <Row>
-        {/* <li key={props.id}> */}
         <React.Fragment>
           <Modal
             className="profil"
@@ -242,7 +241,6 @@ const UserItem = (props) => {
               </Button>
             </Modal.Footer>
           </Modal>
-          <Carousel.Item>
             {!props.show && (
               <Button onClick={openDetailHandler} variant="light">
                 <h2>{props.username}</h2>
@@ -253,7 +251,6 @@ const UserItem = (props) => {
                 />
               </Button>
             )}
-          </Carousel.Item>
         </React.Fragment>
         {/* </li> */}
       </Row>

@@ -41,7 +41,6 @@ const SignIn = () => {
           <LoadingSpinner />
         </div>
       )}
-      {console.log(loadedUsers)}
       {!isLoading && loadedUsers && (
         <ChatList items={loadedUsers} userName={cookies.username} />
       )}

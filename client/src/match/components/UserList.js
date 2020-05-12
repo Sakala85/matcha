@@ -7,7 +7,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
 import UserItem from "./UserItem";
 import "./UserList.css";
-import { Carousel , Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 const UserList = (props) => {
@@ -22,7 +22,7 @@ const UserList = (props) => {
   const [loadedInterest, setLoadedInterest] = useState();
   const [finalUsers, setFinalUsers] = useState(props.items);
   const [all, setAll] = useState(true);
-  const [interestUserList, setInterestUserList] = useState(true);
+  // const [interestUserList, setInterestUserList] = useState(true);
   const [interestList, setInterestList] = useState();
   const [checkedInterest, setCheckedInterest] = useState([]);
 
@@ -84,11 +84,6 @@ const UserList = (props) => {
     }
     if (returnedUsers) {
       returnedUsers.map((usersInterested) => {
-        console.log(
-          interestList.filter(
-            (interestItem) => +interestItem.id_user === +usersInterested.id_user
-          )
-        );
         var tmp = usersFirstFiltered.find(
           (user) => +user.id === +usersInterested.id_user
         );
@@ -168,7 +163,6 @@ const UserList = (props) => {
         />
       </form>
       {/* <ul> */}
-      <Carousel>
         {finalUsers &&
           props.items.map((user) => {
             if (interested(user)) {
@@ -187,7 +181,7 @@ const UserList = (props) => {
                   orientation={user.orientation}
                   bio={user.bio}
                   gender={user.gender}
-                  interest={interestUserList}
+                  // interest={interestUserList}
                   age={user.age}
                   popularity={user.popularity}
                   online={user.online}
@@ -199,7 +193,6 @@ const UserList = (props) => {
             }
           })}
         {/* </ul> */}
-      </Carousel>
     </Row>
   );
 };
