@@ -1,5 +1,6 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../shared/components/FormElements/Input";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import { useForm } from "../../shared/hooks/form-hook";
 import UserList from "./UserList";
 import "./FilterMatch.css";
@@ -8,11 +9,34 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useCookies } from "react-cookie";
 import { VALIDATOR_REQUIRE } from "../../shared/util/validators";
 import UserItem from "./UserItem";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const FilterMatch = (props) => {
   const [uniqueProfile, setUniqueProfile] = useState(false);
+  const [loadedUsers, setLoadedUsers] = useState();
+  const [cookies] = useCookies(["token"]);
   const [unique, setUnique] = useState(false);
-
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        if (cookies.userId !== false && props.profile.profile) {
+          const responseData = await sendRequest(
+            `http://localhost:5000/api/user/match/${props.profile.profile}`,
+            "GET",
+            null,
+            {
+              Authorization: "Bearer " + cookies.token,
+            }
+          );
+          console.log(props.profile.profile)
+          setLoadedUsers(responseData.users);
+        }
+      } catch (err) {}
+    };
+    fetchUsers();
+  }, [sendRequest, cookies, props]);
   function distance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) {
       return 0;
@@ -34,17 +58,16 @@ const FilterMatch = (props) => {
       return 0;
     }
   }
-  if (props.profile && !unique) {
-    const user = props.items.filter(
+  if (props.profile.profile && !unique && loadedUsers) {
+    const user = loadedUsers.filter(
       (user) => user.username === props.profile.profile
     );
-    if (user.length > 0){
-    setUniqueProfile(user[0])
-  }
-    setUnique(true)
+    if (user.length > 0) {
+      setUniqueProfile(user[0]);
+    }
+    setUnique(true);
   }
 
-  const [cookies] = useCookies(["token"]);
   const [formState, inputHandler] = useForm(
     {
       ageMin: {
@@ -83,6 +106,12 @@ const FilterMatch = (props) => {
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onHide={clearError} />
+      {isLoading && (
+        <div className="center">
+          <LoadingSpinner />
+        </div>
+      )}
       <Col md={{ span: 10, offset: 1 }}>
         <form>
           <h4>Age</h4>
@@ -140,29 +169,28 @@ const FilterMatch = (props) => {
         </form>
       </Col>
       {uniqueProfile && (
-          <UserItem
-            key={uniqueProfile.id}
-            id={uniqueProfile.id}
-            picture={uniqueProfile.picture1}
-            picture2={uniqueProfile.picture2}
-            picture3={uniqueProfile.picture3}
-            picture4={uniqueProfile.picture4}
-            picture5={uniqueProfile.picture5}
-            username={uniqueProfile.username}
-            firstname={uniqueProfile.firstname}
-            lastname={uniqueProfile.lastname}
-            orientation={uniqueProfile.orientation}
-            bio={uniqueProfile.bio}
-            gender={uniqueProfile.gender}
-            age={uniqueProfile.age}
-            popularity={uniqueProfile.popularity}
-            online={uniqueProfile.online}
-            show={1}
-            // A Changer par une var Online (pas test)
-          />
+        <UserItem
+          key={uniqueProfile.id}
+          id={uniqueProfile.id}
+          picture={uniqueProfile.picture1}
+          picture2={uniqueProfile.picture2}
+          picture3={uniqueProfile.picture3}
+          picture4={uniqueProfile.picture4}
+          picture5={uniqueProfile.picture5}
+          username={uniqueProfile.username}
+          firstname={uniqueProfile.firstname}
+          lastname={uniqueProfile.lastname}
+          orientation={uniqueProfile.orientation}
+          bio={uniqueProfile.bio}
+          gender={uniqueProfile.gender}
+          age={uniqueProfile.age}
+          popularity={uniqueProfile.popularity}
+          online={uniqueProfile.online}
+          show={1}
+          // A Changer par une var Online (pas test)
+        />
       )}
-      {filteredUsers4 && (
-      <UserList items={filteredUsers4} />)}
+      {filteredUsers4 && <UserList items={filteredUsers4} />}
     </React.Fragment>
   );
 };

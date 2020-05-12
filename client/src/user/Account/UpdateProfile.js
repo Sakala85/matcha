@@ -70,7 +70,7 @@ const UpdateProfile = (props) => {
   const UpdateSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-      await sendRequest(
+      const res = await sendRequest(
         `http://localhost:5000/api/user/${cookies.userId}`,
         "PATCH",
         JSON.stringify({
@@ -88,6 +88,10 @@ const UpdateProfile = (props) => {
           Authorization: "Bearer " + cookies.token,
         }
       );
+      if (res) {
+        setCookie("valid_profil", "1");
+        window.location.reload();
+      }
       setCookie("orientation", formState.inputs.orientation.value);
       setCookie("username", formState.inputs.username.value);
     } catch (err) {}

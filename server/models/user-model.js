@@ -30,10 +30,12 @@ const insertUser = (
 };
 
 function getPassword(username, callBack) {
-  let sql = `SELECT id, email, password, username, orientation FROM user WHERE username = ${db.escape(
+  let sql = `SELECT id, email, password, username, orientation, valid_profil FROM user WHERE username = ${db.escape(
     username
   )}`;
   db.query(sql, (err, result, data) => {
+    sql = `UPDATE user SET last_visit = NOW(), online = 1 WHERE username = ${db.escape(username)}`
+  db.query(sql, (err, result, data) => {})
     if (!result[0]) {
       return callBack("No User Found", null);
     } else {
@@ -81,7 +83,7 @@ const updateUser = (
     )}, email = ${db.escape(email)}, bio = ${db.escape(bio)}, 
   gender = ${db.escape(gender)}, orientation = ${db.escape(
       orientation
-    )} , age = ${db.escape(age)} WHERE id = ${db.escape(userId)}`;
+    )} , age = ${db.escape(age)}, valid_profil = '1' WHERE id = ${db.escape(userId)}`;
     db.query(sql, () => {});
     return callBack(err, null);
   });
@@ -259,8 +261,21 @@ const reinitializePassword = (
     return callBack(null, null);
   });
 };
+const getProfileExceptBlocked = (
+  username,
+  callBack
+) => {
+  let sql = `SELECT * FROM user WHERE username = ${db.escape(username)}`;
+  db.query(sql, (err, result) => {
+    // sql = `SELECT * FROM blocked WHERE id_user1 = ${db.escape(username)}`
+
+    if (err) throw err;
+    return callBack(null, result);
+  });
+};
 
 exports.getUserMatch = getUserMatch;
+exports.getProfileExceptBlocked = getProfileExceptBlocked;
 exports.isUser = isUser;
 exports.insertUser = insertUser;
 exports.getMatch = getMatch;

@@ -58,7 +58,7 @@ const createUser = async (req, res, next) => {
           token = jwt.sign(
             { userId: data.id, email: data.email },
             "motdepassesupersecret",
-            
+
             { expiresIn: "1h" }
           );
           // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2LCJ1c2VybmFtZSI6ImFraG91Y2hhIiwiaWF0IjoxNTg4NjkwNDA5fQ.u6RzQ6q5kqWKSfDVNKX7Ne2Fu5GuX45tenzlhEEweUs
@@ -84,10 +84,19 @@ const createUser = async (req, res, next) => {
 
 const login = (req, res, next) => {
   var { username, password, lat, lon } = req.body;
-  const validUsername = validate(username, [VALIDATOR_REQUIRE(), VALIDATOR_ALPHANUMERIC(), VALIDATOR_MINLENGTH(2), VALIDATOR_MAXLENGTH(15)]);
-  const validPassword = validate(password, [VALIDATOR_REQUIRE(),VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
-  
-  if(!lat || !lon) {
+  const validUsername = validate(username, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_ALPHANUMERIC(),
+    VALIDATOR_MINLENGTH(2),
+    VALIDATOR_MAXLENGTH(15),
+  ]);
+  const validPassword = validate(password, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_PASSWORD(),
+    VALIDATOR_MINLENGTH(6),
+  ]);
+
+  if (!lat || !lon) {
     lat = 48.8865792;
     lon = 2.3363584;
   }
@@ -125,6 +134,7 @@ const login = (req, res, next) => {
           username: user.username,
           orientation: user.orientation,
           message: "logged in",
+          valid_profil: user.valid_profil,
         });
       }
     }
@@ -206,7 +216,11 @@ const updateUser = (req, res, next) => {
 const updateUserPassword = (req, res, next) => {
   const { oldPassword, newPassword, repeatPassword } = req.body;
   const userId = req.params.uid;
-  const validPassword = validate(newPassword, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
+  const validPassword = validate(newPassword, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_PASSWORD(),
+    VALIDATOR_MINLENGTH(6),
+  ]);
   if (!validPassword.valid) {
     return res.status(400).json({ message: validPassword.message });
   } else if (oldPassword === newPassword) {
@@ -306,7 +320,11 @@ const updateTokenPassword = (req, res, next) => {
 const reinitializePassword = (req, res, next) => {
   const { newPassword, repeatPassword } = req.body;
   const { tokenPassword } = req.params;
-  const validPassword = validate(newPassword, [VALIDATOR_REQUIRE(), VALIDATOR_PASSWORD(), VALIDATOR_MINLENGTH(6)]);
+  const validPassword = validate(newPassword, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_PASSWORD(),
+    VALIDATOR_MINLENGTH(6),
+  ]);
   if (!validPassword.valid) {
     return res.status(400).json({ message: validPassword.message });
   }
@@ -327,6 +345,18 @@ const reinitializePassword = (req, res, next) => {
   );
 };
 
+const getProfileByUsername = (req, res, next) => {
+  const { username } = req.params;
+  userModel.getProfileExceptBlocked(username, (err, result) => {
+    if (!err) {
+      return res.status(201).json({ users: result });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
+exports.getProfileByUsername = getProfileByUsername;
 exports.login = login;
 exports.createUser = createUser;
 exports.getUserById = getUserById;

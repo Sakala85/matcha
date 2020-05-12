@@ -8,7 +8,6 @@ import sendNotification from "../../shared/util/sendNotification";
 import { useCookies } from "react-cookie";
 import Icon from "@material-ui/core/Icon";
 
-
 const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
@@ -20,7 +19,7 @@ const UserItem = (props) => {
     setShowDetail(true);
     setShowed(true);
   }
-  
+
   const openDetailHandler = async () => {
     setShowDetail(true);
     sendNotification(
@@ -28,7 +27,7 @@ const UserItem = (props) => {
       props.id,
       "Visit",
       cookies.token,
-      cookies.username,
+      cookies.username
     );
   };
   const closeDetailHandler = () => {
@@ -40,7 +39,7 @@ const UserItem = (props) => {
   const dislikeProfile = async () => {
     setShowDetail(false); //SEND A VISIT NOTIF
     try {
-      await sendRequest(
+      const responseData = await sendRequest(
         `http://localhost:5000/api/user/match/dislike/${cookies.userId}`,
         "POST",
         JSON.stringify({
@@ -51,6 +50,15 @@ const UserItem = (props) => {
           Authorization: "Bearer " + cookies.token,
         }
       );
+      if (responseData) {
+        sendNotification(
+          cookies.userId,
+          props.id,
+          "UnLike",
+          cookies.token,
+          cookies.username
+        );
+      }
     } catch (err) {}
   };
 
@@ -70,14 +78,22 @@ const UserItem = (props) => {
       );
       if (response.result.message === "match") {
         openMatchHandler();
+        sendNotification(
+          cookies.userId,
+          props.id,
+          "Match",
+          cookies.token,
+          cookies.username
+        );
+      } else {
+        sendNotification(
+          cookies.userId,
+          props.id,
+          "Like",
+          cookies.token,
+          cookies.username
+        );
       }
-      sendNotification(
-        cookies.userId,
-        props.id,
-        "Like",
-        cookies.token,
-        cookies.username
-      );
     } catch (err) {}
   };
 
@@ -241,16 +257,16 @@ const UserItem = (props) => {
               </Button>
             </Modal.Footer>
           </Modal>
-            {!props.show && (
-              <Button onClick={openDetailHandler} variant="light">
-                <h2>{props.username}</h2>
-                <Image
-                  src={props.picture}
-                  roundedCircle
-                  className="image__profile"
-                />
-              </Button>
-            )}
+          {!props.show && (
+            <Button onClick={openDetailHandler} variant="light">
+              <h2>{props.username}</h2>
+              <Image
+                src={props.picture}
+                roundedCircle
+                className="image__profile"
+              />
+            </Button>
+          )}
         </React.Fragment>
         {/* </li> */}
       </Row>

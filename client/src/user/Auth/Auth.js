@@ -110,7 +110,8 @@ const Auth = () => {
           responseData.username,
           responseData.orientation,
           lat,
-          lon
+          lon,
+          responseData.valid_profil
         );
       } catch (err) {}
     } else {
@@ -137,7 +138,8 @@ const Auth = () => {
           responseData.username,
           responseData.orientation,
           lat,
-          lon
+          lon,
+          responseData.valid_profil
         );
       } catch (err) {}
     }

@@ -32,17 +32,20 @@ const App = () => {
   const { sendRequest } = useHttpClient();
 
   const login = useCallback(
-    (uid, token, username, orientation, latitude, longitude) => {
+    (uid, token, username, orientation, latitude, longitude, valid_profil) => {
       setToken(token);
       setUserId(uid);
       let d = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
-      setCookie("token", token, { path: '/', expires: d });
-      setCookie("userId", uid, { path: '/', expires: d });
-      setCookie("orientation", orientation, { path: '/', expires: d });
-      setCookie("username", username, { path: '/', expires: d });
-      setCookie("lat", latitude, { path: '/', expires: d });
-      setCookie("lon", longitude, { path: '/', expires: d });
+      setCookie("token", token, { path: "/", expires: d });
+      setCookie("userId", uid, { path: "/", expires: d });
+      setCookie("orientation", orientation, { path: "/", expires: d });
+      setCookie("username", username, { path: "/", expires: d });
+      setCookie("lat", latitude, { path: "/", expires: d });
+      setCookie("lon", longitude, { path: "/", expires: d });
+      setCookie("lon", longitude, { path: "/", expires: d });
+      setCookie("valid_profil", valid_profil, { path: "/", expires: d });
+      console.log(valid_profil);
       setUserName(username);
 
       if (token !== null && token !== false && notifSet === false && token) {
@@ -58,8 +61,7 @@ const App = () => {
             );
             setCookie("notification", readedNotif.notification[0].notifNumber);
           } catch (err) {}
-            setNotifSet(true);
-
+          setNotifSet(true);
         };
         setNotifNumber();
       }
@@ -92,7 +94,8 @@ const App = () => {
 
   let routes;
   useEffect(() => {});
-  if (cookies.token && cookies.orientation) {
+  console.log(cookies.valid_profil);
+  if (cookies.token && cookies.orientation && cookies.valid_profil === "1") {
     routes = (
       <Switch>
         <Route path="/match" component={Match} />
@@ -107,6 +110,19 @@ const App = () => {
           <Notification />
         </Route>
         <Redirect to="/match" />
+      </Switch>
+    );
+  } else if (
+    cookies.token &&
+    cookies.orientation &&
+    cookies.valid_profil === "0"
+  ) {
+    routes = (
+      <Switch>
+        <Route path="/User" exact>
+          <UpdateUser />
+        </Route>
+        <Redirect to="/User" />
       </Switch>
     );
   } else {
@@ -141,10 +157,19 @@ const App = () => {
       }}
     >
       <Router>
-        {cookies.token && cookies.token !== null && cookies.orientation && cookies.token !== undefined && (
-          <MainNavigation username={username} notifNumber={cookies.notification} />
-        )}
-        {cookies.orientation && cookies.token && cookies.token !== null && cookies.token !== undefined &&<ReactNotification />}
+        {cookies.token &&
+          cookies.token !== null &&
+          cookies.orientation &&
+          cookies.token !== undefined && (
+            <MainNavigation
+              username={username}
+              notifNumber={cookies.notification}
+            />
+          )}
+        {cookies.orientation &&
+          cookies.token &&
+          cookies.token !== null &&
+          cookies.token !== undefined && <ReactNotification />}
         <main>{routes}</main>
       </Router>
     </AuthContext.Provider>
