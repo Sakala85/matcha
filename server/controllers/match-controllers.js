@@ -70,6 +70,7 @@ const unmatch = (req, res, next) => {
 const report = (req, res, next) => {
   const { reported } = req.body;
   const reporter = req.params.uid;
+  console.log(reported)
   const validReported = validate(reported, [
     VALIDATOR_REQUIRE(),
     VALIDATOR_NUMBER(),

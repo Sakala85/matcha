@@ -16,9 +16,17 @@ const getUserBack = (id) => {
   return user;
 };
 
-const getUserBackByName = (username) => {
+const isOnline = (username) => {
   const user = users.find((user) => user.username === String(username));
-  return user;
+  if (!user) {
+      return false;
+  } else {
+    if (user.id === '0') {
+      return false
+    } else {
+      return user.id
+    }
+  }
 };
 
 const disconnectUser = (id) => {
@@ -34,7 +42,7 @@ const disconnectUser = (id) => {
 const getUsersInRoom = (room) => users.filter((user) => user.room === room);
 
 module.exports = {
-  getUserBackByName,
+  isOnline,
   disconnectUser,
   getUsersInRoom,
   addUserBack,

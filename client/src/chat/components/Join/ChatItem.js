@@ -7,9 +7,7 @@ import { useHttpClient } from "../../../shared/hooks/http-hook";
 import {useCookies} from "react-cookie";
 import { Modal } from "react-bootstrap";
 import { Icon } from "@material-ui/core";
-
-
-
+import history from "../../../shared/components/Navigation/history";
 
 const ChatItem = props => {
   const { sendRequest } = useHttpClient();
@@ -27,10 +25,14 @@ const ChatItem = props => {
           Authorization: "Bearer " + cookies.token,
         }
       );
+      history.push({
+        pathname: "/join",
+      });
     } catch (err) {}
   };
 
       const reportProfile = async () => {
+        console.log(props)
         // setShowDetail(false); //SEND A VISIT NOTIF
         try {
           await sendRequest(

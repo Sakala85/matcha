@@ -68,13 +68,13 @@ const App = () => {
     [notifSet, sendRequest, setCookie]
   );
 
-  if ((!token || token === null) && cookies.token) {
-    setToken(cookies.token)
-  }
-  if(!cookies.token && token && token !== null){
-    window.location.reload();
-    alert("Session is expired")
-  }
+  // if ((!token || token === null) && cookies.token) {
+  //   setToken(cookies.token)
+  // }
+  // if(!cookies.token && token && token !== null){
+  //   window.location.reload();
+  //   alert("Session is expired")
+  // }
 
   const logout = useCallback(() => {
     setToken(null);

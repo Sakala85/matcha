@@ -1,9 +1,11 @@
+const jwt = require("jsonwebtoken");
+const notificationModel = require("../models/notification-model");
 const {
   removeUser,
   getUsersInRoom,
   addUserBack,
   getUserBack,
-  getUserBackByName,
+  isOnline,
   disconnectUser,
 } = require("../users");
 
@@ -35,20 +37,50 @@ const notificationSocket = (io, socket) => {
       }
     );
 
-    socket.on("join", ({ name, room, roomName }, callback) => {
-      socket.join(room);
-      let sql = `SELECT user.username, message.message, message.date 
-      FROM message INNER JOIN user ON user.id = message.id_user1 
-      WHERE id_room = ${db.escape(room)} ORDER BY message.date ASC`;
-      db.query(sql, (err, result) => {
-        if (err) throw err;
-        socket.emit("messages", { result });
-      });
-      io.to(room).emit("roomData", {
-        room: room,
-        users: getUserBackByName(roomName),
-      });
-      callback();
+    socket.on("join", ({ name, room, roomName, token }, callback) => {
+      const decodedToken = jwt.verify(token, "motdepassesupersecret");
+      if (!token || decodedToken.username !== name) {
+        socket.emit("ERROR", { error: "This room doesn't exist anymore" });
+      } else {
+        socket.join(room);
+        let sql = `SELECT * FROM user_match
+      INNER JOIN user ON (user.id = user_match.id_user1 OR user.id = user_match.id_user2)
+      WHERE user_match.id = ${db.escape(room)} AND (user.username = ${db.escape(
+          name
+        )} OR user.username = ${db.escape(roomName)})`;
+        db.query(sql, (err, result) => {
+          if (err) throw err;
+          if (result[0] && result[1]) {
+            if (
+              (result[0].username === name &&
+                result[1].username === roomName) ||
+              (result[0].username === roomName && result[1].username === name)
+            ) {
+              sql = `SELECT user.username, message.message, message.date 
+            FROM message INNER JOIN user ON user.id = message.id_user1 
+            WHERE id_room = ${db.escape(room)} ORDER BY message.date ASC`;
+              db.query(sql, (err, result) => {
+                if (err) throw err;
+                socket.emit("messages", { result });
+              });
+              const userId = isOnline(roomName);
+              if (userId) {
+                io.to(userId).emit("roomData", {
+                  room: room,
+                  users: isOnline(roomName),
+                });
+              }
+            } else {
+              socket.emit("ERROR", {
+                error: "This room doesn't exist anymore",
+              });
+            }
+          } else {
+            socket.emit("ERROR", { error: "This room doesn't exist anymore" });
+          }
+        });
+        callback();
+      }
     });
 
     socket.on("sendMessage", (userId, room, message, callback) => {
@@ -57,16 +89,34 @@ const notificationSocket = (io, socket) => {
         userId
       )}, ${db.escape(room)}, ${db.escape(message)}, NOW())`;
       db.query(sql, (err, result) => {});
+      sql = `SELECT user.username, user.id FROM user_match INNER JOIN user 
+      ON user.id = user_match.id_user1 OR user.id = user_match.id_user2 
+      WHERE user_match.id = ${db.escape(room)} AND user.id <> ${db.escape(
+        userId
+      )}`;
       io.to(room).emit("message", { user: user.username, text: message });
+      db.query(sql, (err, result) => {
+        if (result[0].username) {
+          io.to(isOnline(result[0].username)).emit("notifPusher", {
+            id_user1: userId,
+            username: user.username,
+            type: "message",
+          });
+          notificationModel.createNotification(
+            userId,
+            result[0].id,
+            "Chat",
+            (err, result) => {}
+          );
+        }
+      });
 
       callback();
     });
 
     socket.on("disconnect", (userId) => {
       if (userId) {
-
       } else {
-
       }
       userId = disconnectUser(socket.id);
       let sql = `SELECT id
