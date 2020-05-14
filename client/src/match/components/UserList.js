@@ -185,7 +185,7 @@ const UserList = (props) => {
                   age={user.age}
                   popularity={user.popularity}
                   online={user.online}
-                  // A Changer par une var Online (pas test)
+                  last_visit={user.last_visit}
                 />
               );
             } else {

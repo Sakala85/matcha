@@ -43,9 +43,7 @@ const App = () => {
       setCookie("username", username, { path: "/", expires: d });
       setCookie("lat", latitude, { path: "/", expires: d });
       setCookie("lon", longitude, { path: "/", expires: d });
-      setCookie("lon", longitude, { path: "/", expires: d });
       setCookie("valid_profil", valid_profil, { path: "/", expires: d });
-      console.log(valid_profil);
       setUserName(username);
 
       if (token !== null && token !== false && notifSet === false && token) {
@@ -94,7 +92,6 @@ const App = () => {
 
   let routes;
   useEffect(() => {});
-  console.log(cookies.valid_profil);
   if (cookies.token && cookies.orientation && cookies.valid_profil === "1") {
     routes = (
       <Switch>

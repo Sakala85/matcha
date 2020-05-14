@@ -29,6 +29,10 @@ const createUser = async (req, res, next) => {
     firstname,
     lastname
   );
+  if (!lat || !lon) {
+    lat = 48.8865792;
+    lon = 2.3363584;
+  }
   if (!userValidator.valid) {
     return res.status(400).json({ message: userValidator.message });
   }
@@ -46,7 +50,9 @@ const createUser = async (req, res, next) => {
     email,
     hachedpassword,
     token_email,
-    (err, data) => {
+    lat,
+    lon,
+    (err, user) => {
       if (err) {
         return res.status(400).json({ message: err });
       } else {
@@ -56,9 +62,8 @@ const createUser = async (req, res, next) => {
           //On va ainsi proteger certaines routes avec un acces prive, qui seront accessible seulement si la requete a un token valide
           //On impose un temps d'expiration car si jamais le token est subtilise par un hacker cela ne sera que pour un temps limite.
           token = jwt.sign(
-            { userId: data.id, email: data.email },
+            { userId: user.id, email: user.email },
             "motdepassesupersecret",
-
             { expiresIn: "1h" }
           );
           // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2LCJ1c2VybmFtZSI6ImFraG91Y2hhIiwiaWF0IjoxNTg4NjkwNDA5fQ.u6RzQ6q5kqWKSfDVNKX7Ne2Fu5GuX45tenzlhEEweUs
@@ -70,12 +75,14 @@ const createUser = async (req, res, next) => {
           );
           return next(error);
         }
-        userModel.setLocation(lat, lon, data.id);
-        return res.status(201).json({
-          userId: data.id,
-          email: data.email,
+        return res.json({
+          userId: user[0].id,
+          email: user[0].email,
           token: token,
-          message: "User created",
+          username: user[0].username,
+          orientation: user[0].orientation,
+          message: "logged in",
+          valid_profil: user[0].valid_profil,
         });
       }
     }
@@ -84,6 +91,7 @@ const createUser = async (req, res, next) => {
 
 const login = (req, res, next) => {
   var { username, password, lat, lon } = req.body;
+
   const validUsername = validate(username, [
     VALIDATOR_REQUIRE(),
     VALIDATOR_ALPHANUMERIC(),

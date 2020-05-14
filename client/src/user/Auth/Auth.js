@@ -19,13 +19,21 @@ import { Link } from "react-router-dom";
 import image1 from "./img/femmelove.png";
 import image2 from "./img/hommelove.png";
 import image3 from "./img/cadenas.png";
-
+import $ from "jquery";
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
 
+  function ipLookUp() {
+    if (!lat || !lon) {
+      $.ajax("http://ip-api.com/json").then(function success(response) {
+        setLat(response.lat);
+        setLon(response.lon);
+      });
+    }
+  }
   const {
     isLoading,
     error,
@@ -38,6 +46,7 @@ const Auth = () => {
       setLat(position.coords.latitude);
       setLon(position.coords.longitude);
     });
+    ipLookUp();
   }
   const [formState, inputHandler, setFormData] = useForm(
     {

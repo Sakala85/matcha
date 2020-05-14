@@ -30,7 +30,6 @@ const FilterMatch = (props) => {
               Authorization: "Bearer " + cookies.token,
             }
           );
-          console.log(props.profile.profile)
           setLoadedUsers(responseData.users);
         }
       } catch (err) {}
@@ -186,6 +185,7 @@ const FilterMatch = (props) => {
           age={uniqueProfile.age}
           popularity={uniqueProfile.popularity}
           online={uniqueProfile.online}
+          last_visit={uniqueProfile.last_visit}
           show={1}
           // A Changer par une var Online (pas test)
         />

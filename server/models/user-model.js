@@ -7,6 +7,8 @@ const insertUser = (
   email,
   password,
   token_email,
+  lat,
+  lon,
   callBack
 ) => {
   let sql = `SELECT * FROM user WHERE email = ${db.escape(
@@ -17,14 +19,21 @@ const insertUser = (
     if (result.length > 0) {
       return callBack("Username or Email already taken", null);
     }
-    sql = `INSERT INTO user (username, email, password, firstname, lastname, token_email) VALUES (${db.escape(
+    sql = `INSERT INTO user (username, email, password, firstname, lastname, token_email, online, last_visit, latitude, longitude) VALUES (${db.escape(
       username
     )}, ${db.escape(email)}, ${db.escape(password)}, ${db.escape(
       firstname
-    )}, ${db.escape(lastname)}, ${db.escape(token_email)})`;
+    )}, ${db.escape(lastname)}, ${db.escape(
+      token_email
+    )}, '1', NOW(), ${db.escape(lat)}, ${db.escape(lon)})`;
     db.query(sql, (err, result) => {
       if (err) throw err;
-      return callBack(null, { id: result.insertId, email: email });
+      sql = `SELECT id, email, password, username, orientation, valid_profil FROM user WHERE username = ${db.escape(
+        username
+      )}`;
+      db.query(sql, (err, result) => {
+        return callBack(null, result);
+      });
     });
   });
 };
@@ -34,8 +43,10 @@ function getPassword(username, callBack) {
     username
   )}`;
   db.query(sql, (err, result, data) => {
-    sql = `UPDATE user SET last_visit = NOW(), online = 1 WHERE username = ${db.escape(username)}`
-  db.query(sql, (err, result, data) => {})
+    sql = `UPDATE user SET last_visit = NOW(), online = 1 WHERE username = ${db.escape(
+      username
+    )}`;
+    db.query(sql, (err, result, data) => {});
     if (!result[0]) {
       return callBack("No User Found", null);
     } else {
@@ -83,7 +94,9 @@ const updateUser = (
     )}, email = ${db.escape(email)}, bio = ${db.escape(bio)}, 
   gender = ${db.escape(gender)}, orientation = ${db.escape(
       orientation
-    )} , age = ${db.escape(age)}, valid_profil = '1' WHERE id = ${db.escape(userId)}`;
+    )} , age = ${db.escape(age)}, valid_profil = '1' WHERE id = ${db.escape(
+      userId
+    )}`;
     db.query(sql, () => {});
     return callBack(err, null);
   });
@@ -137,7 +150,7 @@ const getUser = (userId, callBack) => {
 const getMatch = (matchId, orientation, callBack) => {
   let sql;
   if (orientation === "Both") {
-    sql = `SELECT user.id, username, firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude
+    sql = `SELECT user.id, username, firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude, last_visit
    FROM user
   LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(
     matchId
@@ -157,7 +170,7 @@ const getMatch = (matchId, orientation, callBack) => {
   OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
   WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL`;
   } else {
-    sql = `SELECT user.id, username,  firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online
+    sql = `SELECT user.id, username,  firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude, last_visit
     FROM user
    LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(
      matchId
@@ -261,10 +274,7 @@ const reinitializePassword = (
     return callBack(null, null);
   });
 };
-const getProfileExceptBlocked = (
-  username,
-  callBack
-) => {
+const getProfileExceptBlocked = (username, callBack) => {
   let sql = `SELECT * FROM user WHERE username = ${db.escape(username)}`;
   db.query(sql, (err, result) => {
     // sql = `SELECT * FROM blocked WHERE id_user1 = ${db.escape(username)}`

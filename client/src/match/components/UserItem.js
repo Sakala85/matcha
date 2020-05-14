@@ -7,6 +7,8 @@ import { useHttpClient } from "../../shared/hooks/http-hook";
 import sendNotification from "../../shared/util/sendNotification";
 import { useCookies } from "react-cookie";
 import Icon from "@material-ui/core/Icon";
+import moment from "moment-timezone/builds/moment-timezone-with-data";
+const timezone = "Europe/Paris";
 
 const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
@@ -14,7 +16,19 @@ const UserItem = (props) => {
   const [showed, setShowed] = useState(false);
   const [cookies] = useCookies(["token"]);
   const { sendRequest } = useHttpClient();
+  var online = false;
 
+  if (showDetail){
+    const now = new Date();
+    const fin = new Date(props.last_visit)
+    if ((now - fin) > 3600000 || props.online === 0) {
+      online = false;
+    } else if (props.online === 0) {
+      online = false;
+    } else {
+      online = true;
+    }
+  }
   if (props.show === 1 && showed === false) {
     setShowDetail(true);
     setShowed(true);
@@ -166,7 +180,12 @@ const UserItem = (props) => {
               </Col>
               <Col className="titlematch">
                 {" "}
-                <h6 className="online">{props.online}</h6>
+                <h6 className="online">
+                  {moment(props.last_visit)
+                    .tz(timezone)
+                    .format("DD/MM/YYYY HH:mm")}
+                </h6>
+                {online ? "online" : "offline"}
               </Col>
             </Modal.Header>
             <Modal.Body className="modal__style">
