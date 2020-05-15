@@ -95,6 +95,7 @@ const report = (req, res, next) => {
 const block = (req, res, next) => {
   const { blocked } = req.body;
   const blocker = req.params.uid;
+  console.log(blocker)
   const validBlocked = validate(blocked, [
     VALIDATOR_REQUIRE(),
     VALIDATOR_NUMBER(),

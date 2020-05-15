@@ -37,7 +37,8 @@ const getInterest = (userId, callBack) => {
 };
 
 const getInterestList = (callBack) => {
-  let sql = `SELECT * FROM interest`;
+  let sql = `SELECT * FROM interest 
+  LEFT JOIN interest_list ON interest.id_interest_list = interest_list.id`;
   db.query(sql, (err, result, data) => {
     if (err) throw err;
     return callBack(err, result);

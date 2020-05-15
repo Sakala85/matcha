@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import FormUser from "./FormUser";
 import { Card } from "react-bootstrap";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ReactMapGL from "react-map-gl";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const UpdateUser = () => {
-  const [cookies] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(["token"]);
+  const [lat, setLat] = useState(+cookies.lat);
+  const [lon, setLon] = useState(+cookies.lon);
   const [loadedUser, setLoadedUser] = useState(false);
   const {
     isLoading,
@@ -19,12 +22,16 @@ const UpdateUser = () => {
     errorMessage,
   } = useHttpClient();
   const [viewport, setViewport] = useState({
-    latitude: +cookies.lat,
-    longitude: +cookies.lon,
-    width: "100vw",
-    height: "100vh",
-    zoom: 10
+    latitude: lat,
+    longitude: lon,
+    width: "40vw",
+    height: "40vh",
+    zoom: 15,
   });
+  const setPosition = () => {
+    setCookie("lat", lat);
+    setCookie("lon", lon);
+  };
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -67,49 +74,22 @@ const UpdateUser = () => {
               <FormUser items={item} />
             </span>
           ))}
-            <div>
-      <ReactMapGL
-        {...viewport}
-        mapboxApiAccessToken={"pk.eyJ1Ijoic2FrYWxhOTkiLCJhIjoiY2thNmNqcTd2MDVxajJ5cXBrNTQyeTRuZSJ9.asR8GGuGNIo2d5QghFt4eg"}
-        // mapStyle="mapbox://styles/leighhalliday/cjufmjn1r2kic1fl9wxg7u1l4"
-        onViewportChange={viewport => {
-          setViewport(viewport);
-        }}
-      >
-        {/* {parkDate.features.map(park => (
-          <Marker
-            key={park.properties.PARK_ID}
-            latitude={park.geometry.coordinates[1]}
-            longitude={park.geometry.coordinates[0]}
-          >
-            <button
-              className="marker-btn"
-              onClick={e => {
-                e.preventDefault();
-                setSelectedPark(park);
+          <div>
+            <ReactMapGL
+              {...viewport}
+              mapboxApiAccessToken={
+                "pk.eyJ1Ijoic2FrYWxhOTkiLCJhIjoiY2thNmNqcTd2MDVxajJ5cXBrNTQyeTRuZSJ9.asR8GGuGNIo2d5QghFt4eg"
+              }
+              mapStyle="mapbox://styles/sakala99/cka6ry0rb0un51itms8uvgt85"
+              onViewportChange={(viewport) => {
+                setViewport(viewport);
+                setLat(viewport.latitude);
+                setLon(viewport.longitude);
               }}
             >
-              <img src="/skateboarding.svg" alt="Skate Park Icon" />
-            </button>
-          </Marker>
-        ))} */}
-{/* 
-        {selectedPark ? (
-          <Popup
-            latitude={selectedPark.geometry.coordinates[1]}
-            longitude={selectedPark.geometry.coordinates[0]}
-            onClose={() => {
-              setSelectedPark(null);
-            }}
-          >
-            <div>
-              <h2>{selectedPark.properties.NAME}</h2>
-              <p>{selectedPark.properties.DESCRIPTIO}</p>
-            </div>
-          </Popup>
-        ) : null} */}
-      </ReactMapGL>
-    </div>
+            </ReactMapGL>
+            <button onClick={setPosition}>Set Position</button>
+          </div>
         </div>
       }
       ;

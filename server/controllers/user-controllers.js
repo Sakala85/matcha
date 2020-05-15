@@ -355,7 +355,8 @@ const reinitializePassword = (req, res, next) => {
 
 const getProfileByUsername = (req, res, next) => {
   const { username } = req.params;
-  userModel.getProfileExceptBlocked(username, (err, result) => {
+  const userId = req.userData.userId;
+  userModel.getProfileExceptBlocked(username, userId, (err, result) => {
     if (!err) {
       return res.status(201).json({ users: result });
     } else {

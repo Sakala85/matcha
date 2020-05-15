@@ -133,6 +133,15 @@ const updateUserPicture = (picture, path, userId, callBack) => {
     userId
   )}`;
   db.query(sql, () => {});
+  sql = `SELECT popularity from user WHERE id = ${db.escape(userId)}`;
+  db.query(sql, (err, result) => {
+    const newPop = +result[0].popularity + 1;
+    var n = newPop.toString();
+    console.log(n);
+    sql = `UPDATE user SET popularity = ${db.escape(n)} 
+    WHERE id = ${db.escape(userId)}`;
+    db.query(sql, () => {});
+  });
   return callBack(null, null);
 };
 
@@ -225,6 +234,15 @@ const updateValidEmail = (tokenEmail, callBack) => {
         result[0].id
       )}`;
       db.query(sql, () => {});
+      sql = `SELECT popularity from user WHERE id = ${db.escape(result[0].id)}`;
+      db.query(sql, (err, result) => {
+        const newPop = +result[0].popularity + 1;
+        var n = newPop.toString();
+        console.log(n);
+        sql = `UPDATE user SET popularity = ${db.escape(n)} 
+        WHERE id = ${db.escape(result[0].id)}`;
+        db.query(sql, () => {});
+      });
       return callBack(null, result, data);
     } else {
       return callBack("incorrect token", null);
@@ -274,11 +292,18 @@ const reinitializePassword = (
     return callBack(null, null);
   });
 };
-const getProfileExceptBlocked = (username, callBack) => {
-  let sql = `SELECT * FROM user WHERE username = ${db.escape(username)}`;
-  db.query(sql, (err, result) => {
-    // sql = `SELECT * FROM blocked WHERE id_user1 = ${db.escape(username)}`
 
+const getProfileExceptBlocked = (username, userId, callBack) => {
+  let sql = `SELECT user.id, username, firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude, last_visit, blocked.id_user1, blocked.id_user2
+  FROM user
+  LEFT JOIN blocked ON (user.id = blocked.id_user1 OR user.id = blocked.id_user2)
+  WHERE username = ${db.escape(username)} AND blocked.id IS NULL OR 
+  (username = ${db.escape(username)}
+  AND ((blocked.id_user1 <> ${db.escape(userId)} AND blocked.id_user2 = user.id) 
+  OR (blocked.id_user2 <> ${db.escape(
+    userId
+  )} AND blocked.id_user1 = user.id)))`;
+  db.query(sql, (err, result) => {
     if (err) throw err;
     return callBack(null, result);
   });

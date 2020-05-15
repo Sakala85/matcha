@@ -14,6 +14,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const FilterMatch = (props) => {
   const [uniqueProfile, setUniqueProfile] = useState(false);
+  const [loadedInterest, setLoadedInterest] = useState();
   const [loadedUsers, setLoadedUsers] = useState();
   const [cookies] = useCookies(["token"]);
   const [unique, setUnique] = useState(false);
@@ -36,6 +37,24 @@ const FilterMatch = (props) => {
     };
     fetchUsers();
   }, [sendRequest, cookies, props]);
+  useEffect(() => {
+    if (uniqueProfile) {
+      const fetchInterest = async () => {
+        try {
+          const responseData = await sendRequest(
+            `http://localhost:5000/api/user/interest/${uniqueProfile.id}`,
+            "GET",
+            null,
+            {
+              authorization: "Bearer " + cookies.token,
+            }
+          );
+          setLoadedInterest(responseData.interest);
+        } catch (err) {}
+      };
+      fetchInterest();
+    }
+  }, [sendRequest, cookies.token, cookies.userId, uniqueProfile]);
   function distance(lat1, lon1, lat2, lon2) {
     if (lat1 === lat2 && lon1 === lon2) {
       return 0;
@@ -54,7 +73,7 @@ const FilterMatch = (props) => {
       dist = (dist * 180) / Math.PI;
       dist = dist * 60 * 1.1515;
       dist = dist * 1.609344;
-      return 0;
+      return dist;
     }
   }
   if (props.profile.profile && !unique && loadedUsers) {
@@ -167,7 +186,7 @@ const FilterMatch = (props) => {
           {formState.inputs.popMin.value}
         </form>
       </Col>
-      {uniqueProfile && (
+      {uniqueProfile && loadedInterest && (
         <UserItem
           key={uniqueProfile.id}
           id={uniqueProfile.id}
@@ -186,8 +205,8 @@ const FilterMatch = (props) => {
           popularity={uniqueProfile.popularity}
           online={uniqueProfile.online}
           last_visit={uniqueProfile.last_visit}
+          interest={loadedInterest}
           show={1}
-          // A Changer par une var Online (pas test)
         />
       )}
       {filteredUsers4 && <UserList items={filteredUsers4} />}

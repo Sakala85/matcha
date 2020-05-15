@@ -239,11 +239,11 @@ const UserItem = (props) => {
                 </h3>
               </Row>
               <Row className="textmatch">
-                <h8 className="bioclass">Bio : {props.bio}</h8>
+                <p className="bioclass">Bio : {props.bio}</p>
               </Row>
               <Row className="textmatch">
-                <h9>Interest</h9>
-                {/* <h2>Interest : {props.interest.map(interest => <li key={interest}>{interest}</li>)}</h2> */}
+                Interest
+                <h2>Interest : {props.interest.map(interest => <li key={interest.id_interest_list}>{interest.interest}</li>)}</h2>
               </Row>
               <Row>
                 <Col>

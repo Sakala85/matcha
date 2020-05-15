@@ -3,11 +3,14 @@ import InterestList from "./InterestList";
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
-import { VALIDATOR_REQUIRE , VALIDATOR_MINLENGTH} from "../../shared/util/validators";
+import {
+  VALIDATOR_REQUIRE,
+  VALIDATOR_MINLENGTH,
+} from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import { Modal } from "react-bootstrap";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 
 const UpdateInterest = (props) => {
   const {
@@ -17,7 +20,7 @@ const UpdateInterest = (props) => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const [formState, inputHandler] = useForm(
     {
       interest: {

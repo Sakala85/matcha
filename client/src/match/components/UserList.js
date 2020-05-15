@@ -22,7 +22,6 @@ const UserList = (props) => {
   const [loadedInterest, setLoadedInterest] = useState();
   const [finalUsers, setFinalUsers] = useState(props.items);
   const [all, setAll] = useState(true);
-  // const [interestUserList, setInterestUserList] = useState(true);
   const [interestList, setInterestList] = useState();
   const [checkedInterest, setCheckedInterest] = useState([]);
 
@@ -38,6 +37,12 @@ const UserList = (props) => {
     }
     finalFilterUsers(props.items);
   };
+
+  const getInterest = (userIdI) => {
+    const rep = interestList.filter((id) => id.id_user === userIdI);
+    console.log(rep)
+    return(rep)
+  }
 
   const checkAll = () => {
     if (all === true) {
@@ -181,7 +186,7 @@ const UserList = (props) => {
                   orientation={user.orientation}
                   bio={user.bio}
                   gender={user.gender}
-                  // interest={interestUserList}
+                  interest={getInterest(user.id)}
                   age={user.age}
                   popularity={user.popularity}
                   online={user.online}

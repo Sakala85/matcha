@@ -16,6 +16,17 @@ const createNotification = (userId, id_user2, type, callBack) => {
     userId
   )}, ${db.escape(id_user2)}, ${db.escape(type)}, NOW())`;
   db.query(sql, (err, result) => {
+    if (type !== "Chat" && type !== "UnLike") {
+      sql = `SELECT popularity from user WHERE id = ${db.escape(id_user2)}`;
+      db.query(sql, (err, result) => {
+        const newPop = +result[0].popularity + 1;
+        var n = newPop.toString();
+        sql = `UPDATE user SET popularity = ${db.escape(n)} 
+        WHERE id = ${db.escape(id_user2)}`;
+        db.query(sql, () => {});
+      });
+    }
+
     if (err) throw err;
     return callBack(null, null);
   });
