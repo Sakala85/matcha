@@ -40,7 +40,6 @@ const UserList = (props) => {
 
   const getInterest = (userIdI) => {
     const rep = interestList.filter((id) => id.id_user === userIdI);
-    console.log(rep)
     return(rep)
   }
 

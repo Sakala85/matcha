@@ -137,7 +137,6 @@ const updateUserPicture = (picture, path, userId, callBack) => {
   db.query(sql, (err, result) => {
     const newPop = +result[0].popularity + 1;
     var n = newPop.toString();
-    console.log(n);
     sql = `UPDATE user SET popularity = ${db.escape(n)} 
     WHERE id = ${db.escape(userId)}`;
     db.query(sql, () => {});
@@ -238,7 +237,6 @@ const updateValidEmail = (tokenEmail, callBack) => {
       db.query(sql, (err, result) => {
         const newPop = +result[0].popularity + 1;
         var n = newPop.toString();
-        console.log(n);
         sql = `UPDATE user SET popularity = ${db.escape(n)} 
         WHERE id = ${db.escape(result[0].id)}`;
         db.query(sql, () => {});
