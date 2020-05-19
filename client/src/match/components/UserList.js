@@ -169,7 +169,7 @@ const UserList = (props) => {
       {/* <ul> */}
         {finalUsers &&
           props.items.map((user) => {
-            if (interested(user)) {
+            if (interested(user)&&interestList) {
               return (
                 <UserItem
                   key={user.id}

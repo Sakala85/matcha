@@ -168,18 +168,17 @@ const UserItem = (props) => {
           >
             <Modal.Header className="modal__style">
               <Col className="titlematch">
-                {" "}
                 <h2 className="popularityh2">
-                  <Icon className="popularityIcon">emoji_events</Icon>{" "}
+                  <Icon className="popularityIcon">emoji_events</Icon>
                   <span>{props.popularity}</span>
-                </h2>{" "}
+                </h2>
               </Col>
               <Col className="titlematch">
-                {" "}
-                <h2 className="title__card3">{props.username}</h2>{" "}
+                
+                <h2 className="title__card3">{props.username}</h2>
               </Col>
               <Col className="titlematch">
-                {" "}
+                
                 <h6 className="online">
                   {moment(props.last_visit)
                     .tz(timezone)
@@ -266,7 +265,6 @@ const UserItem = (props) => {
                 </div>
               </Row>
             </Modal.Body>
-
             <Modal.Footer className="modal__style modal__footer">
               <Button onClick={likeProfile} className="like_dislike">
                 <Icon>favorite</Icon>
@@ -292,5 +290,4 @@ const UserItem = (props) => {
     </React.Fragment>
   );
 };
-
 export default UserItem;
