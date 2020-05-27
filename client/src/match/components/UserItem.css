@@ -58,7 +58,8 @@
 .modal__style {
     background: white;
     text-align: center;
-    height: 567px;
+        height: 620px;
+
 }
 
 .modal-open .modal {
@@ -125,4 +126,15 @@ p.bioclass {
     height: 90px;  
     overflow: scroll;
 
+}
+
+h3.interest {
+      font-size: 20px;
+    color: grey;
+    letter-spacing: 2px;
+    display: flex;
+    list-style: none;
+    list-style-position: initial;
+    list-style-image: initial;
+    list-style-type: none;
 }

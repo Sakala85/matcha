@@ -15,9 +15,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 const FilterMatch = (props) => {
   const [uniqueProfile, setUniqueProfile] = useState(false);
   const [loadedInterest, setLoadedInterest] = useState();
-  const [loadedUsers, setLoadedUsers] = useState();
   const [cookies] = useCookies(["token"]);
-  const [unique, setUnique] = useState(false);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   useEffect(() => {
     const fetchUsers = async () => {
@@ -31,7 +29,7 @@ const FilterMatch = (props) => {
               Authorization: "Bearer " + cookies.token,
             }
           );
-          setLoadedUsers(responseData.users);
+          setUniqueProfile(responseData.users[0]);
         }
       } catch (err) {}
     };
@@ -75,15 +73,6 @@ const FilterMatch = (props) => {
       dist = dist * 1.609344;
       return dist;
     }
-  }
-  if (props.profile.profile && !unique && loadedUsers) {
-    const user = loadedUsers.filter(
-      (user) => user.username === props.profile.profile
-    );
-    if (user.length > 0) {
-      setUniqueProfile(user[0]);
-    }
-    setUnique(true);
   }
 
   const [formState, inputHandler] = useForm(
