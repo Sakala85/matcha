@@ -1,0 +1,13 @@
+footer {
+  justify-content: center;
+}
+
+.footer-container p {
+
+    font-weight: 700;
+    text-align: center;
+    color: grey;
+    background-color: #ffc0cb87;
+    letter-spacing: 4px;
+
+}

@@ -18,6 +18,7 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import Footer from "./shared/components/footer/footer";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
@@ -68,13 +69,6 @@ const App = () => {
     [notifSet, sendRequest, setCookie]
   );
 
-  // if ((!token || token === null) && cookies.token) {
-  //   setToken(cookies.token)
-  // }
-  // if(!cookies.token && token && token !== null){
-  //   window.location.reload();
-  //   alert("Session is expired")
-  // }
 
   const logout = useCallback(() => {
     setToken(null);
@@ -168,6 +162,7 @@ const App = () => {
           cookies.token !== null &&
           cookies.token !== undefined && <ReactNotification />}
         <main>{routes}</main>
+        <Footer/>
       </Router>
     </AuthContext.Provider>
   );
