@@ -19,12 +19,14 @@ import { Link } from "react-router-dom";
 import image1 from "./img/femmelove.png";
 import image2 from "./img/hommelove.png";
 import image3 from "./img/cadenas.png";
+import { useCookies } from "react-cookie";
 import $ from "jquery";
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
+  const [setCookie] = useCookies(["token"]);
 
   function ipLookUp() {
     if (!lat || !lon) {
@@ -98,10 +100,16 @@ const Auth = () => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    if (isLoginMode && formState.inputs.username.value === "admin" && formState.inputs.password.value === "admin") {
-
-    }
-    else if (isLoginMode && formState.inputs.username.value !== "admin") {
+    if (
+      isLoginMode &&
+      formState.inputs.username.value === "admin1" &&
+      formState.inputs.password.value === "Admin123"
+    ) {
+      let d = new Date();
+      d.setTime(d.getTime() + 60 * 60 * 1000);
+      setCookie("admin", "123", { path: "/", expires: d });
+      window.location.reload();
+    } else if (isLoginMode && formState.inputs.username.value !== "admin") {
       try {
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/login",

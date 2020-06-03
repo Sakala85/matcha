@@ -18,6 +18,7 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
+import AdminPage from "./Admin/AdminPage";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
@@ -32,7 +33,16 @@ const App = () => {
   const { sendRequest } = useHttpClient();
 
   const login = useCallback(
-    (uid, token, username, orientation, latitude, longitude, valid_profil, gender) => {
+    (
+      uid,
+      token,
+      username,
+      orientation,
+      latitude,
+      longitude,
+      valid_profil,
+      gender
+    ) => {
       setToken(token);
       setUserId(uid);
       let d = new Date();
@@ -67,7 +77,9 @@ const App = () => {
     },
     [notifSet, sendRequest, setCookie]
   );
-  setTimeout(function(){window.location.reload()}, 3600001)
+  setTimeout(function () {
+    window.location.reload();
+  }, 3600001);
 
   const logout = useCallback(() => {
     setToken(null);
@@ -160,7 +172,7 @@ const App = () => {
           cookies.token &&
           cookies.token !== null &&
           cookies.token !== undefined && <ReactNotification />}
-        <main>{routes}</main>
+        {cookies.admin === "123" ? <AdminPage /> : <main>{routes}</main>}
       </Router>
     </AuthContext.Provider>
   );

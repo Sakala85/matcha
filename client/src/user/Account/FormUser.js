@@ -19,16 +19,12 @@ const FormUser = (props) => {
         </Col>
 
         <Col className="form__div__account">
-          {/* DIV POUR PROFIL */}
           <Card className="settingsProfil">
-            {/* <h1>Update your profile</h1> */}
             <UpdateProfile items={props.items} />
           </Card>
         </Col>
         <Col className="form__div__account">
-          {/* DIV POUR PASSWORD */}
           <Card className="settingsPassword">
-            {/* <h1>Update your password</h1> */}
             <UpdatePassword />
           </Card>
           <Card className="settingsInterest">

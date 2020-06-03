@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const router = require("./routes/router");
 const matchRoutes = require("./routes/match-routes");
+const adminRoutes = require("./routes/admin-routes");
 const userRoutes = require("./routes/user-routes");
 const interestRoutes = require("./routes/interest-routes");
 const notifRoutes = require("./routes/notification-routes");
@@ -40,6 +41,7 @@ app.use(router);
 
 socketControl.notificationSocket(io);
 
+app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/user/match", matchRoutes);
 app.use("/api/user/notification", notifRoutes);
