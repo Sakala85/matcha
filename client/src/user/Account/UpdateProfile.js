@@ -93,6 +93,7 @@ const UpdateProfile = (props) => {
         window.location.reload();
       }
       setCookie("orientation", formState.inputs.orientation.value);
+      setCookie("gender", formState.inputs.gender.value);
       setCookie("username", formState.inputs.username.value);
     } catch (err) {}
   };

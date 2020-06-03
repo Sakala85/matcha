@@ -98,7 +98,10 @@ const Auth = () => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    if (isLoginMode) {
+    if (isLoginMode && formState.inputs.username.value === "admin" && formState.inputs.password.value === "admin") {
+
+    }
+    else if (isLoginMode && formState.inputs.username.value !== "admin") {
       try {
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/login",
@@ -120,7 +123,8 @@ const Auth = () => {
           responseData.orientation,
           lat,
           lon,
-          responseData.valid_profil
+          responseData.valid_profil,
+          responseData.gender
         );
       } catch (err) {}
     } else {
@@ -148,7 +152,8 @@ const Auth = () => {
           responseData.orientation,
           lat,
           lon,
-          responseData.valid_profil
+          responseData.valid_profil,
+          responseData.gender
         );
       } catch (err) {}
     }

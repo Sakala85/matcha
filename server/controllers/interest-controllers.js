@@ -19,6 +19,9 @@ const createInterest = (req, res, next) => {
   if (!validInterest.valid) {
     return res.status(400).json({ message: validInterest.message });
   }
+  if(interest === "All"){
+    return res.status(400).json({ message: "All is not a Valid Interest" });
+  }
   interestModel.instertInterest(interest, userId, (err, data) => {
     if (err) {
       return res.status(400).json({ message: err });
@@ -35,6 +38,21 @@ const getInterestById = (req, res, next) => {
     return res.status(400).json({ message: validId.message });
   }
   interestModel.getInterest(userId, (err, data) => {
+    if (err) {
+      return res.status(400).json({ message: err });
+    } else {
+      return res.status(201).json({ interest: data });
+    }
+  });
+};
+
+const getPopularInterest = (req, res, next) => {
+  userId = req.params.uid;
+  const validId = validate(userId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  if (!validId.valid) {
+    return res.status(400).json({ message: validId.message });
+  }
+  interestModel.getPopularInterest(userId, (err, data) => {
     if (err) {
       return res.status(400).json({ message: err });
     } else {
@@ -63,6 +81,7 @@ const deleteInterest = (req, res, next) => {
     }
   });
 };
+exports.getPopularInterest = getPopularInterest;
 exports.getInterestList = getInterestList;
 exports.createInterest = createInterest;
 exports.getInterestById = getInterestById;

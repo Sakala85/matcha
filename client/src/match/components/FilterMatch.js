@@ -154,7 +154,7 @@ const FilterMatch = (props) => {
             type="range"
             initialValue="20"
             min="0"
-            max="1000"
+            max="10000"
             onInput={inputHandler}
             validators={[VALIDATOR_REQUIRE()]}
             initialValid={true}
@@ -196,6 +196,7 @@ const FilterMatch = (props) => {
           last_visit={uniqueProfile.last_visit}
           interest={loadedInterest}
           show={1}
+          liked={uniqueProfile.liked}
         />
       )}
       {filteredUsers4 && <UserList items={filteredUsers4} />}

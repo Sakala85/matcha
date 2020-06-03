@@ -3,10 +3,10 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import InterestItem from "./InterestItem";
-import {useCookies} from "react-cookie";
-import "./InterestList.css"
+import { useCookies } from "react-cookie";
+import "./InterestList.css";
 const InterestList = () => {
-  const [loadedInterest, setLoadedInterest] = useState();
+  const [loadedInterest, setLoadedInterest] = useState(false);
   const {
     isLoading,
     error,
@@ -14,8 +14,8 @@ const InterestList = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  const [cookies] = useCookies(['token']);
-
+  const [cookies] = useCookies(["token"]);
+  
   useEffect(() => {
     const fetchInterest = async () => {
       try {
@@ -48,6 +48,14 @@ const InterestList = () => {
       </div>
     );
   }
+  if (isLoading) {
+    return (
+      <div className="center">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <React.Fragment>
       <ErrorModal show={error} error={errorMessage} onClear={clearError} />
@@ -56,8 +64,8 @@ const InterestList = () => {
           <LoadingSpinner />
         </div>
       )}
-      {
-        <ul className="interest">
+      {loadedInterest && !isLoading &&
+        <ul className="interest_list">
           {loadedInterest.map((item) => (
             <InterestItem
               key={item.id}

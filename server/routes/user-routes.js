@@ -12,7 +12,7 @@ router.post("/signup", userController.createUser);
 router.post("/login", userController.login);
 
 router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour acceder aux routes suivantes.
-router.get("/match/:uid/:orientation", userController.getMatchById);
+router.get("/match/:uid/:orientation/:gender", userController.getMatchById);
 router.get("/match/:username", userController.getProfileByUsername);
 
 router.get("/:uid/matched", userController.getMatchedByUid);

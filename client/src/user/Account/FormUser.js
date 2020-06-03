@@ -5,7 +5,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./FormUser.css";
 import UpdateProfile from "./UpdateProfile";
 import UpdatePassword from "./UpdatePassword";
-import UpdateInterest from "./UpdateInterest";
 import PopularInterest from "./PopularInterest";
 import UpdatePicture from "./UpdatePicture";
 
@@ -34,9 +33,7 @@ const FormUser = (props) => {
           </Card>
           <Card className="settingsInterest">
             <PopularInterest />
-          </Card>          <Card className="settingsInterest">
-            <UpdateInterest />
-          </Card>
+          </Card>          
         </Col>
       </React.Fragment>
     </Row>

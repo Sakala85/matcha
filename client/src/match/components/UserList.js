@@ -190,6 +190,7 @@ const UserList = (props) => {
                   popularity={user.popularity}
                   online={user.online}
                   last_visit={user.last_visit}
+                  liked={user.liked}
                 />
               );
             } else {

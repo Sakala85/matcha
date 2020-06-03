@@ -61,32 +61,30 @@ const UpdateInterest = (props) => {
       <Modal.Header className="title">
         <div className="titleUpdate">Interest settings</div>
       </Modal.Header>
-      <InterestList />
       <ErrorModal show={error} error={errorMessage} onHide={clearError} />
-      {!isLoading && (
-        <form className="formUpdateInterest" onSubmit={UpdateSubmitHandler}>
-          <div className="InputForm__Interest">
-            <Input
-              id="interest"
-              element="input"
-              type="text"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
-              label="Add Interest"
-              errorText="Please enter an Interest. (2 characters min.)"
-              initialValue=""
-              initialValid={false}
-              onInput={inputHandler}
-            />
-            <button
-              type="submit"
-              disabled={!formState.isValid}
-              className="button__update"
-            >
-              Add Interest
-            </button>
-          </div>
-        </form>
-      )}
+      <InterestList />
+      <form className="formUpdateInterest" onSubmit={UpdateSubmitHandler}>
+        <div className="InputForm__Interest">
+          <Input
+            id="interest"
+            element="input"
+            type="text"
+            validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(2)]}
+            label="Add Interest"
+            errorText="Please enter an Interest. (2 characters min.)"
+            initialValue=""
+            initialValid={false}
+            onInput={inputHandler}
+          />
+          <button
+            type="submit"
+            disabled={!formState.isValid}
+            className="button__update"
+          >
+            Add Interest
+          </button>
+        </div>
+      </form>
     </React.Fragment>
   );
 };

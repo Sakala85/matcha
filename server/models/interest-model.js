@@ -36,6 +36,19 @@ const getInterest = (userId, callBack) => {
   });
 };
 
+const getPopularInterest = (userId, callBack) => {
+  let sql = `SELECT interest.id, interest_list.interest, interest.id_interest_list 
+  FROM interest 
+  INNER JOIN interest_list ON interest.id_interest_list = interest_list.id 
+  WHERE id_user <> ${db.escape(userId)}
+  GROUP BY interest.id_interest_list
+  ORDER BY SUM(id_interest_list) DESC`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    return callBack(err, result);
+  });
+};
+
 const getInterestList = (callBack) => {
   let sql = `SELECT * FROM interest 
   LEFT JOIN interest_list ON interest.id_interest_list = interest_list.id`;
@@ -53,6 +66,7 @@ const deleteInterestDB = (interestId, callBack) => {
   });
 };
 
+exports.getPopularInterest = getPopularInterest;
 exports.getInterestList = getInterestList;
 exports.instertInterest = instertInterest;
 exports.getInterest = getInterest;

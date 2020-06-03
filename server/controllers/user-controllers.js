@@ -83,6 +83,7 @@ const createUser = async (req, res, next) => {
           orientation: user[0].orientation,
           message: "logged in",
           valid_profil: user[0].valid_profil,
+          gender: user[0].gender,
         });
       }
     }
@@ -143,6 +144,7 @@ const login = (req, res, next) => {
           orientation: user.orientation,
           message: "logged in",
           valid_profil: user.valid_profil,
+          gender: user.gender,
         });
       }
     }
@@ -165,7 +167,7 @@ const getUserById = (req, res, next) => {
 };
 
 const getMatchById = (req, res, next) => {
-  userModel.getMatch(req.params.uid, req.params.orientation, (err, result) => {
+  userModel.getMatch(req.params.uid, req.params.orientation, req.params.gender, (err, result) => {
     if (!err) {
       return res.status(201).json({ user: { result } });
     } else {
@@ -257,11 +259,6 @@ const updateUserPassword = (req, res, next) => {
 const updateUserPicture = (req, res, next) => {
   const { picture } = req.body;
   let fileUrl = "http://localhost:5000/" + req.file.path.replace(/\\/g, "/");
-  // if (req.file) {
-  //   fs.unlink(req.file.path, (err) => {
-  //     console.log(err);
-  //   })
-  // }
   const userId = req.params.uid;
 
   userModel.updateUserPicture(picture, fileUrl, userId, (err, data) => {
