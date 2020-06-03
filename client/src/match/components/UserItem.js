@@ -14,14 +14,15 @@ const UserItem = (props) => {
   const [showDetail, setShowDetail] = useState(false);
   const [showMatch, setShowMatch] = useState(false);
   const [showed, setShowed] = useState(false);
+  const [liked, setLiked] = useState(props.liked);
   const [cookies] = useCookies(["token"]);
   const { sendRequest } = useHttpClient();
   var online = false;
 
-  if (showDetail){
+  if (showDetail) {
     const now = new Date();
-    const fin = new Date(props.last_visit)
-    if ((now - fin) > 3600000 || props.online === 0) {
+    const fin = new Date(props.last_visit);
+    if (now - fin > 3600000 || props.online === 0) {
       online = false;
     } else if (props.online === 0) {
       online = false;
@@ -74,6 +75,7 @@ const UserItem = (props) => {
         );
       }
     } catch (err) {}
+    setLiked(false)
   };
 
   const likeProfile = async () => {
@@ -109,6 +111,7 @@ const UserItem = (props) => {
         );
       }
     } catch (err) {}
+    setLiked(true);
   };
 
   const reportProfile = async () => {
@@ -143,6 +146,7 @@ const UserItem = (props) => {
         }
       );
     } catch (err) {}
+    window.location.reload()
   };
 
   return (
@@ -174,11 +178,9 @@ const UserItem = (props) => {
                 </h2>
               </Col>
               <Col className="titlematch">
-                
                 <h2 className="title__card3">{props.username}</h2>
               </Col>
               <Col className="titlematch">
-                
                 <h6 className="online">
                   {moment(props.last_visit)
                     .tz(timezone)
@@ -241,7 +243,15 @@ const UserItem = (props) => {
                 <p className="bioclass">Bio : {props.bio}</p>
               </Row>
               <Row className="textmatch">
-                <h3 className="interest">Interest :  {props.interest.map(interest => <li key={interest.id_interest_list} >  {interest.interest},  </li>, )}</h3>
+                <h3 className="interest">
+                  Interest :{" "}
+                  {props.interest.map((interest) => (
+                    <li key={interest.id_interest_list}>
+                      {" "}
+                      {interest.interest},{" "}
+                    </li>
+                  ))}
+                </h3>
               </Row>
               <Row>
                 <Col>
@@ -265,12 +275,12 @@ const UserItem = (props) => {
               </Row>
             </Modal.Body>
             <Modal.Footer className="modal__style modal__footer">
-              <Button onClick={likeProfile} className="like_dislike">
+              {!liked && <Button onClick={likeProfile} className="like_dislike">
                 <Icon>favorite</Icon>
-              </Button>
-              <Button onClick={dislikeProfile} className="like_dislike">
+              </Button>}
+              {liked && <Button onClick={dislikeProfile} className="like_dislike">
                 <Icon>close</Icon>
-              </Button>
+              </Button>}
             </Modal.Footer>
           </Modal>
           {!props.show && (

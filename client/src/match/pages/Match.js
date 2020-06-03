@@ -18,7 +18,7 @@ const Match = ({location}) => {
             // Il faudra mettre ca en restful
             // `http://localhost:5000/api/users/${auth.userId}/matchs/`,
             /********************************************************* */
-            `http://localhost:5000/api/user/match/${cookies.userId}/${cookies.orientation}`,
+            `http://localhost:5000/api/user/match/${cookies.userId}/${cookies.orientation}/${cookies.gender}`,
             "GET",
             null,
             {

@@ -19,6 +19,8 @@ const addDislike = (matcher, disliked, callBack) => {
   )}, ${db.escape(disliked)})`;
   db.query(sql, (err, result) => {
     if (err) throw err;
+    sql = `DELETE FROM user_like WHERE id_user1 = ${db.escape(matcher)} AND id_user2 = ${db.escape(disliked)}`
+    db.query(sql, (err, result) => {})
     return callBack(null, null);
   });
 };

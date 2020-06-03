@@ -19,6 +19,7 @@ import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import Footer from "./shared/components/footer/footer";
+import AdminPage from "./Admin/AdminPage";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
@@ -33,7 +34,16 @@ const App = () => {
   const { sendRequest } = useHttpClient();
 
   const login = useCallback(
-    (uid, token, username, orientation, latitude, longitude, valid_profil) => {
+    (
+      uid,
+      token,
+      username,
+      orientation,
+      latitude,
+      longitude,
+      valid_profil,
+      gender
+    ) => {
       setToken(token);
       setUserId(uid);
       let d = new Date();
@@ -41,12 +51,12 @@ const App = () => {
       setCookie("token", token, { path: "/", expires: d });
       setCookie("userId", uid, { path: "/", expires: d });
       setCookie("orientation", orientation, { path: "/", expires: d });
+      setCookie("gender", gender, { path: "/", expires: d });
       setCookie("username", username, { path: "/", expires: d });
       setCookie("lat", latitude, { path: "/", expires: d });
       setCookie("lon", longitude, { path: "/", expires: d });
       setCookie("valid_profil", valid_profil, { path: "/", expires: d });
       setUserName(username);
-
       if (token !== null && token !== false && notifSet === false && token) {
         const setNotifNumber = async (event) => {
           try {
@@ -69,6 +79,9 @@ const App = () => {
     [notifSet, sendRequest, setCookie]
   );
 
+  setTimeout(function () {
+    window.location.reload();
+  }, 3600001);
 
   const logout = useCallback(() => {
     setToken(null);
@@ -163,6 +176,7 @@ const App = () => {
           cookies.token !== undefined && <ReactNotification />}
         <main>{routes}</main>
         <Footer/>
+        {cookies.admin === "123" ? <AdminPage /> : <main>{routes}</main>}
       </Router>
     </AuthContext.Provider>
   );
