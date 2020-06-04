@@ -26,7 +26,7 @@ const Auth = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [lat, setLat] = useState();
   const [lon, setLon] = useState();
-  const [setCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token"]);
 
   function ipLookUp() {
     if (!lat || !lon) {
@@ -108,6 +108,7 @@ const Auth = () => {
       let d = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
       setCookie("admin", "123", { path: "/", expires: d });
+      d = cookies.admin;
       window.location.reload();
     } else if (isLoginMode && formState.inputs.username.value !== "admin") {
       try {

@@ -75,7 +75,7 @@ const UserItem = (props) => {
         );
       }
     } catch (err) {}
-    setLiked(false)
+    setLiked(false);
   };
 
   const likeProfile = async () => {
@@ -146,7 +146,7 @@ const UserItem = (props) => {
         }
       );
     } catch (err) {}
-    window.location.reload()
+    window.location.reload();
   };
 
   return (
@@ -275,12 +275,16 @@ const UserItem = (props) => {
               </Row>
             </Modal.Body>
             <Modal.Footer className="modal__style modal__footer">
-              {!liked && <Button onClick={likeProfile} className="like_dislike">
-                <Icon>favorite</Icon>
-              </Button>}
-              {liked && <Button onClick={dislikeProfile} className="like_dislike">
-                <Icon>close</Icon>
-              </Button>}
+              {!liked && (
+                <Button onClick={likeProfile} className="like_dislike">
+                  <Icon>favorite</Icon>
+                </Button>
+              )}
+              {liked && (
+                <Button onClick={dislikeProfile} className="like_dislike">
+                  <Icon>close</Icon>
+                </Button>
+              )}
             </Modal.Footer>
           </Modal>
           {!props.show && (

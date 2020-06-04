@@ -18,7 +18,7 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import Footer from "./shared/components/footer/footer";
+import Footer from "./shared/components/Footer/Footer"
 import AdminPage from "./Admin/AdminPage";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
@@ -78,7 +78,6 @@ const App = () => {
     },
     [notifSet, sendRequest, setCookie]
   );
-
   setTimeout(function () {
     window.location.reload();
   }, 3600001);
@@ -89,6 +88,7 @@ const App = () => {
     setUserName(null);
     setNotifSet(false);
     removeCookie("token");
+    removeCookie("admin");
     window.location.reload();
   }, [removeCookie]);
 
@@ -115,7 +115,9 @@ const App = () => {
         </Route>
         <Redirect to="/match" />
       </Switch>
+
     );
+
   } else if (
     cookies.token &&
     cookies.orientation &&
@@ -170,13 +172,13 @@ const App = () => {
               notifNumber={cookies.notification}
             />
           )}
+        {cookies.admin === "123" && <MainNavigation/>}
         {cookies.orientation &&
           cookies.token &&
           cookies.token !== null &&
           cookies.token !== undefined && <ReactNotification />}
-        <main>{routes}</main>
-        <Footer/>
         {cookies.admin === "123" ? <AdminPage /> : <main>{routes}</main>}
+        <Footer />
       </Router>
     </AuthContext.Provider>
   );

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHttpClient } from "../shared/hooks/http-hook";
+import "./Admin.css";
+import { Card } from "react-bootstrap";
 
 const AdminPage = () => {
   const [loadedUsers, setLoadedUsers] = useState();
@@ -19,17 +21,19 @@ const AdminPage = () => {
           }
         );
         setLoadedUsers(responseData.user);
-        console.log(responseData.user)
+        console.log(responseData.user);
       } catch (err) {}
     };
     fetchUsers();
   }, [sendRequest]);
   if (loadedUsers && !isLoading) {
-    return loadedUsers.map((user) => {
-      return (
-          <p key={user.id}>Username : {user.username}</p>
-      );
-    });
+    return (
+      <Card className="CardReport">
+        {loadedUsers.map((user) => {
+          return <p key={user.id}> Username : {user.username}</p>;
+        })}
+      </Card>
+    );
   } else {
     return <h1>No Users Reported</h1>;
   }

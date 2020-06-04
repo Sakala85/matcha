@@ -37,7 +37,7 @@ const getInterest = (userId, callBack) => {
 };
 
 const getPopularInterest = (userId, callBack) => {
-  let sql = `SELECT interest.id, interest_list.interest, interest.id_interest_list 
+  let sql = `SELECT interest_list.id, interest_list.interest, interest.id_interest_list 
   FROM interest 
   INNER JOIN interest_list ON interest.id_interest_list = interest_list.id 
   WHERE id_user <> ${db.escape(userId)}
