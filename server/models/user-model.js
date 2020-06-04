@@ -163,7 +163,7 @@ const getMatch = (matchId, orientation, gender, callBack) => {
   LEFT JOIN user_match ON (user_match.id_user1 = user.id AND user_match.id_user2 = ${db.escape(
     matchId
   )})
-  LEFT JOIN user_like ON (user_like.id_user1 = user.id AND user_like.id_user2 = ${db.escape(
+  LEFT JOIN user_like ON (user_like.id_user2 = user.id AND user_like.id_user1 = ${db.escape(
     matchId
   )})
   OR (user_match.id_user2 = user.id AND user_match.id_user1 = ${db.escape(
@@ -179,7 +179,9 @@ const getMatch = (matchId, orientation, gender, callBack) => {
     matchId
   )})
   OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
-  WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL AND orientation = ${db.escape(gender)}`;
+  WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL AND orientation = ${db.escape(
+      gender
+    )}`;
   } else {
     sql = `SELECT user.id, username,  firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude, last_visit, user_like.id AS liked
     FROM user
@@ -187,8 +189,8 @@ const getMatch = (matchId, orientation, gender, callBack) => {
      matchId
    )})
    LEFT JOIN user_like ON (user_like.id_user2 = user.id AND user_like.id_user1 = ${db.escape(
-    matchId
-  )})
+     matchId
+   )})
    OR (user_match.id_user2 = user.id AND user_match.id_user1 = ${db.escape(
      matchId
    )})
@@ -306,7 +308,9 @@ const getProfileExceptBlocked = (username, userId, callBack) => {
   )})
   WHERE username = ${db.escape(username)} AND blocked.id IS NULL OR 
   (username = ${db.escape(username)}
-  AND ((blocked.id_user1 <> ${db.escape(userId)} AND blocked.id_user2 = user.id) 
+  AND ((blocked.id_user1 <> ${db.escape(
+    userId
+  )} AND blocked.id_user2 = user.id) 
   OR (blocked.id_user2 <> ${db.escape(
     userId
   )} AND blocked.id_user1 = user.id)))`;
