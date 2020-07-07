@@ -17,7 +17,6 @@ const uuid = require("node-uuid");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
-// const decodeUriComponent = require('decode-uri-component');
 
 const createUser = async (req, res, next) => {
   const { username, firstname, lastname, email, password, lat, lon } = req.body;
@@ -83,6 +82,7 @@ const createUser = async (req, res, next) => {
           orientation: user[0].orientation,
           message: "logged in",
           valid_profil: user[0].valid_profil,
+          valid_email: user[0].valid_email,
           gender: user[0].gender,
         });
       }
@@ -144,6 +144,7 @@ const login = (req, res, next) => {
           orientation: user.orientation,
           message: "logged in",
           valid_profil: user.valid_profil,
+          valid_email: user.valid_email,
           gender: user.gender,
         });
       }

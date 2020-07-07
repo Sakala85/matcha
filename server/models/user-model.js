@@ -28,7 +28,7 @@ const insertUser = (
     )}, '1', NOW(), ${db.escape(lat)}, ${db.escape(lon)})`;
     db.query(sql, (err, result) => {
       if (err) throw err;
-      sql = `SELECT id, email, password, username, orientation, valid_profil, gender FROM user WHERE username = ${db.escape(
+      sql = `SELECT id, email, password, username, orientation, valid_profil, valid_email, gender FROM user WHERE username = ${db.escape(
         username
       )}`;
       db.query(sql, (err, result) => {
@@ -39,7 +39,7 @@ const insertUser = (
 };
 
 function getPassword(username, callBack) {
-  let sql = `SELECT id, email, password, username, orientation, valid_profil, gender FROM user WHERE username = ${db.escape(
+  let sql = `SELECT id, email, password, username, orientation, valid_profil, valid_email, gender FROM user WHERE username = ${db.escape(
     username
   )}`;
   db.query(sql, (err, result, data) => {

@@ -18,12 +18,11 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import Footer from "./shared/components/Footer/Footer"
+import Footer from "./shared/components/Footer/Footer.js";
 import AdminPage from "./Admin/AdminPage";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useCookies } from "react-cookie";
-// import cookie from "react-cookie";
 
 const App = () => {
   const [token, setToken] = useState(null);
@@ -42,10 +41,12 @@ const App = () => {
       latitude,
       longitude,
       valid_profil,
+      valid_email,
       gender
     ) => {
       setToken(token);
       setUserId(uid);
+      console.log(valid_email);
       let d = new Date();
       d.setTime(d.getTime() + 60 * 60 * 1000);
       setCookie("token", token, { path: "/", expires: d });
@@ -56,6 +57,7 @@ const App = () => {
       setCookie("lat", latitude, { path: "/", expires: d });
       setCookie("lon", longitude, { path: "/", expires: d });
       setCookie("valid_profil", valid_profil, { path: "/", expires: d });
+      setCookie("valid_email", valid_email, { path: "/", expires: d });
       setUserName(username);
       if (token !== null && token !== false && notifSet === false && token) {
         const setNotifNumber = async (event) => {
@@ -99,7 +101,12 @@ const App = () => {
 
   let routes;
   useEffect(() => {});
-  if (cookies.token && cookies.orientation && cookies.valid_profil === "1") {
+  if (
+    cookies.token &&
+    cookies.orientation &&
+    cookies.valid_profil === "1" &&
+    cookies.valid_email === "1"
+  ) {
     routes = (
       <Switch>
         <Route path="/match" component={Match} />
@@ -115,13 +122,11 @@ const App = () => {
         </Route>
         <Redirect to="/match" />
       </Switch>
-
     );
-
   } else if (
     cookies.token &&
     cookies.orientation &&
-    cookies.valid_profil === "0"
+    (cookies.valid_profil === "0" || cookies.valid_email === "0")
   ) {
     routes = (
       <Switch>
@@ -129,6 +134,9 @@ const App = () => {
           <UpdateUser />
         </Route>
         <Redirect to="/User" />
+        <Route path="/valid/:tokenEmail" exact>
+          <ConfirmEmail />
+        </Route>
       </Switch>
     );
   } else {
@@ -172,7 +180,7 @@ const App = () => {
               notifNumber={cookies.notification}
             />
           )}
-        {cookies.admin === "123" && <MainNavigation/>}
+        {cookies.admin === "123" && <MainNavigation />}
         {cookies.orientation &&
           cookies.token &&
           cookies.token !== null &&

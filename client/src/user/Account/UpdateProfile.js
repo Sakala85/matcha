@@ -114,6 +114,7 @@ const UpdateProfile = (props) => {
           <Modal.Header className="title">
             <div className="titleUpdate">Profile settings</div>
           </Modal.Header>
+          {(cookies.valid_profile === "0" || cookies.valid_email === "0") && <h1>Please valid your Email and complet your profile</h1>}
           {!isLoading && (
             <form onSubmit={UpdateSubmitHandler} className="updateForm">
               <div className="InputForm__update">

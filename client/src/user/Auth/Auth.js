@@ -133,6 +133,7 @@ const Auth = () => {
           lat,
           lon,
           responseData.valid_profil,
+          responseData.valid_email,
           responseData.gender
         );
       } catch (err) {}
@@ -162,6 +163,7 @@ const Auth = () => {
           lat,
           lon,
           responseData.valid_profil,
+          responseData.valid_email,
           responseData.gender
         );
       } catch (err) {}
