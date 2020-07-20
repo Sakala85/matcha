@@ -58,6 +58,7 @@ const Input = props => {
         min={props.min}
         max={props.max}
         step="1"
+        autoComplete="on"
         placeholder={props.placeholder}
         onChange={changeHandler}
         onBlur={touchHandler}

@@ -24,18 +24,8 @@ import $ from "jquery";
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [lat, setLat] = useState();
-  const [lon, setLon] = useState();
   const [cookies, setCookie] = useCookies(["token"]);
 
-  function ipLookUp() {
-    if (!lat || !lon) {
-      $.ajax("http://ip-api.com/json").then(function success(response) {
-        setLat(response.lat);
-        setLon(response.lon);
-      });
-    }
-  }
   const {
     isLoading,
     error,
@@ -43,13 +33,7 @@ const Auth = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  if (!lat || !lon) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      setLat(position.coords.latitude);
-      setLon(position.coords.longitude);
-    });
-    ipLookUp();
-  }
+
   const [formState, inputHandler, setFormData] = useForm(
     {
       username: {
@@ -112,6 +96,19 @@ const Auth = () => {
       window.location.reload();
     } else if (isLoginMode && formState.inputs.username.value !== "admin") {
       try {
+        let lat;
+        let lon;
+        navigator.geolocation.getCurrentPosition(function (position) {
+          lat = position.coords.latitude;
+          lon = position.coords.longitude;
+          console.log(position.coords)
+        });
+        if (!lat || !lon || lat === undefined || isNaN(lat)) {
+          $.ajax("http://ip-api.com/json").then(function success(response) {
+            lat = response.lat;
+            lon = response.lon;
+          });
+        }
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/login",
           "POST",
@@ -125,6 +122,7 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
+
         auth.login(
           responseData.userId,
           responseData.token,
@@ -139,6 +137,18 @@ const Auth = () => {
       } catch (err) {}
     } else {
       try {
+        let lat;
+        let lon;
+        navigator.geolocation.getCurrentPosition(function (position) {
+          lat = position.coords.latitude;
+          lon = position.coords.longitude;
+        });
+        if (!lat || !lon) {
+          $.ajax("http://ip-api.com/json").then(function success(response) {
+            lat = response.lat;
+            lon = response.lon;
+          });
+        }
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/signup",
           "POST",
@@ -155,6 +165,7 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
+
         auth.login(
           responseData.userId,
           responseData.token,
@@ -178,10 +189,6 @@ const Auth = () => {
     <Container className="containerBack" fluid>
       <Row>
         <Col>
-          {/* <button className="button__logIn" onClick={handleShow}>
-            LogIn or SignUp
-          </button> */}
-          {/* <Modal show={show} onHide={handleClose}> */}
           <Card className="card-auth">
             <ErrorModal
               show={error}

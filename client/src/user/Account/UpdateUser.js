@@ -21,6 +21,7 @@ const UpdateUser = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
+  console.log(cookies)
   const [viewport, setViewport] = useState({
     latitude: lat,
     longitude: lon,
@@ -82,9 +83,9 @@ const UpdateUser = () => {
               }
               mapStyle="mapbox://styles/sakala99/cka6ry0rb0un51itms8uvgt85"
               onViewportChange={(viewport) => {
-                setViewport(viewport);
-                setLat(viewport.latitude);
-                setLon(viewport.longitude);
+                  setViewport(viewport);
+                  setLat(viewport.latitude);
+                  setLon(viewport.longitude);
               }}
             >
             </ReactMapGL>

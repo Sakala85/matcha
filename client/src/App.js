@@ -133,10 +133,10 @@ const App = () => {
         <Route path="/User" exact>
           <UpdateUser />
         </Route>
-        <Redirect to="/User" />
         <Route path="/valid/:tokenEmail" exact>
           <ConfirmEmail />
         </Route>
+        <Redirect to="/User" />
       </Switch>
     );
   } else {

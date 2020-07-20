@@ -26,6 +26,7 @@ const notificationSocket = (io, socket) => {
             "This user is not online so we can't send the notification"
           );
         } else {
+          console.log("Notif sent to " , user.id)
           io.to(user.id).emit("notifPusher", {
             id_user1: id_user1,
             username: username,
