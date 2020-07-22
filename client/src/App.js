@@ -18,7 +18,7 @@ import ResetPassword from "./user/ResetPassword/ResetPassword";
 import { AuthContext } from "./shared/context/auth-context";
 import { useHttpClient } from "./shared/hooks/http-hook";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
-import Footer from "./shared/components/Footer/Footer.js";
+import Footer from "./shared/components/Footer/Footer";
 import AdminPage from "./Admin/AdminPage";
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
