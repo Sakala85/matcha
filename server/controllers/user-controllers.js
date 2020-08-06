@@ -19,7 +19,7 @@ const jwt = require("jsonwebtoken");
 const sendMail = require("../utils/sendMails");
 
 const createUser = async (req, res, next) => {
-  const { username, firstname, lastname, email, password, lat, lon } = req.body;
+  let { username, firstname, lastname, email, password, lat, lon } = req.body;
   const token_email = uuid.v1();
   const userValidator = userValidateAll(
     email,
@@ -168,13 +168,18 @@ const getUserById = (req, res, next) => {
 };
 
 const getMatchById = (req, res, next) => {
-  userModel.getMatch(req.params.uid, req.params.orientation, req.params.gender, (err, result) => {
-    if (!err) {
-      return res.status(201).json({ user: { result } });
-    } else {
-      return res.status(400).json({ message: err });
+  userModel.getMatch(
+    req.params.uid,
+    req.params.orientation,
+    req.params.gender,
+    (err, result) => {
+      if (!err) {
+        return res.status(201).json({ user: { result } });
+      } else {
+        return res.status(400).json({ message: err });
+      }
     }
-  });
+  );
 };
 
 const updateUser = (req, res, next) => {

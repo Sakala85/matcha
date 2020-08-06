@@ -21,11 +21,37 @@ import image2 from "./img/hommelove.png";
 import image3 from "./img/cadenas.png";
 import { useCookies } from "react-cookie";
 import $ from "jquery";
+
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [cookies, setCookie] = useCookies(["token"]);
+  const [lat, setLat] = useState(false);
+  const [lon, setLon] = useState(false);
+  const [nav, setNav] = useState(false);
+  const [location, setLocation] = useState(false);
 
+  if (!lat || !lon) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      setLat(position.coords.latitude);
+      setLon(position.coords.longitude);
+      setNav(true);
+      console.log(lat + lon + "Setted by navigator");
+    });
+    if (nav) {
+      $.ajax("http://ip-api.com/json").then(function success(response) {
+        setLat(response.lat);
+        setLon(response.lon);
+        setLocation(true);
+      });
+      console.log(lat + lon + "Setted by ajax and network");
+    }
+    if (!location) {
+      setLat(49.0);
+      setLon(-48.0);
+      console.log("Default Location attributed");
+    }
+  }
   const {
     isLoading,
     error,
@@ -96,19 +122,6 @@ const Auth = () => {
       window.location.reload();
     } else if (isLoginMode && formState.inputs.username.value !== "admin") {
       try {
-        let lat;
-        let lon;
-        navigator.geolocation.getCurrentPosition(function (position) {
-          lat = position.coords.latitude;
-          lon = position.coords.longitude;
-          console.log(position.coords)
-        });
-        if (!lat || !lon || lat === undefined || isNaN(lat)) {
-          $.ajax("http://ip-api.com/json").then(function success(response) {
-            lat = response.lat;
-            lon = response.lon;
-          });
-        }
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/login",
           "POST",
@@ -122,7 +135,6 @@ const Auth = () => {
             "Content-Type": "application/json",
           }
         );
-
         auth.login(
           responseData.userId,
           responseData.token,
@@ -137,18 +149,6 @@ const Auth = () => {
       } catch (err) {}
     } else {
       try {
-        let lat;
-        let lon;
-        navigator.geolocation.getCurrentPosition(function (position) {
-          lat = position.coords.latitude;
-          lon = position.coords.longitude;
-        });
-        if (!lat || !lon) {
-          $.ajax("http://ip-api.com/json").then(function success(response) {
-            lat = response.lat;
-            lon = response.lon;
-          });
-        }
         const responseData = await sendRequest(
           "http://localhost:5000/api/user/signup",
           "POST",
