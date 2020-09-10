@@ -32,7 +32,7 @@ const addDislike = (matcher, disliked, callBack) => {
       matcher
     )} AND id_user2 = ${db.escape(disliked)}`;
     db.query(sql, (err, result) => {});
-    return callBack(null, null);
+    return callBack(null, "user unmatched");
   });
 };
 

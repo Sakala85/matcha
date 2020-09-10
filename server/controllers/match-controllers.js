@@ -45,7 +45,7 @@ const dislike = (req, res, next) => {
   }
   matchModel.addDislike(matcher, disliked, (err, result) => {
     if (!err) {
-      return res.status(201).json({ message: "like sent" });
+      return res.status(201).json({ message: result });
     } else {
       return res.status(400).json({ message: err });
     }
@@ -54,7 +54,10 @@ const dislike = (req, res, next) => {
 
 const unmatch = (req, res, next) => {
   const matchId = req.params.uid;
-  const matchIdValid = validate(matchId, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
+  const matchIdValid = validate(matchId, [
+    VALIDATOR_REQUIRE(),
+    VALIDATOR_NUMBER(),
+  ]);
   if (!matchIdValid.valid) {
     return res.status(400).json({ message: matchId.message });
   }
