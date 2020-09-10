@@ -7,9 +7,13 @@ const checkAuth = require("../middleware/check-auth");
 router.get("/valid/:tokenEmail", userController.updateValidEmail);
 
 router.patch("/forgetpassword", userController.updateTokenPassword);
-router.patch("/resetpassword/:tokenPassword", userController.reinitializePassword);
+router.patch(
+  "/resetpassword/:tokenPassword",
+  userController.reinitializePassword
+);
 router.post("/signup", userController.createUser);
 router.post("/login", userController.login);
+router.post("/disconnect", userController.disconnect);
 
 router.use(checkAuth); // a partir d'ici il y a besoin d'un token valide pour acceder aux routes suivantes.
 router.get("/match/:uid/:orientation/:gender", userController.getMatchById);
@@ -18,8 +22,6 @@ router.get("/match/:username", userController.getProfileByUsername);
 router.get("/:uid/matched", userController.getMatchedByUid);
 
 router.get("/:uid", userController.getUserById);
-
-
 
 router.patch("/:uid", userController.updateUser);
 router.patch("/pwd/:uid", userController.updateUserPassword);

@@ -155,6 +155,15 @@ const getUser = (userId, callBack) => {
   });
 };
 
+const disconnectUser = (userId, callBack) => {
+  sql = `UPDATE user SET online = '0' WHERE id = ${db.escape(userId)}`;
+  db.query(sql, (err, result, data) => {
+    if (err) throw err;
+    console.log("User Disconnected");
+    return callBack(null, null);
+  });
+};
+
 const getMatch = (matchId, orientation, gender, callBack) => {
   let sql;
   if (orientation === "Both") {
@@ -320,6 +329,7 @@ const getProfileExceptBlocked = (username, userId, callBack) => {
   });
 };
 
+exports.disconnectUser = disconnectUser;
 exports.getUserMatch = getUserMatch;
 exports.getProfileExceptBlocked = getProfileExceptBlocked;
 exports.isUser = isUser;

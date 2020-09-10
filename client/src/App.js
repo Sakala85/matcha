@@ -85,14 +85,27 @@ const App = () => {
   }, 3600001);
 
   const logout = useCallback(() => {
+    try {
+      fetch(`http://localhost:5000/api/user/disconnect`, {
+        method: "POST",
+        body: JSON.stringify({
+          userId: cookies.userId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (err) {}
     setToken(null);
     setUserId(null);
     setUserName(null);
     setNotifSet(false);
     removeCookie("token");
     removeCookie("admin");
+
     window.location.reload();
-  }, [removeCookie]);
+  }, [removeCookie, cookies, token]);
 
   const addNotification = useCallback(() => {
     const newNotification = +cookies.notification + 1;

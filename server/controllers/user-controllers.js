@@ -368,6 +368,18 @@ const getProfileByUsername = (req, res, next) => {
   });
 };
 
+const disconnect = (req, res, next) => {
+  const { userId } = req.body;
+  userModel.disconnectUser(userId, (err, result) => {
+    if (!err) {
+      return res.status(201).json({ users: result });
+    } else {
+      return res.status(400).json({ message: err });
+    }
+  });
+};
+
+exports.disconnect = disconnect;
 exports.getProfileByUsername = getProfileByUsername;
 exports.login = login;
 exports.createUser = createUser;
