@@ -181,7 +181,7 @@ const getMatch = (matchId, orientation, gender, callBack) => {
   OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
   WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL AND orientation = ${db.escape(
       gender
-    )}`;
+    )} OR orientation = "Both"`;
   } else {
     sql = `SELECT user.id, username,  firstname, lastname, picture1, picture2, picture3, picture4, picture5, bio, gender, orientation, age, popularity, online, latitude, longitude, last_visit, user_like.id AS liked
     FROM user
@@ -206,7 +206,7 @@ const getMatch = (matchId, orientation, gender, callBack) => {
    OR (blocked.id_user2 = user.id AND blocked.id_user1 = ${db.escape(matchId)})
    WHERE user.id <> ${matchId} AND user_match.id IS NULL AND user_dislike.id IS NULL AND blocked.id IS NULL AND gender = ${db.escape(
       orientation
-    )} AND orientation = ${db.escape(gender)}`;
+    )} AND orientation = ${db.escape(gender)} OR orientation = "Both"`;
   }
   db.query(sql, (err, result, data) => {
     if (err) throw err;
