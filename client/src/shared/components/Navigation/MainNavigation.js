@@ -31,9 +31,8 @@ const MainNavigation = (props) => {
     history.push({
       pathname: "/match",
       search: `?profile=${formState.inputs.searchBar.value}`,
-      state: { some: 'state' }
+      state: { some: "state" },
     });
-
   };
   const CloseDrawerHandler = () => {
     setDrawerIsOpen(false);
@@ -61,20 +60,21 @@ const MainNavigation = (props) => {
           </Link>
         </h1>
         {/* <form className="formSearch" onSubmit={UpdateSubmitHandler}> */}
-          <Input className="search"
-            id="searchBar"
-            element="input"
-            type="text"
-            placeholder="search..."
-            validators={[VALIDATOR_REQUIRE()]}
-            errorText="Please enter a valid user"
-            onInput={inputHandler}
-            initialValue={""}
-            initialValid={false}
-          />
-          <button className="loupe" type="submit" onClick={UpdateSubmitHandler}>
-            <Icon className="searchicon">search</Icon>
-          </button>
+        <Input
+          className="search"
+          id="searchBar"
+          element="input"
+          type="text"
+          placeholder="search..."
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter a valid user"
+          onInput={inputHandler}
+          initialValue={""}
+          initialValid={false}
+        />
+        <button className="loupe" type="submit" onClick={UpdateSubmitHandler}>
+          <Icon className="searchicon">search</Icon>
+        </button>
         {/* </form> */}
         <nav className="main-navigation__header-nav">
           <NavLinks notifNumber={props.notifNumber} />
