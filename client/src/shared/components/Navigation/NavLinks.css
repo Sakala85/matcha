@@ -32,7 +32,7 @@ span.material-icons.MuiIcon-root.navBouton:hover {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: flex;
   justify-content: center;
   align-items: center;
 }

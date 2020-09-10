@@ -3,7 +3,7 @@
   height: 3rem;
   background: transparent;
   border: none;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: space-around;
   margin-right: 2rem;
@@ -19,7 +19,7 @@ img.logo {
 }
 
 .main-navigation__menu-btn span {
-  display: block;
+  display: none;
   width: 3rem;
   height: 2.5px;
   background: black;
@@ -43,8 +43,11 @@ img.logo {
 }
 
 @media (min-width: 768px) {
+  .main-navigation__menu-btn span {
+    display: flex !important;
+  }
   .main-navigation__menu-btn {
-    display: flex;
+    display: flex !important;
   }
 
   .main-navigation__header-nav {
