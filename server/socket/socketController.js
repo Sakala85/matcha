@@ -26,7 +26,7 @@ const notificationSocket = (io, socket) => {
             "This user is not online so we can't send the notification"
           );
         } else {
-          console.log("Notif sent to ", user.id);
+          console.log("Notif sent to : ", user);
           io.to(user.id).emit("notifPusher", {
             id_user1: id_user1,
             username: username,
@@ -119,7 +119,7 @@ const notificationSocket = (io, socket) => {
       if (userId) {
       } else {
       }
-      userId = disconnectUser(socket.id);
+      // userId = disconnectUser(socket.id);
       let sql = `SELECT id
       FROM user_match 
       WHERE id_user1 = ${db.escape(userId)} OR id_user2 = ${db.escape(userId)}`;

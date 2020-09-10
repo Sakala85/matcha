@@ -1,14 +1,16 @@
 const users = [];
 
 const addUserBack = ({ id, username, userId }) => {
-  const existingUser = users.find((user) => user.id === id);
+  const existingUser = users.find((user) => user.username === username);
   const user = { id, username, userId };
   console.log(user);
   if (!existingUser) {
     users.push(user);
+    console.log("ID Added");
   } else {
     const index = users.findIndex((user) => user.userId === userId);
     users[index].id = id;
+    console.log("ID MODIFIED");
   }
 };
 
