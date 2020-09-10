@@ -6,7 +6,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useCookies } from "react-cookie";
 import queryString from "query-string";
 
-const Match = ({location}) => {
+const Match = ({ location }) => {
   const [loadedUsers, setLoadedUsers] = useState();
   const [cookies] = useCookies(["token"]);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
@@ -15,9 +15,6 @@ const Match = ({location}) => {
       try {
         if (cookies.userId !== false) {
           const responseData = await sendRequest(
-            // Il faudra mettre ca en restful
-            // `http://localhost:5000/api/users/${auth.userId}/matchs/`,
-            /********************************************************* */
             `http://localhost:5000/api/user/match/${cookies.userId}/${cookies.orientation}/${cookies.gender}`,
             "GET",
             null,
@@ -39,7 +36,12 @@ const Match = ({location}) => {
           <LoadingSpinner />
         </div>
       )}
-      {!isLoading && loadedUsers && <FilterMatch items={loadedUsers} profile={queryString.parse(location.search)}/>}
+      {!isLoading && loadedUsers && (
+        <FilterMatch
+          items={loadedUsers}
+          profile={queryString.parse(location.search)}
+        />
+      )}
       {!isLoading && !loadedUsers && <h2>No Match possible found</h2>}
     </React.Fragment>
   );

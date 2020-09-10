@@ -7,7 +7,7 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useHttpClient } from "../../shared/hooks/http-hook";
 import ReactMapGL from "react-map-gl";
-import 'mapbox-gl/dist/mapbox-gl.css';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 const UpdateUser = () => {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -21,7 +21,6 @@ const UpdateUser = () => {
     clearError,
     errorMessage,
   } = useHttpClient();
-  console.log(cookies)
   const [viewport, setViewport] = useState({
     latitude: lat,
     longitude: lon,
@@ -83,12 +82,11 @@ const UpdateUser = () => {
               }
               mapStyle="mapbox://styles/sakala99/cka6ry0rb0un51itms8uvgt85"
               onViewportChange={(viewport) => {
-                  setViewport(viewport);
-                  setLat(viewport.latitude);
-                  setLon(viewport.longitude);
+                setViewport(viewport);
+                setLat(viewport.latitude);
+                setLon(viewport.longitude);
               }}
-            >
-            </ReactMapGL>
+            ></ReactMapGL>
             <button onClick={setPosition}>Set Position</button>
           </div>
         </div>

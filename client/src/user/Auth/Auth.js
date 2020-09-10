@@ -38,15 +38,14 @@ const Auth = () => {
       setNav(true);
       console.log(lat + lon + "Setted by navigator");
     });
-    if (nav) {
+    if (!nav) {
       $.ajax("http://ip-api.com/json").then(function success(response) {
         setLat(response.lat);
         setLon(response.lon);
         setLocation(true);
       });
       console.log(lat + lon + "Setted by ajax and network");
-    }
-    if (!location) {
+    } else if (!location) {
       setLat(49.0);
       setLon(-48.0);
       console.log("Default Location attributed");

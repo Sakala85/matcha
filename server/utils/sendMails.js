@@ -12,9 +12,8 @@ var smtpConfig = {
 };
 
 const sendEmailInscription = (email, tokenEmail) => {
-  
   const url = `http://localhost:3000/valid/${tokenEmail}`;
-  
+
   var transporter = nodemailer.createTransport(smtpConfig);
   const mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
@@ -24,6 +23,7 @@ const sendEmailInscription = (email, tokenEmail) => {
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
+      console.log("error");
       return console.log(error);
     }
     console.log("Message sent: " + info.response);
@@ -31,7 +31,6 @@ const sendEmailInscription = (email, tokenEmail) => {
 };
 
 const sendEmailResetPass = (email, tokenPassword) => {
-
   const url = `http://localhost:3000/resetpassword/${tokenPassword}`;
 
   transporter = nodemailer.createTransport(smtpConfig);
@@ -47,7 +46,7 @@ const sendEmailResetPass = (email, tokenPassword) => {
     }
     console.log("Message sent: " + info.response);
   });
-}
+};
 
 exports.sendEmailResetPass = sendEmailResetPass;
 exports.sendEmailInscription = sendEmailInscription;
