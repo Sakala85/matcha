@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
@@ -10,49 +10,58 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-import { AuthContext } from "../../shared/context/auth-context";
-import { Modal} from "react-bootstrap";
+import { useCookies } from "react-cookie";
+import { Modal } from "react-bootstrap";
 
 const UpdatePassword = () => {
-  const { isLoading, error, sendRequest, clearError, errorMessage } = useHttpClient();
+  const {
+    isLoading,
+    error,
+    sendRequest,
+    clearError,
+    errorMessage,
+  } = useHttpClient();
   const [changedPassword, setChangedPassword] = useState(false);
-  const auth = useContext(AuthContext);
+  const [cookies] = useCookies(["token"]);
 
   const [formState, inputHandler] = useForm(
     {
       oldPassword: {
-        value: '',
-        isValid: false
+        value: "",
+        isValid: false,
       },
       newPassword: {
-        value: '',
-        isValid: false
+        value: "",
+        isValid: false,
       },
       repeatPassword: {
-        value: '',
-        isValid: false
-      }
+        value: "",
+        isValid: false,
+      },
     },
     false
   );
 
-  const UpdateSubmitHandler = async event => {
+  const UpdateSubmitHandler = async (event) => {
     event.preventDefault();
+    console.log(cookies.token);
     try {
       await sendRequest(
-        `http://localhost:5000/api/user/pwd/${auth.userId}`,
+        `http://localhost:5000/api/user/pwd/${cookies.userId}`,
         "PATCH",
         JSON.stringify({
-            oldPassword: formState.inputs.oldPassword.value,
-            newPassword: formState.inputs.newPassword.value,
-            repeatPassword: formState.inputs.repeatPassword.value
+          oldPassword: formState.inputs.oldPassword.value,
+          newPassword: formState.inputs.newPassword.value,
+          repeatPassword: formState.inputs.repeatPassword.value,
         }),
         {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token
+          Authorization: "Bearer " + cookies.token,
         }
       );
-      if (!error){setChangedPassword(true)}
+      if (!error) {
+        setChangedPassword(true);
+      }
     } catch (err) {}
   };
 

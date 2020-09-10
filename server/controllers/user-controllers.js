@@ -249,7 +249,6 @@ const updateUserPassword = (req, res, next) => {
     userModel.updateUserPassword(
       oldPassword,
       newPassword,
-      repeatPassword,
       userId,
       (err, data) => {
         if (!err) {
