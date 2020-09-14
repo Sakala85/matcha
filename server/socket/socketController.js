@@ -40,7 +40,9 @@ const notificationSocket = (io, socket) => {
 
     socket.on("join", ({ name, room, roomName, token }, callback) => {
       const decodedToken = jwt.verify(token, "motdepassesupersecret");
+      console.log(decodedToken);
       if (!token || decodedToken.username !== name) {
+        console.log("ERROR ROOM CHAT");
         socket.emit("ERROR", { error: "This room doesn't exist anymore" });
       } else {
         socket.join(room);

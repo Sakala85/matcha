@@ -80,6 +80,7 @@ const UserItem = (props) => {
 
   const likeProfile = async () => {
     setShowDetail(false); //SEND A VISIT NOTIF
+    console.log("Add like");
     try {
       const response = await sendRequest(
         `http://localhost:5000/api/user/match/like/${cookies.userId}`,

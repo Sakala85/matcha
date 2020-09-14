@@ -13,19 +13,22 @@ var smtpConfig = {
 
 const sendEmailInscription = (email, tokenEmail) => {
   const url = `http://localhost:3000/valid/${tokenEmail}`;
+  console.log("SDMNEWODNWEOROROR");
 
   var transporter = nodemailer.createTransport(smtpConfig);
   const mailOptions = {
     from: '"Matcha" <matcha42matcha42matcha42@gmail.com>',
     to: email,
-    subject: "Confirm email",
+    subject: "Confirmation email",
     html: `Please click on this link to confirm your email: <a href="${url}">${url}</a>`,
   };
+
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log("error");
+      console.log("EROROROROROR");
       return console.log(error);
     }
+
     console.log("Message sent: " + info.response);
   });
 };

@@ -1,7 +1,7 @@
 const users = [];
 
 const addUserBack = ({ id, username, userId }) => {
-  const existingUser = users.find((user) => user.username === username);
+  const existingUser = users.find((user) => user.userId === userId);
   const user = { id, username, userId };
   console.log(user);
   if (!existingUser) {

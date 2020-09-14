@@ -7,17 +7,16 @@ const {
 
 const like = (req, res, next) => {
   const { liked } = req.body;
-  const matcher = req.userData.userId;
-  const validLiked = validate(liked, [VALIDATOR_REQUIRE(), VALIDATOR_NUMBER()]);
-  const validMatcher = validate(matcher, [
-    VALIDATOR_REQUIRE(),
-    VALIDATOR_NUMBER(),
-  ]);
-  if (!validLiked.valid || !validMatcher.valid) {
-    return res
-      .status(400)
-      .json({ message: validLiked.message || validMatcher.message });
-  }
+  const matcher = req.params.uid;
+  const validLiked = validate(liked, [VALIDATOR_REQUIRE()]);
+  const validMatcher = validate(matcher, [VALIDATOR_REQUIRE()]);
+  // if (!validLiked.valid || !validMatcher.valid) {
+  //   console.log("ojdeojkdw");
+
+  //   return res
+  //     .status(400)
+  //     .json({ message: validLiked.message || validMatcher.message });
+  // }
   matchModel.addLike(matcher, liked, (err, result) => {
     if (!err) {
       return res.status(201).json({ result });

@@ -20,9 +20,8 @@ const Chat = ({ location }) => {
   const [room, setRoom] = useState([]);
   const [access, setAccess] = useState(false);
   const ENDPOINT = "localhost:5000";
-  const [cookies] = useCookies(['token']);
+  const [cookies] = useCookies(["token"]);
   const token = cookies.token;
-
   if (!token) {
     history.push({
       pathname: "/join",
@@ -34,7 +33,7 @@ const Chat = ({ location }) => {
     setName(name);
     setRoom(room);
     setRoomName(roomName);
-
+    console.log(name, room, roomName, token);
     socket.emit("join", { name, room, roomName, token }, (error) => {
       if (error) {
         alert(error);
@@ -63,8 +62,8 @@ const Chat = ({ location }) => {
         allMess.push(mess);
         return null;
       });
-        setAccess(true);
-        setMessages(allMess);
+      setAccess(true);
+      setMessages(allMess);
     });
 
     socket.on("roomData", ({ users }) => {

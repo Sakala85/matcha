@@ -1,7 +1,10 @@
 const addLike = (matcher, liked, callBack) => {
+  console.log("Like Seng");
+
   let sql = `SELECT * FROM user_like WHERE id_user1 = '${liked}' AND id_user2 = '${matcher}'`;
   db.query(sql, (err, result) => {
     if (!result[0]) {
+      console.log(matcher, liked);
       sql = `SELECT * FROM user_like WHERE id_user2 = '${liked}' AND id_user1 = '${matcher}'`;
       db.query(sql, (err, result) => {
         if (!result[0]) {

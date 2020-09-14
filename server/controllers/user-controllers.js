@@ -57,23 +57,18 @@ const createUser = async (req, res, next) => {
       } else {
         let token;
         try {
-          //Le token est accepte par le server comme l'identite de l'utilisateur, c'est un mecanisme de securite en plus.
-          //On va ainsi proteger certaines routes avec un acces prive, qui seront accessible seulement si la requete a un token valide
-          //On impose un temps d'expiration car si jamais le token est subtilise par un hacker cela ne sera que pour un temps limite.
           token = jwt.sign(
-            { userId: user.id, email: user.email },
+            { userId: user[0].id, username: user[0].username },
             "motdepassesupersecret",
             { expiresIn: "1h" }
           );
-          // Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU2LCJ1c2VybmFtZSI6ImFraG91Y2hhIiwiaWF0IjoxNTg4NjkwNDA5fQ.u6RzQ6q5kqWKSfDVNKX7Ne2Fu5GuX45tenzlhEEweUs
-          sendMail.sendEmailInscription(email, token_email);
         } catch (err) {
-          const error = new HttpError(
-            "Could not create User, please try again",
-            500
+          throw new HttpError(
+            "Logging in failed, please try again later.",
+            400
           );
-          return next(error);
         }
+        sendMail.sendEmailInscription(email, token_email);
         return res.json({
           userId: user[0].id,
           email: user[0].email,
